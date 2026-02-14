@@ -14,13 +14,13 @@ export default function StepFinale({
   const lottieRef = useRef<HTMLDivElement>(null);
   const threeCanvasRef = useRef<HTMLCanvasElement>(null);
   const holdTimerRef = useRef<number | null>(null);
-  const revealFxRef = useRef<() => void>(() => undefined);
+  const revealFxRef = useRef<() => void>(() => {});
   const [revealed, setRevealed] = useState(false);
   const [holdText, setHoldText] = useState("");
 
   useEffect(() => {
     let disposed = false;
-    let cleanup = () => undefined;
+    let cleanup: () => void = () => {};
 
     void initFinaleAnimations({
       riveCanvas: riveCanvasRef.current,

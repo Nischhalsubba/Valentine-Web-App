@@ -20,7 +20,7 @@ export default function StepCover({
 
   useEffect(() => {
     let disposed = false;
-    let cleanup = () => undefined;
+    let cleanup: () => void = () => {};
 
     void initCoverAnimations({
       envelope: envelopeRef.current,

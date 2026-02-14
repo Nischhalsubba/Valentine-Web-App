@@ -19,7 +19,7 @@ export default function StepLetter({
 
   useEffect(() => {
     let disposed = false;
-    let cleanup = () => undefined;
+    let cleanup: () => void = () => {};
 
     void initLetterAnimations(reasonContainerRef.current, reducedMotion).then((dispose) => {
       if (disposed) {

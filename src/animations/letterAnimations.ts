@@ -5,7 +5,7 @@ export async function initLetterAnimations(
   reducedMotion: boolean
 ): Promise<Cleanup> {
   if (!container || reducedMotion) {
-    return () => undefined;
+    return () => {};
   }
 
   try {
@@ -24,6 +24,6 @@ export async function initLetterAnimations(
       }
     };
   } catch {
-    return () => undefined;
+    return () => {};
   }
 }
