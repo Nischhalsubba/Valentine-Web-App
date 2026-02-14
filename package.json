@@ -25,7 +25,6 @@
     "velocity-animate": "^2.0.6"
   },
   "devDependencies": {
-    "@types/lottie-web": "^5.12.7",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-transition-group": "^4.4.12",
