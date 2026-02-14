@@ -1,0 +1,298 @@
+{
+  "meta": {
+    "title": "Happy Valentine's, Reeja",
+    "coverLine": "For Reeja, my favorite person.",
+    "tagline": "A small world I made for you.",
+    "openButton": "Open your surprise"
+  },
+  "letter": {
+    "eyebrow": "Love Letter",
+    "heading": "To my mutu",
+    "body": "Reeja, I wanted to give you something that feels like us, quiet, real, and full of little moments. From the first add, to the first tika on video, to the days we fell asleep on call, you became my home in a way I did not expect. Happy Valentine's Day, my mutu. I choose you, every day.",
+    "revealPrompt": "Tap to reveal 7 reasons"
+  },
+  "reasons": [
+    "You make simple days feel safe.",
+    "You love in small ways that stay forever.",
+    "You feel like home, even through a screen.",
+    "You are brave. You started new chapters.",
+    "You are beautiful in every version.",
+    "You make me create songs, poems, and dreams.",
+    "With you, distance feels smaller than love."
+  ],
+  "chapters": [
+    {
+      "id": "chapter-beginning",
+      "title": "Chapter 1: The Beginning",
+      "memories": [
+        {
+          "date": "Dec 14, 2024 - 9:19 PM",
+          "title": "The first add",
+          "caption": "The smallest click that started the biggest change."
+        },
+        {
+          "date": "Dec 22, 2024",
+          "title": "First time seeing you",
+          "caption": "That moment when online became real."
+        },
+        {
+          "date": "Dec 25, 2024 - around 1 PM",
+          "title": "Godawari, just us",
+          "caption": "First real us moment, quiet, personal, unforgettable."
+        }
+      ]
+    },
+    {
+      "id": "chapter-real",
+      "title": "Chapter 2: Feelings got real",
+      "memories": [
+        {
+          "date": "Jan 4, 2025",
+          "title": "First song for my mutu",
+          "caption": "You made me write what I could not say normally."
+        },
+        {
+          "date": "Jan 12, 2025",
+          "title": "Destiny parking lot",
+          "caption": "Accidentally meeting again, like the universe nudged us."
+        },
+        {
+          "date": "Jan 22, 2025",
+          "title": "Our first date",
+          "caption": "The day maybe turned into this is it."
+        },
+        {
+          "date": "Jan 25, 2025",
+          "title": "Dinner with my family",
+          "caption": "My heart was full watching you fit into my world."
+        },
+        {
+          "date": "Jan 26, 2025",
+          "title": "Personal became personal-er",
+          "caption": "The day stories started having deeper meaning."
+        }
+      ]
+    },
+    {
+      "id": "chapter-language",
+      "title": "Chapter 3: Love language unlocked",
+      "memories": [
+        {
+          "date": "Feb 1, 2025",
+          "title": "A poem for my mutu",
+          "caption": "Small words. Big feelings."
+        },
+        {
+          "date": "Feb 14, 2025",
+          "title": "First I love you (voice)",
+          "caption": "I still remember how real it sounded."
+        },
+        {
+          "date": "Feb 22, 2025",
+          "title": "Her love letter",
+          "caption": "The kind of message you do not delete. Ever."
+        },
+        {
+          "date": "Mar 2, 2025",
+          "title": "First video call",
+          "caption": "Seeing you live felt like magic."
+        },
+        {
+          "date": "Mar 11, 2025",
+          "title": "First tika (video)",
+          "caption": "Distance lost that day."
+        }
+      ]
+    },
+    {
+      "id": "chapter-only-us",
+      "title": "Chapter 4: Only we know",
+      "memories": [
+        {
+          "date": "Mar 28, 2025",
+          "title": "That famous moment",
+          "caption": "A core memory, private edition."
+        },
+        {
+          "date": "Apr 2, 2025",
+          "title": "The selfie",
+          "caption": "One of the most beautiful photos I have ever seen."
+        },
+        {
+          "date": "Apr 7, 2025",
+          "title": "Childhood photo unlock",
+          "caption": "Pure side shared. Trust leveled up."
+        },
+        {
+          "date": "Apr 15, 2025",
+          "title": "Fell asleep on call",
+          "caption": "Love sounded like breathing and silence."
+        },
+        {
+          "date": "Apr 25, 2025",
+          "title": "My first gift",
+          "caption": "I felt so cared for."
+        },
+        {
+          "date": "Apr 27, 2025",
+          "title": "Makeup photo saved",
+          "caption": "Yes, I saved it. Of course I did."
+        }
+      ]
+    },
+    {
+      "id": "chapter-era",
+      "title": "Chapter 5: Her era",
+      "memories": [
+        {
+          "date": "Jul 14, 2025",
+          "title": "The yellow dress",
+          "caption": "Still in my mind like a highlight."
+        },
+        {
+          "date": "Aug 2025",
+          "title": "First kiss voice note: wana",
+          "caption": "I smiled like an idiot. Worth it."
+        },
+        {
+          "date": "Aug 23, 2025 - 10:29 PM",
+          "title": "First kiss video and hand gesture",
+          "caption": "A signature moment. Only ours."
+        },
+        {
+          "date": "Sep 14, 2025",
+          "title": "First virtual chess match",
+          "caption": "I won. Proof is written here. No appeals."
+        },
+        {
+          "date": "Oct 7, 2025",
+          "title": "First no-filter snap",
+          "caption": "Real face. Real her. Real love."
+        },
+        {
+          "date": "Oct 22, 2025",
+          "title": "Sari on video call",
+          "caption": "Elegant, stunning. I was quiet for a second."
+        },
+        {
+          "date": "Oct 25, 2025",
+          "title": "Kitchen call, then bathroom call",
+          "caption": "No distance, no shyness. Just us life."
+        },
+        {
+          "date": "Oct 28, 2025",
+          "title": "New chapter begins",
+          "caption": "You chose growth. I am proud of you."
+        },
+        {
+          "date": "Nov 21, 2025",
+          "title": "6 hours 58 minutes",
+          "caption": "We talked all night and slept on call. Love felt easy."
+        }
+      ]
+    },
+    {
+      "id": "chapter-now",
+      "title": "Chapter 6: Here and now",
+      "memories": [
+        {
+          "date": "Jan 14, 2026",
+          "title": "Flower on Bhaisipati colony road",
+          "caption": "A simple gift that stayed loud in my heart."
+        },
+        {
+          "date": "Jan 15, 2026",
+          "title": "Skirt moment",
+          "caption": "A new first, and I felt close to you."
+        },
+        {
+          "date": "After we met",
+          "title": "First movie: Kantara",
+          "caption": "Kantara, with Teaching Hospital friends."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "question": "What time did we add each other first?",
+      "options": ["8:19 PM", "9:19 PM", "10:19 PM", "11:19 PM"],
+      "answer": "9:19 PM"
+    },
+    {
+      "id": "q2",
+      "question": "Where was our first alone meeting?",
+      "options": ["Godawari", "Basantapur", "Bhaisipati", "Patan"],
+      "answer": "Godawari"
+    },
+    {
+      "id": "q3",
+      "question": "When was our first date?",
+      "options": ["Jan 12, 2025", "Jan 22, 2025", "Feb 1, 2025", "Feb 14, 2025"],
+      "answer": "Jan 22, 2025"
+    },
+    {
+      "id": "q4",
+      "question": "What was the first movie you watched after we met?",
+      "options": ["Pashupati Prasad", "Kantara", "Jatra", "Kabbadi"],
+      "answer": "Kantara"
+    },
+    {
+      "id": "q5",
+      "question": "When was our first video call?",
+      "options": ["Feb 22, 2025", "Mar 2, 2025", "Mar 11, 2025", "Apr 2, 2025"],
+      "answer": "Mar 2, 2025"
+    },
+    {
+      "id": "q6",
+      "question": "When did you put tika on me (video)?",
+      "options": ["Mar 11, 2025", "Mar 28, 2025", "Apr 7, 2025", "Apr 15, 2025"],
+      "answer": "Mar 11, 2025"
+    },
+    {
+      "id": "q7",
+      "question": "Which month did wana happen?",
+      "options": ["June 2025", "July 2025", "Aug 2025", "Sep 2025"],
+      "answer": "Aug 2025"
+    },
+    {
+      "id": "q8",
+      "question": "What color dress do I still remember?",
+      "options": ["Blue", "Red", "White", "Yellow"],
+      "answer": "Yellow"
+    },
+    {
+      "id": "q9",
+      "question": "How long was our whole-night call?",
+      "options": ["5h 40m", "6h 58m", "7h 14m", "8h 02m"],
+      "answer": "6h 58m"
+    },
+    {
+      "id": "q10",
+      "question": "Where did you give me the flower?",
+      "options": ["Patan Road", "Godawari Gate", "Bhaisipati colony road", "Balkumari chowk"],
+      "answer": "Bhaisipati colony road"
+    }
+  ],
+  "quizMessages": {
+    "high": "Soulmate-level memory.",
+    "mid": "Strong mutu energy.",
+    "low": "Okay, but you are cute, so forgiven."
+  },
+  "coupons": [
+    "One date fully planned by me. You just show up.",
+    "Breakfast in bed day.",
+    "Your favorite curry plus soup day.",
+    "Movie night: your pick, no complaints.",
+    "One long walk with no phones.",
+    "Massage plus head rub combo."
+  ],
+  "finale": {
+    "eyebrow": "Finale",
+    "heading": "Love Coupons",
+    "holdPrompt": "Hold to reveal final line",
+    "holdButton": "Hold me for 1.5 seconds",
+    "revealedLine": "Mutu, thank you for becoming home to me. I choose you every day."
+  }
+}
