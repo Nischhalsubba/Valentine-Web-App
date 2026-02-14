@@ -77,7 +77,7 @@ export default function StepMemory({
     <StepShell
       eyebrow="Step 3/5 - Memory Lane"
       title="Our chapters"
-      subtitle="Tap a card to focus it, then open it in the detail sheet."
+      subtitle="Jump between chapters or tap cards to unfold each memory."
     >
       <div className="chapter-jumps">
         {content.chapters.map((chapter) => (
@@ -102,7 +102,10 @@ export default function StepMemory({
               chapterRefs.current[chapter.id] = node;
             }}
           >
-            <h3>{chapter.title}</h3>
+            <header className="chapter-head">
+              <h3>{chapter.title}</h3>
+              <p>{chapter.memories.length} memories</p>
+            </header>
             <div className="memory-grid">
               {chapter.memories.map((memory, index) => {
                 const cardKey = `${chapter.id}-${index}`;

@@ -1,4 +1,12 @@
-import { Suspense, lazy, useMemo, useState, type ComponentType, type LazyExoticComponent } from "react";
+import {
+  Suspense,
+  lazy,
+  useMemo,
+  useState,
+  type ComponentType,
+  type CSSProperties,
+  type LazyExoticComponent
+} from "react";
 import contentData from "./content/content.json";
 import StepActions from "./components/StepActions";
 import type { AppContent, StepComponentProps } from "./types/content";
@@ -62,6 +70,7 @@ export default function App() {
   const content = contentData as AppContent;
   const [stepIndex, setStepIndex] = useState(0);
   const totalSteps = stepDefinitions.length;
+  const stepProgress = (stepIndex / (totalSteps - 1)) * 100;
 
   const currentStep = useMemo(() => stepDefinitions[stepIndex], [stepIndex]);
   const CurrentComponent = currentStep.Component;
@@ -74,24 +83,41 @@ export default function App() {
     <div className="app-shell">
       <div className="ambient ambient-a" aria-hidden />
       <div className="ambient ambient-b" aria-hidden />
+      <div className="ambient ambient-c" aria-hidden />
+      <div className="ambient ambient-d" aria-hidden />
 
       <header className="app-header">
-        <p className="eyebrow">{content.meta.title}</p>
-        <h1>{content.meta.coverLine}</h1>
+        <div className="hero-copy">
+          <p className="eyebrow">{content.meta.title}</p>
+          <h1>{content.meta.coverLine}</h1>
+          <p className="hero-note">Open, relive, play, and promise.</p>
+        </div>
 
-        <div className="stepper">
-          {stepDefinitions.map((step, index) => (
-            <button
-              key={step.id}
-              className={`step-pill ${index === stepIndex ? "is-active" : ""}`}
-              type="button"
-              onClick={() => goTo(index)}
-              aria-current={index === stepIndex ? "step" : undefined}
-            >
-              <span>{index + 1}</span>
-              {step.label}
-            </button>
-          ))}
+        <div className="stepper-frame">
+          <div className="stepper-progress">
+            <div
+              className="stepper-progress-fill"
+              style={{ width: `${stepProgress}%` } as CSSProperties}
+              aria-hidden
+            />
+          </div>
+          <div className="stepper">
+            {stepDefinitions.map((step, index) => (
+              <button
+                key={step.id}
+                className={`step-pill ${index === stepIndex ? "is-active" : ""}`}
+                type="button"
+                onClick={() => goTo(index)}
+                aria-current={index === stepIndex ? "step" : undefined}
+              >
+                <span>{index + 1}</span>
+                {step.label}
+              </button>
+            ))}
+          </div>
+          <p className="step-meta">
+            Chapter {stepIndex + 1} of {totalSteps}
+          </p>
         </div>
       </header>
 

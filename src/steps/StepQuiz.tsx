@@ -18,6 +18,7 @@ export default function StepQuiz({
   const questionRef = useRef<HTMLDivElement>(null);
 
   const currentQuestion = content.quiz[questionIndex];
+  const questionProgress = ((questionIndex + 1) / content.quiz.length) * 100;
 
   useEffect(() => {
     if (completed) {
@@ -74,7 +75,11 @@ export default function StepQuiz({
             Question {questionIndex + 1} / {content.quiz.length}
             <span>Score: {score}</span>
           </p>
+          <div className="quiz-track" aria-hidden>
+            <div className="quiz-track-fill" style={{ width: `${questionProgress}%` }} />
+          </div>
           <h3>{currentQuestion.question}</h3>
+          <p className="quiz-note">Choose one answer. You can trust your heart or your memory.</p>
           <div className="quiz-options">
             {currentQuestion.options.map((option) => (
               <button

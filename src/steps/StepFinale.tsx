@@ -74,8 +74,9 @@ export default function StepFinale({
       subtitle={content.finale.eyebrow}
     >
       <div className="coupon-grid">
-        {content.coupons.map((coupon) => (
+        {content.coupons.map((coupon, index) => (
           <article className="coupon-card" key={coupon}>
+            <p className="coupon-kicker">Coupon {index + 1}</p>
             {coupon}
           </article>
         ))}
@@ -102,6 +103,7 @@ export default function StepFinale({
             {revealed ? "Revealed" : content.finale.holdButton}
           </button>
           <p className="hold-text">{holdText}</p>
+          <p className="finale-note">When you are ready, hold and keep it there.</p>
         </div>
       </section>
 

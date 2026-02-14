@@ -68,6 +68,7 @@ export default function StepCover({
     <StepShell eyebrow="Step 1/5 - Open" title={content.meta.coverLine} subtitle={content.meta.tagline}>
       <div className="cover-stage">
         <div ref={envelopeRef} className={`envelope ${opened ? "is-open" : ""}`} aria-hidden>
+          <div className="envelope-wax" />
           <div className="envelope-flap" />
           <div className="envelope-pocket" />
           <div ref={letterRef} className="envelope-letter">
@@ -80,6 +81,7 @@ export default function StepCover({
         <button ref={ctaRef} className="btn btn-primary" type="button" onClick={handleOpen}>
           {opened ? "Continue" : content.meta.openButton}
         </button>
+        <p className="cover-hint">Tap slowly, like opening a real letter.</p>
       </div>
 
       <StepActions

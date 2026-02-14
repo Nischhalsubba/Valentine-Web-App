@@ -43,18 +43,25 @@ export default function StepLetter({
 
   return (
     <StepShell eyebrow="Step 2/5 - Relive" title={content.letter.heading} subtitle={content.letter.eyebrow}>
-      <p className="letter-copy">{content.letter.body}</p>
+      <article className="letter-sheet">
+        <p className="letter-copy">{content.letter.body}</p>
+      </article>
 
       <section className="reason-section">
-        <h3>{content.letter.revealPrompt}</h3>
-        <button
-          className="btn btn-secondary"
-          type="button"
-          onClick={revealNext}
-          disabled={allRevealed}
-        >
-          {allRevealed ? "All reasons revealed" : "Reveal next reason"}
-        </button>
+        <div className="reason-head">
+          <h3>{content.letter.revealPrompt}</h3>
+          <p>{revealedCount} of {content.reasons.length} revealed</p>
+        </div>
+        <div className="reason-control">
+          <button
+            className="btn btn-secondary"
+            type="button"
+            onClick={revealNext}
+            disabled={allRevealed}
+          >
+            {allRevealed ? "All reasons revealed" : "Reveal next reason"}
+          </button>
+        </div>
 
         <div ref={reasonContainerRef} className="reason-container">
           <Suspense
