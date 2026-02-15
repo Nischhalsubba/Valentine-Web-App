@@ -1775,6 +1775,14 @@ p {
   background: #f4ece8;
 }
 
+.polaroid-card .polaroid-media {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #f4ece8;
+}
+
 .polaroid-card time {
   color: var(--muted);
   font-size: 12px;

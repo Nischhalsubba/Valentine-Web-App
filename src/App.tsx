@@ -113,7 +113,7 @@ export default function App() {
     return base;
   });
   const [gateInput, setGateInput] = useState("");
-  const [gateHintVisible, setGateHintVisible] = useState(false);
+  const [gateHintVisible, setGateHintVisible] = useState(true);
   const [gateError, setGateError] = useState("");
 
   const stepDefinitions = useMemo(
@@ -234,6 +234,9 @@ export default function App() {
               <p className="access-help">
                 {hint.primary}
                 {hint.secondary ? <span className="bilingual-secondary">{hint.secondary}</span> : null}
+                <span className="bilingual-secondary">
+                  Try: {content.gate.phraseOptions.join(" / ")}
+                </span>
               </p>
             ) : null}
             {gateError ? (

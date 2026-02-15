@@ -238,6 +238,9 @@ export default function StepFinale({
               ? localize(content.vault.unlock.successMessage, languageMode).primary
               : `${heartTaps}/${content.vault.unlock.count} taps`}
           </p>
+          {!unlocks.vault ? (
+            <p className="easter-egg-hint">Hint: tap the heart {content.vault.unlock.count} times.</p>
+          ) : null}
           {unlocks.vault ? (
             <div className="vault-grid">
               {content.vault.items.map((item) => (
@@ -269,6 +272,7 @@ export default function StepFinale({
             Unlock by code
           </button>
         </div>
+        <p className="memory-lock-note">Hint: use the same words from the gate code.</p>
         <div className="memory-grid">
           {content.futureTimeline.items.map((item) => {
             const unlocked =

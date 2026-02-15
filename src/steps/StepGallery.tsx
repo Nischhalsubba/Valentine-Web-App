@@ -5,6 +5,10 @@ import type { StepComponentProps } from "../types/app";
 import type { GalleryItem } from "../types/mutu";
 import { localize } from "../utils/i18n";
 
+function isVideoAsset(path: string): boolean {
+  return /\.mp4($|\?)/i.test(path);
+}
+
 export default function StepGallery({ content, languageMode, onBack, onNext }: StepComponentProps) {
   const [active, setActive] = useState<GalleryItem | null>(null);
 
@@ -33,6 +37,7 @@ export default function StepGallery({ content, languageMode, onBack, onNext }: S
         {items.map((item, index) => {
           const angle = (index % 2 === 0 ? -1 : 1) * (4 + (index % 3));
           const caption = localize(item.caption, languageMode);
+          const video = isVideoAsset(item.image);
           return (
             <button
               key={item.id}
@@ -41,14 +46,25 @@ export default function StepGallery({ content, languageMode, onBack, onNext }: S
               type="button"
               onClick={() => setActive(item)}
             >
-              <img
-                src={item.image}
-                alt={caption.primary}
-                loading="lazy"
-                onError={(event) => {
-                  event.currentTarget.src = "/memories/selfie.svg";
-                }}
-              />
+              {video ? (
+                <video
+                  src={item.image}
+                  className="polaroid-media"
+                  muted
+                  playsInline
+                  preload="metadata"
+                  aria-label={caption.primary}
+                />
+              ) : (
+                <img
+                  src={item.image}
+                  alt={caption.primary}
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.src = "/memories/selfie.svg";
+                  }}
+                />
+              )}
               <time>{new Date(item.dateISO).toLocaleDateString("en-US", { dateStyle: "medium" })}</time>
               <p>{caption.primary}</p>
               {caption.secondary ? <p className="bilingual-secondary">{caption.secondary}</p> : null}
@@ -60,14 +76,25 @@ export default function StepGallery({ content, languageMode, onBack, onNext }: S
       {active ? (
         <div className="sheet-backdrop" role="presentation" onClick={() => setActive(null)}>
           <div className="sheet-card" role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
-            <img
-              src={active.image}
-              alt={localize(active.caption, languageMode).primary}
-              className="sheet-media-image"
-              onError={(event) => {
-                event.currentTarget.src = "/memories/selfie.svg";
-              }}
-            />
+            {isVideoAsset(active.image) ? (
+              <video
+                src={active.image}
+                className="sheet-media-video"
+                controls
+                playsInline
+                preload="metadata"
+                aria-label={localize(active.caption, languageMode).primary}
+              />
+            ) : (
+              <img
+                src={active.image}
+                alt={localize(active.caption, languageMode).primary}
+                className="sheet-media-image"
+                onError={(event) => {
+                  event.currentTarget.src = "/memories/selfie.svg";
+                }}
+              />
+            )}
             <h3>{localize(active.caption, languageMode).primary}</h3>
             {languageMode === "mixed" ? (
               <p className="bilingual-secondary">{localize(active.caption, languageMode).secondary}</p>

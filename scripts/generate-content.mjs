@@ -83,7 +83,7 @@ const content = {
     enabled: true,
     title: t("Enter our code", "hamro code hala na 😄"),
     subtitle: t("This is private. Only for you, Reeja.", "yo private ho mutu, timrai lagi ❤️"),
-    hint: t("Hint: our tiny signature word.", "hint: hamro cute signature word."),
+    hint: t('Hint: try "wana" first. Backup codes: "mutu" or "919".', 'hint: pahila "wana" try gara. aru code: "mutu" wa "919".'),
     pinMode: "phrase",
     phraseOptions: ["wana", "mutu", "919"],
     errorMessage: t("Almost, try again my mutu 😄", "close, feri try gara mutu 😄"),
@@ -140,10 +140,10 @@ const content = {
     title: t("Polaroid Gallery", "polaroid gallery (photo corner)"),
     subtitle: t("Snapshots I still replay in my head.", "photo haru, mind ma rent-free."),
     items: [
-      { id: "g_yellow_dress", image: "/img/gallery/yellow-dress.jpg", dateISO: "2025-07-14T00:00:00+05:45", caption: t("Yellow dress day 💛", "yellow dress din 💛") },
-      { id: "g_best_selfie", image: "/img/gallery/selfie-2025-04-02.jpg", dateISO: "2025-04-02T00:00:00+05:45", caption: t("That selfie I cannot forget", "birsina nasakne selfie") },
-      { id: "g_sari_call", image: "/img/gallery/sari-call.jpg", dateISO: "2025-10-22T00:00:00+05:45", caption: t("Sari on video call ✨", "video call ma sari ✨") },
-      { id: "g_flower_day", image: "/img/gallery/flower-2026-01-14.jpg", dateISO: "2026-01-14T00:00:00+05:45", caption: t("You gave me a flower", "timi le malai ful diyau") }
+      { id: "g_yellow_dress", image: "https://i.imgur.com/7ot0ggM.png", dateISO: "2025-07-14T00:00:00+05:45", caption: t("Yellow dress day 💛", "yellow dress din 💛") },
+      { id: "g_best_selfie", image: "https://i.imgur.com/ziWqG27.png", dateISO: "2025-04-02T00:00:00+05:45", caption: t("That selfie I cannot forget", "birsina nasakne selfie") },
+      { id: "g_sari_call", image: "https://i.imgur.com/BXPoIpw.mp4", dateISO: "2025-10-22T00:00:00+05:45", caption: t("Sari on video call ✨", "video call ma sari ✨") },
+      { id: "g_flower_day", image: "https://i.imgur.com/cwrtqUJ.mp4", dateISO: "2026-01-14T00:00:00+05:45", caption: t("You gave me a flower", "timi le malai ful diyau") }
     ]
   },
   nurseAppreciation: {
@@ -153,7 +153,7 @@ const content = {
       { id: "n2", heading: t("Rest mode (official)", "rest mode (official)"), body: t("You are allowed to rest right now, not later.", "timi ahile nai rest garna paauchau, pachi hoina.") },
       { id: "n3", heading: t("I am proud of you", "ma timro proud chu"), body: t("Your new chapter is brave and beautiful.", "timro naya chapter brave ra beautiful chha.") }
     ],
-    audio: "/audio/nurse-appreciation.mp3"
+    audio: "https://uploads.pastewaves.com/uploads/f8729603-ad7e-4c47-b944-406d86cb7e0d/audio.mp3"
   },
   play: {
     quiz: {
@@ -204,7 +204,7 @@ const content = {
   },
   vault: {
     title: t("Inside Joke Vault", "inside joke vault 😄"),
-    subtitle: t("Only for us. Coded forever.", "sirf hami lai. forever coded."),
+    subtitle: t("Only for us. Hint: tap the heart 7 times.", "sirf hami lai. hint: heart 7 choti tap gara."),
     unlock: { type: "tapSequence", target: "heart", count: 7, successMessage: t("Unlocked 😄", "khulyo 😄") },
     items: [
       { id: "v_threatening", title: t("The famous moment", "famous threatening moment 😄"), body: t("Only we know. Smile and change topic.", "sirf hami lai thaha. smile gara, topic change.") },
@@ -218,7 +218,7 @@ const content = {
     items: [
       { id: "f_first_trip", locked: true, unlock: { type: "date", dateISO: "2026-12-14T00:00:00+05:45" }, title: t("Our next big trip", "hamro next big trip"), short: t("To be written by us.", "hami le lekhnai baki.") },
       { id: "f_anniversary", locked: true, unlock: { type: "date", dateISO: "2026-12-14T00:00:00+05:45" }, title: t("First anniversary", "pahilo anniversary"), short: t("One year since 9:19 PM.", "9:19 PM dekhi ek barsa.") },
-      { id: "f_new_home", locked: true, unlock: { type: "passcode", codeHint: "A word we say when we miss each other." }, title: t("Our home chapter", "hamro ghar chapter"), short: t("Coming soon ❤️", "coming soon ❤️") }
+      { id: "f_new_home", locked: true, unlock: { type: "passcode", codeHint: "Hint: try wana, mutu, or 919." }, title: t("Our home chapter", "hamro ghar chapter"), short: t("Coming soon ❤️", "coming soon ❤️") }
     ]
   },
   writeBack: {

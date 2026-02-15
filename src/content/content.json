@@ -33,8 +33,8 @@
       "np": "yo private ho mutu, timrai lagi ❤️"
     },
     "hint": {
-      "en": "Hint: our tiny signature word.",
-      "np": "hint: hamro cute signature word."
+      "en": "Hint: try \"wana\" first. Backup codes: \"mutu\" or \"919\".",
+      "np": "hint: pahila \"wana\" try gara. aru code: \"mutu\" wa \"919\"."
     },
     "pinMode": "phrase",
     "phraseOptions": [
@@ -1080,7 +1080,7 @@
     "items": [
       {
         "id": "g_yellow_dress",
-        "image": "/img/gallery/yellow-dress.jpg",
+        "image": "https://i.imgur.com/7ot0ggM.png",
         "dateISO": "2025-07-14T00:00:00+05:45",
         "caption": {
           "en": "Yellow dress day 💛",
@@ -1089,7 +1089,7 @@
       },
       {
         "id": "g_best_selfie",
-        "image": "/img/gallery/selfie-2025-04-02.jpg",
+        "image": "https://i.imgur.com/ziWqG27.png",
         "dateISO": "2025-04-02T00:00:00+05:45",
         "caption": {
           "en": "That selfie I cannot forget",
@@ -1098,7 +1098,7 @@
       },
       {
         "id": "g_sari_call",
-        "image": "/img/gallery/sari-call.jpg",
+        "image": "https://i.imgur.com/BXPoIpw.mp4",
         "dateISO": "2025-10-22T00:00:00+05:45",
         "caption": {
           "en": "Sari on video call ✨",
@@ -1107,7 +1107,7 @@
       },
       {
         "id": "g_flower_day",
-        "image": "/img/gallery/flower-2026-01-14.jpg",
+        "image": "https://i.imgur.com/cwrtqUJ.mp4",
         "dateISO": "2026-01-14T00:00:00+05:45",
         "caption": {
           "en": "You gave me a flower",
@@ -1156,7 +1156,7 @@
         }
       }
     ],
-    "audio": "/audio/nurse-appreciation.mp3"
+    "audio": "https://uploads.pastewaves.com/uploads/f8729603-ad7e-4c47-b944-406d86cb7e0d/audio.mp3"
   },
   "play": {
     "quiz": {
@@ -1594,8 +1594,8 @@
       "np": "inside joke vault 😄"
     },
     "subtitle": {
-      "en": "Only for us. Coded forever.",
-      "np": "sirf hami lai. forever coded."
+      "en": "Only for us. Hint: tap the heart 7 times.",
+      "np": "sirf hami lai. hint: heart 7 choti tap gara."
     },
     "unlock": {
       "type": "tapSequence",
@@ -1689,7 +1689,7 @@
         "locked": true,
         "unlock": {
           "type": "passcode",
-          "codeHint": "A word we say when we miss each other."
+          "codeHint": "Hint: try wana, mutu, or 919."
         },
         "title": {
           "en": "Our home chapter",
