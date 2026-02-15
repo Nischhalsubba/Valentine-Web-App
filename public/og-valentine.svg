@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Valentine cover image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7ef" />
+      <stop offset="100%" stop-color="#ffe9ec" />
+    </linearGradient>
+    <linearGradient id="heart" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8da4" />
+      <stop offset="100%" stop-color="#e85d75" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1090" cy="80" r="120" fill="#ffd3da" opacity="0.5" />
+  <circle cx="140" cy="560" r="160" fill="#ffd3da" opacity="0.45" />
+
+  <rect x="120" y="90" width="960" height="450" rx="32" fill="#ffffff" opacity="0.92" />
+  <text x="180" y="210" fill="#5b5b66" font-family="Inter, Arial, sans-serif" font-size="30" letter-spacing="2">FOR REEJA, MY MUTU</text>
+  <text x="180" y="300" fill="#1b1b1f" font-family="'Playfair Display', Georgia, serif" font-size="78">Valentine Web App</text>
+  <text x="180" y="370" fill="#5b5b66" font-family="Inter, Arial, sans-serif" font-size="34">Interactive love letter, memories, play, and promise.</text>
+  <text x="180" y="470" fill="#e85d75" font-family="Inter, Arial, sans-serif" font-size="30">valentine-web-app-seven.vercel.app</text>
+
+  <path
+    d="M978 200c-13 0-25 6-30 16-5-10-17-16-30-16-23 0-41 17-41 39 0 26 20 45 62 82 4 4 11 4 15 0 42-37 62-56 62-82 0-22-18-39-38-39z"
+    fill="url(#heart)"
+  />
+</svg>

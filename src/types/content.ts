@@ -16,11 +16,14 @@ export interface MemoryCard {
   date: string;
   title: string;
   caption: string;
+  expandedCaption?: string;
+  secret?: string;
 }
 
 export interface MemoryChapter {
   id: string;
   title: string;
+  reflection?: string;
   memories: MemoryCard[];
 }
 
@@ -45,6 +48,12 @@ export interface FinaleContent {
   revealedLine: string;
 }
 
+export interface EasterEggContent {
+  title: string;
+  hint: string;
+  message: string;
+}
+
 export interface AppContent {
   meta: AppMeta;
   letter: LetterContent;
@@ -54,6 +63,7 @@ export interface AppContent {
   quizMessages: QuizMessages;
   coupons: string[];
   finale: FinaleContent;
+  easterEgg: EasterEggContent;
 }
 
 export interface StepComponentProps {

@@ -1,0 +1,17 @@
+{
+  "name": "Valentine Web App For Reeja",
+  "short_name": "Valentine App",
+  "description": "An interactive romantic love-letter journey with memories, mini games, and a heartfelt finale.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF7EF",
+  "theme_color": "#E85D75",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -79,14 +79,40 @@ const stepDefinitions: StepDefinition[] = [
   { id: "finale", label: "Promise", Component: safeLazyStep(finaleLoader, "Step 5: Finale"), loader: finaleLoader }
 ];
 
+const STEP_STORAGE_KEY = "valentine:active-step";
+const REST_MODE_STORAGE_KEY = "valentine:rest-mode";
+
 function clampStep(index: number, max: number): number {
   return Math.min(Math.max(index, 0), max);
 }
 
+function readStoredStep(max: number) {
+  if (typeof window === "undefined") {
+    return 0;
+  }
+
+  const raw = window.localStorage.getItem(STEP_STORAGE_KEY);
+  const parsed = Number.parseInt(raw ?? "", 10);
+  if (!Number.isFinite(parsed)) {
+    return 0;
+  }
+
+  return clampStep(parsed, max);
+}
+
+function readRestMode() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return window.localStorage.getItem(REST_MODE_STORAGE_KEY) === "true";
+}
+
 export default function App() {
   const content = contentData as AppContent;
-  const [stepIndex, setStepIndex] = useState(0);
   const totalSteps = stepDefinitions.length;
+  const [stepIndex, setStepIndex] = useState(() => readStoredStep(totalSteps - 1));
+  const [restMode, setRestMode] = useState(readRestMode);
   const stepProgress = (stepIndex / (totalSteps - 1)) * 100;
 
   const currentStep = useMemo(() => stepDefinitions[stepIndex], [stepIndex]);
@@ -102,12 +128,26 @@ export default function App() {
     });
   }, [stepIndex]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    window.localStorage.setItem(STEP_STORAGE_KEY, String(stepIndex));
+  }, [stepIndex]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    window.localStorage.setItem(REST_MODE_STORAGE_KEY, String(restMode));
+  }, [restMode]);
+
   const goNext = () => setStepIndex((prev) => clampStep(prev + 1, totalSteps - 1));
   const goBack = () => setStepIndex((prev) => clampStep(prev - 1, totalSteps - 1));
   const goTo = (index: number) => setStepIndex(clampStep(index, totalSteps - 1));
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${restMode ? "is-rest-mode" : ""}`}>
       <div className="ambient ambient-a" aria-hidden />
       <div className="ambient ambient-b" aria-hidden />
       <div className="ambient ambient-c" aria-hidden />
@@ -118,6 +158,14 @@ export default function App() {
           <p className="eyebrow">{content.meta.title}</p>
           <h1>{content.meta.coverLine}</h1>
           <p className="hero-note">Open, relive, play, and promise.</p>
+          <button
+            className={`rest-toggle ${restMode ? "is-on" : ""}`}
+            type="button"
+            onClick={() => setRestMode((prev) => !prev)}
+            aria-pressed={restMode}
+          >
+            {restMode ? "Rest mode on" : "Rest mode"}
+          </button>
         </div>
 
         <div className="stepper-frame">

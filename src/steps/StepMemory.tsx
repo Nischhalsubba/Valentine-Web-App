@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { animateMemoryCard, smoothScrollToChapter } from "../animations/memoryAnimations";
 import StepActions from "../components/StepActions";
 import StepShell from "../components/StepShell";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import type { MemoryCard, StepComponentProps } from "../types/content";
+
+const MEMORY_PUZZLE_KEY = "valentine:memory-opened";
 
 export default function StepMemory({
   content,
@@ -14,10 +16,39 @@ export default function StepMemory({
   const [activeMemory, setActiveMemory] = useState<MemoryCard | null>(null);
   const [activeCardKey, setActiveCardKey] = useState<string | null>(null);
   const [pressedCardKey, setPressedCardKey] = useState<string | null>(null);
+  const [secretCardKey, setSecretCardKey] = useState<string | null>(null);
   const [activeChapterId, setActiveChapterId] = useState(content.chapters[0]?.id ?? "");
   const [laneProgress, setLaneProgress] = useState(0);
   const [transitionModule, setTransitionModule] = useState<any>(null);
+  const [openedMemoryKeys, setOpenedMemoryKeys] = useState<string[]>(() => {
+    if (typeof window === "undefined") {
+      return [];
+    }
+
+    try {
+      const raw = window.localStorage.getItem(MEMORY_PUZZLE_KEY);
+      const parsed = JSON.parse(raw ?? "[]");
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+    } catch {
+      return [];
+    }
+  });
   const chapterRefs = useRef<Record<string, HTMLElement | null>>({});
+  const pressTimerRef = useRef<number | null>(null);
+  const totalMemories = content.chapters.reduce((count, chapter) => count + chapter.memories.length, 0);
+  const allMemoryKeys = useMemo(
+    () =>
+      new Set(
+        content.chapters.flatMap((chapter) => chapter.memories.map((_, index) => `${chapter.id}-${index}`))
+      ),
+    [content.chapters]
+  );
+  const openedCount = useMemo(
+    () => openedMemoryKeys.filter((key) => allMemoryKeys.has(key)).length,
+    [allMemoryKeys, openedMemoryKeys]
+  );
+  const memoryCompletion = totalMemories > 0 ? (openedCount / totalMemories) * 100 : 0;
+  const puzzleComplete = totalMemories > 0 && openedCount >= totalMemories;
 
   useEffect(() => {
     let mounted = true;
@@ -105,6 +136,26 @@ export default function StepMemory({
     return () => window.removeEventListener("keydown", onEsc);
   }, [activeMemory]);
 
+  useEffect(() => {
+    return () => {
+      if (pressTimerRef.current !== null) {
+        window.clearTimeout(pressTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const sanitized = openedMemoryKeys.filter((key) => allMemoryKeys.has(key));
+    if (sanitized.length !== openedMemoryKeys.length) {
+      setOpenedMemoryKeys(sanitized);
+      return;
+    }
+    window.localStorage.setItem(MEMORY_PUZZLE_KEY, JSON.stringify(sanitized));
+  }, [allMemoryKeys, openedMemoryKeys]);
+
   const jumpToChapter = (chapterId: string) => {
     const target = chapterRefs.current[chapterId];
     if (!target) {
@@ -121,6 +172,7 @@ export default function StepMemory({
     target: HTMLElement
   ) => {
     const key = `${chapterId}-${memoryIndex}`;
+    setOpenedMemoryKeys((prev) => (prev.includes(key) ? prev : [...prev, key]));
     setPressedCardKey(null);
     setActiveCardKey(key);
     setActiveMemory(memory);
@@ -131,6 +183,26 @@ export default function StepMemory({
     setActiveMemory(null);
     setActiveCardKey(null);
     setPressedCardKey(null);
+  };
+
+  const startLongPress = (cardKey: string, hasSecret: boolean) => {
+    if (!hasSecret) {
+      return;
+    }
+    if (pressTimerRef.current !== null) {
+      window.clearTimeout(pressTimerRef.current);
+    }
+    pressTimerRef.current = window.setTimeout(() => {
+      setSecretCardKey(cardKey);
+      pressTimerRef.current = null;
+    }, 620);
+  };
+
+  const cancelLongPress = () => {
+    if (pressTimerRef.current !== null) {
+      window.clearTimeout(pressTimerRef.current);
+      pressTimerRef.current = null;
+    }
   };
 
   const CSSTransition = transitionModule?.CSSTransition;
@@ -147,7 +219,7 @@ export default function StepMemory({
           <p className="eyebrow">{activeMemory?.date}</p>
           <h3>{activeMemory?.title}</h3>
         </div>
-        <p>{activeMemory?.caption}</p>
+        <p>{activeMemory?.expandedCaption ?? activeMemory?.caption}</p>
         <button className="btn btn-secondary" type="button" onClick={closeMemory}>
           Close
         </button>
@@ -178,6 +250,21 @@ export default function StepMemory({
         <span style={{ width: `${laneProgress}%` }} />
       </div>
 
+      <section className="memory-puzzle" aria-live="polite">
+        <div className="memory-puzzle-head">
+          <p className="eyebrow">Memory puzzle</p>
+          <p>{openedCount} / {totalMemories} moments opened</p>
+        </div>
+        <div className="memory-puzzle-track" aria-hidden>
+          <span style={{ width: `${memoryCompletion}%` }} />
+        </div>
+        <p className="memory-puzzle-note">
+          {puzzleComplete
+            ? "All pieces found. You remembered every chapter of us."
+            : "Tap each memory card to collect every piece."}
+        </p>
+      </section>
+
       <div className="chapter-list">
         {content.chapters.map((chapter) => (
           <article
@@ -192,28 +279,47 @@ export default function StepMemory({
               <h3>{chapter.title}</h3>
               <p>{chapter.memories.length} memories</p>
             </header>
+            {chapter.reflection ? <p className="chapter-reflection">{chapter.reflection}</p> : null}
             <div className="memory-grid">
               {chapter.memories.map((memory, index) => {
                 const cardKey = `${chapter.id}-${index}`;
                 const isActive = activeCardKey === cardKey;
                 const isPressed = pressedCardKey === cardKey;
+                const isOpened = openedMemoryKeys.includes(cardKey);
+                const showSecret = secretCardKey === cardKey && Boolean(memory.secret);
                 return (
                   <button
                     key={cardKey}
                     type="button"
-                    className={`memory-card ${isActive ? "is-active" : ""} ${isPressed ? "is-pressed" : ""}`}
+                    className={`memory-card ${isActive ? "is-active" : ""} ${isPressed ? "is-pressed" : ""} ${
+                      isOpened ? "is-opened" : ""
+                    }`}
                     onClick={(event) =>
                       openMemory(chapter.id, index, memory, event.currentTarget)
                     }
-                    onPointerDown={() => setPressedCardKey(cardKey)}
-                    onPointerUp={() => setPressedCardKey(null)}
-                    onPointerLeave={() => setPressedCardKey(null)}
-                    onPointerCancel={() => setPressedCardKey(null)}
+                    onPointerDown={() => {
+                      setPressedCardKey(cardKey);
+                      startLongPress(cardKey, Boolean(memory.secret));
+                    }}
+                    onPointerUp={() => {
+                      setPressedCardKey(null);
+                      cancelLongPress();
+                    }}
+                    onPointerLeave={() => {
+                      setPressedCardKey(null);
+                      cancelLongPress();
+                    }}
+                    onPointerCancel={() => {
+                      setPressedCardKey(null);
+                      cancelLongPress();
+                    }}
                   >
                     <div className="memory-face memory-front">
                       <time>{memory.date}</time>
                       <h4>{memory.title}</h4>
                       <p>{memory.caption}</p>
+                      {memory.secret ? <span className="memory-longpress-note">Hold to unlock tiny secret</span> : null}
+                      {showSecret ? <p className="memory-secret">{memory.secret}</p> : null}
                     </div>
                   </button>
                 );
@@ -231,7 +337,11 @@ export default function StepMemory({
         <div className="sheet-fallback">{sheetBody}</div>
       ) : null}
 
-      <StepActions onBack={onBack} onNext={onNext} />
+      <StepActions
+        onBack={onBack}
+        onNext={onNext}
+        nextLabel={puzzleComplete ? "Continue to mini-games" : "Continue anyway"}
+      />
     </StepShell>
   );
 }

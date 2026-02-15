@@ -1,214 +1,252 @@
 {
   "meta": {
-    "title": "Happy Valentine's, Reeja",
-    "coverLine": "For Reeja, my favorite person.",
-    "tagline": "A small world I made for you.",
-    "openButton": "Open your surprise"
+    "title": "For Reeja, my mutu.",
+    "coverLine": "A small place where our memories live.",
+    "tagline": "This is not a website. This is us.",
+    "openButton": "Open it <3"
   },
   "letter": {
     "eyebrow": "Love Letter",
     "heading": "To my mutu",
-    "body": "Reeja, I wanted to give you something that feels like us, quiet, real, and full of little moments. From the first add, to the first tika on video, to the days we fell asleep on call, you became my home in a way I did not expect. Happy Valentine's Day, my mutu. I choose you, every day.",
-    "revealPrompt": "Tap to reveal 7 reasons"
+    "body": "Reeja...\n\nYou know what I love about us?\nHow we did not rush.\nHow we kept becoming more us, one small moment at a time.\n\nYou are a nurse, so you spend your days taking care of people.\nBut I want you to remember this:\nSomeone is always taking care of you too.\nMe. Always.\n\nFrom the first day we added each other... to the first time we met alone...\nto the nights we fell asleep on call...\nto the days you showed me the most real version of you...\n\nI do not just love the big moments.\nI love the quiet ones.\nThe kitchen call. The bathroom call. The random parking-lot destiny.\nThe way we made distance feel useless.\n\nSo today, I made you something small.\nNot expensive. Not loud.\nJust beautiful and true.\n\nWhen you are ready...\nLet us walk through our story again, mutu.",
+    "revealPrompt": "Tap to reveal the next one"
   },
   "reasons": [
     "You make simple days feel safe.",
-    "You love in small ways that stay forever.",
-    "You feel like home, even through a screen.",
-    "You are brave. You started new chapters.",
-    "You are beautiful in every version.",
-    "You make me create songs, poems, and dreams.",
-    "With you, distance feels smaller than love."
+    "You turn distance into closeness.",
+    "You are brave in every life chapter.",
+    "You love quietly, and it stays forever.",
+    "You are my favorite person in every mood.",
+    "You made my heart creative again.",
+    "With you, I feel home."
   ],
   "chapters": [
     {
       "id": "chapter-beginning",
       "title": "Chapter 1: The Beginning",
+      "reflection": "One tiny tap became one huge beginning.",
       "memories": [
         {
-          "date": "Dec 14, 2024 - 9:19 PM",
-          "title": "The first add",
-          "caption": "The smallest click that started the biggest change."
+          "date": "December 14, 2024 - 9:19 PM",
+          "title": "The first moment",
+          "caption": "We added each other and something started.",
+          "expandedCaption": "9:19 PM. One small tap, one big beginning. I did not know it then, but my life had already changed."
         },
         {
-          "date": "Dec 22, 2024",
-          "title": "First time seeing you",
-          "caption": "That moment when online became real."
+          "date": "December 22, 2024",
+          "title": "First time I saw you",
+          "caption": "The first real oh... it is you.",
+          "expandedCaption": "Some people look normal in real life. You looked like the start of a story."
         },
         {
-          "date": "Dec 25, 2024 - around 1 PM",
-          "title": "Godawari, just us",
-          "caption": "First real us moment, quiet, personal, unforgettable."
+          "date": "December 25, 2024 - around 1 PM",
+          "title": "Just us, Godawari",
+          "caption": "Our first real moment alone.",
+          "expandedCaption": "Godawari. Around 1 PM. No crowd, no noise, just two hearts learning each other."
         }
       ]
     },
     {
-      "id": "chapter-real",
-      "title": "Chapter 2: Feelings got real",
+      "id": "chapter-growing",
+      "title": "Chapter 2: Growing Feelings",
+      "reflection": "Maybe became real, and real became us.",
       "memories": [
         {
-          "date": "Jan 4, 2025",
-          "title": "First song for my mutu",
-          "caption": "You made me write what I could not say normally."
+          "date": "January 4, 2025",
+          "title": "First song",
+          "caption": "I wrote for my mutu.",
+          "expandedCaption": "That is when I knew: I do not just like you. I want to create things for you."
         },
         {
-          "date": "Jan 12, 2025",
+          "date": "January 12, 2025",
           "title": "Destiny parking lot",
-          "caption": "Accidentally meeting again, like the universe nudged us."
+          "caption": "We met again by accident.",
+          "expandedCaption": "Out of all places, the universe really said: no, you two are not done yet."
         },
         {
-          "date": "Jan 22, 2025",
-          "title": "Our first date",
-          "caption": "The day maybe turned into this is it."
+          "date": "January 22, 2025",
+          "title": "First date",
+          "caption": "Officially, us.",
+          "expandedCaption": "I still remember the feeling: nervous, happy, and oddly safe at the same time."
         },
         {
-          "date": "Jan 25, 2025",
-          "title": "Dinner with my family",
-          "caption": "My heart was full watching you fit into my world."
+          "date": "January 25, 2025",
+          "title": "Family dinner",
+          "caption": "My heart was full.",
+          "expandedCaption": "You sat with my family like you belonged there. Honestly, you did."
         },
         {
-          "date": "Jan 26, 2025",
+          "date": "January 26, 2025",
           "title": "Personal became personal-er",
-          "caption": "The day stories started having deeper meaning."
+          "caption": "You told me your birth year.",
+          "expandedCaption": "It sounds small, but it was trust. It was you letting me closer."
         }
       ]
     },
     {
       "id": "chapter-language",
-      "title": "Chapter 3: Love language unlocked",
+      "title": "Chapter 3: Love Language",
+      "reflection": "Words became feelings, and feelings became home.",
       "memories": [
         {
-          "date": "Feb 1, 2025",
-          "title": "A poem for my mutu",
-          "caption": "Small words. Big feelings."
+          "date": "February 1, 2025",
+          "title": "A poem",
+          "caption": "Because I could not keep it inside.",
+          "expandedCaption": "Some feelings do not fit in normal sentences. So I borrowed poetry."
         },
         {
-          "date": "Feb 14, 2025",
+          "date": "February 14, 2025",
           "title": "First I love you (voice)",
-          "caption": "I still remember how real it sounded."
+          "caption": "The day my heart learned a new sound.",
+          "expandedCaption": "Hearing it in your voice hit different. Soft. Real. Permanent."
         },
         {
-          "date": "Feb 22, 2025",
-          "title": "Her love letter",
-          "caption": "The kind of message you do not delete. Ever."
-        },
-        {
-          "date": "Mar 2, 2025",
-          "title": "First video call",
-          "caption": "Seeing you live felt like magic."
-        },
-        {
-          "date": "Mar 11, 2025",
-          "title": "First tika (video)",
-          "caption": "Distance lost that day."
+          "date": "February 22, 2025",
+          "title": "Your love letter",
+          "caption": "I reread it in my head.",
+          "expandedCaption": "You wrote love like you meant it. Like you were building a home with words."
         }
       ]
     },
     {
-      "id": "chapter-only-us",
-      "title": "Chapter 4: Only we know",
+      "id": "chapter-rituals",
+      "title": "Chapter 4: Our Rituals",
+      "reflection": "Distance stopped mattering because presence stayed.",
       "memories": [
         {
-          "date": "Mar 28, 2025",
-          "title": "That famous moment",
-          "caption": "A core memory, private edition."
+          "date": "March 2, 2025",
+          "title": "First video call",
+          "caption": "Distance lost a little that day.",
+          "expandedCaption": "Seeing you live, talking like it is normal. That is when us started feeling real daily."
         },
         {
-          "date": "Apr 2, 2025",
-          "title": "The selfie",
-          "caption": "One of the most beautiful photos I have ever seen."
+          "date": "March 11, 2025",
+          "title": "First tika (video call)",
+          "caption": "A blessing across distance.",
+          "expandedCaption": "Even through a screen, you found a way to put tika on me. That is love with intention."
         },
         {
-          "date": "Apr 7, 2025",
-          "title": "Childhood photo unlock",
-          "caption": "Pure side shared. Trust leveled up."
+          "date": "March 28, 2025",
+          "title": "The famous threatening moment",
+          "caption": "Only we know.",
+          "expandedCaption": "This stays coded forever. If someone asks, we smile and change topic.",
+          "secret": "Inside joke unlocked: threatening mode activated, cute edition."
         },
         {
-          "date": "Apr 15, 2025",
-          "title": "Fell asleep on call",
-          "caption": "Love sounded like breathing and silence."
-        },
-        {
-          "date": "Apr 25, 2025",
-          "title": "My first gift",
-          "caption": "I felt so cared for."
-        },
-        {
-          "date": "Apr 27, 2025",
-          "title": "Makeup photo saved",
-          "caption": "Yes, I saved it. Of course I did."
+          "date": "April 15, 2025",
+          "title": "First sleep on call",
+          "caption": "We fell asleep together.",
+          "expandedCaption": "No talking. No trying. Just presence. That kind of comfort is rare, Reeja."
         }
       ]
     },
     {
       "id": "chapter-era",
-      "title": "Chapter 5: Her era",
+      "title": "Chapter 5: Her Era",
+      "reflection": "You trusted me with your real life, and I loved every version.",
       "memories": [
         {
-          "date": "Jul 14, 2025",
+          "date": "April 2, 2025",
+          "title": "That selfie",
+          "caption": "One of the most beautiful things I have seen.",
+          "expandedCaption": "Not just your face. The feeling behind it. Like you trusted me with your softness."
+        },
+        {
+          "date": "April 7, 2025",
+          "title": "Childhood photo unlock",
+          "caption": "Pure side revealed.",
+          "expandedCaption": "That was you saying: here, this is my real history. And I loved you more."
+        },
+        {
+          "date": "April 25, 2025",
+          "title": "First gift",
+          "caption": "You gave me something, and I kept it in my heart.",
+          "expandedCaption": "The gift was sweet, but the message was sweeter: I thought of you."
+        },
+        {
+          "date": "April 27, 2025",
+          "title": "Makeup photo (saved forever)",
+          "caption": "I saved it. Obviously.",
+          "expandedCaption": "Because some moments are too pretty to risk forgetting."
+        },
+        {
+          "date": "July 14, 2025",
           "title": "The yellow dress",
-          "caption": "Still in my mind like a highlight."
+          "caption": "Still in my mind.",
+          "expandedCaption": "That yellow dress moment is burned into my memory like a favorite song chorus."
         },
         {
-          "date": "Aug 2025",
-          "title": "First kiss voice note: wana",
-          "caption": "I smiled like an idiot. Worth it."
+          "date": "August 2025",
+          "title": "First kiss voice note (wana)",
+          "caption": "A kiss in sound.",
+          "expandedCaption": "It was cute, bold, and so you. I replayed it like a secret."
         },
         {
-          "date": "Aug 23, 2025 - 10:29 PM",
-          "title": "First kiss video and hand gesture",
-          "caption": "A signature moment. Only ours."
+          "date": "August 23, 2025 - 10:29 PM",
+          "title": "First kiss video + hand gesture",
+          "caption": "I watched it too many times.",
+          "expandedCaption": "10:29 PM. That little gesture felt like you pulled me closer through the screen."
         },
         {
-          "date": "Sep 14, 2025",
+          "date": "September 14, 2025",
           "title": "First virtual chess match",
-          "caption": "I won. Proof is written here. No appeals."
+          "caption": "I won. Proof: I wrote it here.",
+          "expandedCaption": "You can rematch anytime. But history is history."
         },
         {
-          "date": "Oct 7, 2025",
-          "title": "First no-filter snap",
-          "caption": "Real face. Real her. Real love."
+          "date": "October 7, 2025",
+          "title": "No-filter snap",
+          "caption": "Real face. Real you.",
+          "expandedCaption": "That is intimacy. Not the perfect version, the honest one. And I loved it."
         },
         {
-          "date": "Oct 22, 2025",
-          "title": "Sari on video call",
-          "caption": "Elegant, stunning. I was quiet for a second."
+          "date": "October 22, 2025",
+          "title": "Sari on video (first time)",
+          "caption": "I was speechless.",
+          "expandedCaption": "You looked like tradition and beauty decided to collaborate."
         },
         {
-          "date": "Oct 25, 2025",
-          "title": "Kitchen call, then bathroom call",
-          "caption": "No distance, no shyness. Just us life."
+          "date": "October 25, 2025",
+          "title": "Kitchen call and bathroom call",
+          "caption": "No distance. No shyness.",
+          "expandedCaption": "You called me from real life, not prepared life. That is when love becomes daily."
         },
         {
-          "date": "Oct 28, 2025",
-          "title": "New chapter begins",
-          "caption": "You chose growth. I am proud of you."
+          "date": "October 28, 2025",
+          "title": "New chapter",
+          "caption": "You resigned from the Teaching Hospital.",
+          "expandedCaption": "I was proud. Change is scary, but you are braver than you think. I am with you in every version of life."
         },
         {
-          "date": "Nov 21, 2025",
+          "date": "November 21, 2025",
           "title": "6 hours 58 minutes",
-          "caption": "We talked all night and slept on call. Love felt easy."
+          "caption": "Whole night. Whole heart.",
+          "expandedCaption": "Talking until sleep. That is not time passing, that is love building."
         }
       ]
     },
     {
       "id": "chapter-now",
-      "title": "Chapter 6: Here and now",
+      "title": "Chapter 6: Here And Now",
+      "reflection": "Still unfolding, still choosing each other.",
       "memories": [
         {
-          "date": "Jan 14, 2026",
+          "date": "January 14, 2026",
           "title": "Flower on Bhaisipati colony road",
-          "caption": "A simple gift that stayed loud in my heart."
+          "caption": "You gave me a flower.",
+          "expandedCaption": "Simple moment. Big meaning. I felt chosen."
         },
         {
-          "date": "Jan 15, 2026",
-          "title": "Skirt moment",
-          "caption": "A new first, and I felt close to you."
+          "date": "January 15, 2026",
+          "title": "First skirt moment",
+          "caption": "A new kind of shy.",
+          "expandedCaption": "You looked confident and cute at the same time. I remember everything."
         },
         {
           "date": "After we met",
-          "title": "First movie: Kantara",
-          "caption": "Kantara, with Teaching Hospital friends."
+          "title": "Kantara",
+          "caption": "Your first after-us movie.",
+          "expandedCaption": "You watched Kantara with Teaching Hospital friends, and somehow even that detail feels special to me."
         }
       ]
     }
@@ -216,83 +254,80 @@
   "quiz": [
     {
       "id": "q1",
-      "question": "What time did we add each other first?",
-      "options": ["8:19 PM", "9:19 PM", "10:19 PM", "11:19 PM"],
+      "question": "What time did we add each other for the first time?",
+      "options": ["8:19 PM", "9:19 PM", "10:19 PM"],
       "answer": "9:19 PM"
     },
     {
       "id": "q2",
-      "question": "Where was our first alone meeting?",
-      "options": ["Godawari", "Basantapur", "Bhaisipati", "Patan"],
+      "question": "Where did we meet alone for the first real moment?",
+      "options": ["Godawari", "Patan", "Bhaisipati"],
       "answer": "Godawari"
     },
     {
       "id": "q3",
-      "question": "When was our first date?",
-      "options": ["Jan 12, 2025", "Jan 22, 2025", "Feb 1, 2025", "Feb 14, 2025"],
-      "answer": "Jan 22, 2025"
+      "question": "Where did destiny make us meet again by accident?",
+      "options": ["Cafe", "Parking lot", "Hospital gate"],
+      "answer": "Parking lot"
     },
     {
       "id": "q4",
-      "question": "What was the first movie you watched after we met?",
-      "options": ["Pashupati Prasad", "Kantara", "Jatra", "Kabbadi"],
+      "question": "Which movie did you watch first after we met?",
+      "options": ["Kantara", "Jatra", "Pashupati Prasad"],
       "answer": "Kantara"
     },
     {
       "id": "q5",
-      "question": "When was our first video call?",
-      "options": ["Feb 22, 2025", "Mar 2, 2025", "Mar 11, 2025", "Apr 2, 2025"],
-      "answer": "Mar 2, 2025"
-    },
-    {
-      "id": "q6",
-      "question": "When did you put tika on me (video)?",
-      "options": ["Mar 11, 2025", "Mar 28, 2025", "Apr 7, 2025", "Apr 15, 2025"],
-      "answer": "Mar 11, 2025"
-    },
-    {
-      "id": "q7",
-      "question": "Which month did wana happen?",
-      "options": ["June 2025", "July 2025", "Aug 2025", "Sep 2025"],
-      "answer": "Aug 2025"
-    },
-    {
-      "id": "q8",
-      "question": "What color dress do I still remember?",
-      "options": ["Blue", "Red", "White", "Yellow"],
-      "answer": "Yellow"
-    },
-    {
-      "id": "q9",
       "question": "How long was our whole-night call?",
-      "options": ["5h 40m", "6h 58m", "7h 14m", "8h 02m"],
+      "options": ["5h 48m", "6h 58m", "7h 12m"],
       "answer": "6h 58m"
     },
     {
-      "id": "q10",
-      "question": "Where did you give me the flower?",
-      "options": ["Patan Road", "Godawari Gate", "Bhaisipati colony road", "Balkumari chowk"],
-      "answer": "Bhaisipati colony road"
+      "id": "q6",
+      "question": "What color dress is still burned in my memory?",
+      "options": ["Yellow", "Blue", "Red"],
+      "answer": "Yellow"
+    },
+    {
+      "id": "q7",
+      "question": "When was our first date?",
+      "options": ["January 12, 2025", "January 22, 2025", "February 1, 2025"],
+      "answer": "January 22, 2025"
+    },
+    {
+      "id": "q8",
+      "question": "Which day did we first say I love you by voice?",
+      "options": ["February 1, 2025", "February 14, 2025", "February 22, 2025"],
+      "answer": "February 14, 2025"
     }
   ],
   "quizMessages": {
-    "high": "Soulmate-level memory.",
-    "mid": "Strong mutu energy.",
-    "low": "Okay, but you are cute, so forgiven."
+    "high": "Soulmate-level memory unlocked.",
+    "mid": "Strong mutu memory energy.",
+    "low": "Even if memory slips, my heart still picks you."
   },
   "coupons": [
-    "One date fully planned by me. You just show up.",
-    "Breakfast in bed day.",
-    "Your favorite curry plus soup day.",
-    "Movie night: your pick, no complaints.",
-    "One long walk with no phones.",
-    "Massage plus head rub combo."
+    "One no questions asked hug.",
+    "One I will listen first pass.",
+    "One date planned fully by me.",
+    "One comfort meal plus calm movie night.",
+    "One nurse fatigue rescue day.",
+    "One shopping companion mission.",
+    "One write-you-a-poem-again voucher.",
+    "One I will do the boring task for you card.",
+    "One phone-free walk together.",
+    "One we talk until sleep night."
   ],
   "finale": {
     "eyebrow": "Finale",
-    "heading": "Love Coupons",
-    "holdPrompt": "Hold to reveal final line",
-    "holdButton": "Hold me for 1.5 seconds",
-    "revealedLine": "Mutu, thank you for becoming home to me. I choose you every day."
+    "heading": "Happy Valentine's Day, Reeja.",
+    "holdPrompt": "Press and hold for 1.5 seconds to reveal your final line.",
+    "holdButton": "Hold to reveal",
+    "revealedLine": "Mutu... thank you for choosing me in small ways, again and again. I do not want perfect love. I want safe love. With you, it already is."
+  },
+  "easterEgg": {
+    "title": "Inside joke unlocked",
+    "hint": "Tap the heart 7 times to unlock our private coded memory.",
+    "message": "The famous threatening moment stays between us forever. If someone asks, we smile and change topic."
   }
 }

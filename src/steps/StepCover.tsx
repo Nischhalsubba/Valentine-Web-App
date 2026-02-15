@@ -18,6 +18,7 @@ export default function StepCover({
   const openTimerRef = useRef<number | null>(null);
   const [opened, setOpened] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   useEffect(() => {
     let disposed = false;
@@ -90,6 +91,18 @@ export default function StepCover({
           <span className="cover-cta-label">{isOpening ? "Opening..." : content.meta.openButton}</span>
           <span className="btn-spinner" aria-hidden />
         </button>
+        <button
+          className="btn btn-secondary cover-preview-btn"
+          type="button"
+          onClick={() => setPreviewOpen((prev) => !prev)}
+        >
+          {previewOpen ? "Hide preview" : "Small preview"}
+        </button>
+        {previewOpen ? (
+          <p className="cover-preview-copy">
+            This is not a website. This is us. Open when you are ready, mutu.
+          </p>
+        ) : null}
         <p className="cover-hint">Tap slowly, like opening a real letter.</p>
       </div>
 

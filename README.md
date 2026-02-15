@@ -10,6 +10,8 @@
 
 </div>
 
+Live Demo: [valentine-web-app-seven.vercel.app](https://valentine-web-app-seven.vercel.app/)
+
 ---
 
 ## Developed And Designed By
@@ -31,6 +33,14 @@ It guides users through five romantic chapters:
 5. Finale with hold-to-reveal and collectible coupons
 
 The app is intentionally built around **soft, emotional motion**, **reduced-motion accessibility**, and **high polish microinteractions**.
+
+---
+
+## Product Vision
+- Build a private, emotional journey instead of a generic portfolio-style page
+- Keep one clear action per step so the story is calm and readable
+- Blend romance with comfort: warm paper theme, gentle motion, and nurse-friendly pacing
+- Preserve replay value via interactive chapters, mini surprises, coupons, and easter egg
 
 ---
 
@@ -90,6 +100,12 @@ src/
   App.tsx            # Step flow, lazy loading, fallback and prefetch
   styles.css         # Visual + motion design system tokens and component styling
 ```
+
+### Content Architecture
+All story data is managed in one editable source:
+- `src/content/content.json`
+- Root keys: `meta`, `letter`, `reasons`, `chapters`, `quiz`, `quizMessages`, `coupons`, `finale`, `easterEgg`
+- This keeps copy updates independent from component logic.
 
 ### Step Routing Model
 - App-level state tracks active step.
@@ -172,6 +188,12 @@ This README is intentionally structured for repository SEO and discoverability a
 - `react romantic website`
 - `typescript animation web app`
 - `digital memory timeline app`
+
+### Implemented Technical SEO
+- `index.html` includes canonical, robots, Open Graph, Twitter, theme-color, and JSON-LD
+- `public/robots.txt` and `public/sitemap.xml` are added for crawler support
+- `public/site.webmanifest` and `public/favicon.svg` improve metadata completeness
+- Semantic heading structure is used across README for search relevance and skimmability
 
 ### Recommended GitHub About Description
 `Interactive Valentine Web App built with React + TypeScript: love letter reveal, memory timeline, quiz, hold-to-reveal finale, and polished accessible microinteractions.`
@@ -278,10 +300,3 @@ Edit:
 ## License
 This is a personal/private project (`"private": true` in `package.json`).  
 No open-source license is currently declared.
-
----
-
-If you want, I can also add:
-1. A polished `CONTRIBUTING.md`
-2. A `CHANGELOG.md`
-3. A screenshot/gallery section template with SEO-friendly alt text format

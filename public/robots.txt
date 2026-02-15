@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://valentine-web-app-seven.vercel.app/sitemap.xml

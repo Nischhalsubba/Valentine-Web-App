@@ -16,6 +16,7 @@ export default function StepLetter({
   const reducedMotion = usePrefersReducedMotion();
   const [revealedCount, setRevealedCount] = useState(0);
   const [latestReasonId, setLatestReasonId] = useState<string | null>(null);
+  const [letterRead, setLetterRead] = useState(false);
   const reasons = content.reasons.slice(0, revealedCount).map((text, index) => ({
     id: `reason-${index}`,
     text,
@@ -44,23 +45,38 @@ export default function StepLetter({
 
   useEffect(() => {
     const letter = letterRef.current;
-    if (!letter || typeof letter.animate !== "function") {
+    if (!letter) {
       return;
     }
 
-    letter.animate(
-      reducedMotion
-        ? [{ opacity: 0 }, { opacity: 1 }]
-        : [
-            { opacity: 0, transform: "translateY(10px)" },
-            { opacity: 1, transform: "translateY(0px)" }
-          ],
-      {
-        duration: reducedMotion ? 240 : MOTION_MS.ui,
-        easing: MOTION_EASING.inOut,
-        fill: "both"
+    if (typeof letter.animate === "function") {
+      letter.animate(
+        reducedMotion
+          ? [{ opacity: 0 }, { opacity: 1 }]
+          : [
+              { opacity: 0, transform: "translateY(10px)" },
+              { opacity: 1, transform: "translateY(0px)" }
+            ],
+        {
+          duration: reducedMotion ? 240 : MOTION_MS.ui,
+          easing: MOTION_EASING.inOut,
+          fill: "both"
+        }
+      );
+    }
+
+    const checkRead = () => {
+      const hasReachedEnd = letter.scrollTop + letter.clientHeight >= letter.scrollHeight - 6;
+      if (hasReachedEnd) {
+        setLetterRead(true);
       }
-    );
+    };
+
+    checkRead();
+    letter.addEventListener("scroll", checkRead, { passive: true });
+    return () => {
+      letter.removeEventListener("scroll", checkRead);
+    };
   }, [reducedMotion]);
 
   useEffect(() => {
@@ -88,6 +104,7 @@ export default function StepLetter({
       <article ref={letterRef} className="letter-sheet">
         <p className="letter-copy">{content.letter.body}</p>
       </article>
+      {!letterRead ? <p className="letter-progress-note">Scroll to the end of the letter to continue.</p> : null}
 
       <section className="reason-section">
         <div className="reason-head">
@@ -132,9 +149,10 @@ export default function StepLetter({
       </section>
 
       <StepActions
+        canNext={letterRead}
         onBack={onBack}
         onNext={onNext}
-        nextLabel={allRevealed ? "Continue" : "Skip to memory lane"}
+        nextLabel={letterRead ? (allRevealed ? "Continue" : "Skip to memory lane") : "Scroll to continue"}
       />
     </StepShell>
   );

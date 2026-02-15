@@ -16,6 +16,7 @@ export default function StepQuiz({
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [feedbackNote, setFeedbackNote] = useState("");
+  const [bonusTaps, setBonusTaps] = useState(0);
   const questionRef = useRef<HTMLDivElement>(null);
 
   const currentQuestion = content.quiz[questionIndex];
@@ -41,7 +42,7 @@ export default function StepQuiz({
   const handleOption = (option: string, target: HTMLButtonElement) => {
     const isCorrect = option === currentQuestion.answer;
     setSelectedOption(option);
-    setFeedbackNote(isCorrect ? "Nice :)" : "Close :)");
+    setFeedbackNote(isCorrect ? "Yes. Sacred memory." : "Nice try, mutu.");
     target.parentElement
       ?.querySelectorAll<HTMLButtonElement>(".quiz-option")
       .forEach((node) => node.classList.remove("is-correct", "is-wrong"));
@@ -66,6 +67,8 @@ export default function StepQuiz({
     setSelectedOption("");
     setFeedbackNote("");
   };
+
+  const bonusUnlocked = bonusTaps >= 5;
 
   return (
     <StepShell
@@ -117,6 +120,21 @@ export default function StepQuiz({
           <h3>Your score: {score} / {content.quiz.length}</h3>
           <p>{message}</p>
           <p>No matter the score, you are still my person.</p>
+          <div className="quiz-bonus">
+            <p className="quiz-bonus-label">Mini surprise: tap the heart 5 times.</p>
+            <button
+              type="button"
+              className={`quiz-bonus-heart ${bonusUnlocked ? "is-unlocked" : ""}`}
+              onClick={() => setBonusTaps((prev) => Math.min(prev + 1, 5))}
+            >
+              {"<3"}
+            </button>
+            <p className="quiz-bonus-note">
+              {bonusUnlocked
+                ? "Unlocked: You are my safest place, always."
+                : `${bonusTaps}/5 taps`}
+            </p>
+          </div>
         </div>
       )}
 
