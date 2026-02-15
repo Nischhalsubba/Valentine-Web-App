@@ -18,6 +18,9 @@ export default function StepMemory({
   const [pressedCardKey, setPressedCardKey] = useState<string | null>(null);
   const [secretCardKey, setSecretCardKey] = useState<string | null>(null);
   const [activeChapterId, setActiveChapterId] = useState(content.chapters[0]?.id ?? "");
+  const [collapsedChapterIds, setCollapsedChapterIds] = useState<string[]>(
+    () => content.chapters.slice(1).map((chapter) => chapter.id)
+  );
   const [laneProgress, setLaneProgress] = useState(0);
   const [transitionModule, setTransitionModule] = useState<any>(null);
   const [openedMemoryKeys, setOpenedMemoryKeys] = useState<string[]>(() => {
@@ -161,8 +164,15 @@ export default function StepMemory({
     if (!target) {
       return;
     }
+    setCollapsedChapterIds((prev) => prev.filter((id) => id !== chapterId));
     setActiveChapterId(chapterId);
     void smoothScrollToChapter(target, reducedMotion);
+  };
+
+  const toggleChapter = (chapterId: string) => {
+    setCollapsedChapterIds((prev) =>
+      prev.includes(chapterId) ? prev.filter((id) => id !== chapterId) : [...prev, chapterId]
+    );
   };
 
   const openMemory = (
@@ -240,6 +250,8 @@ export default function StepMemory({
             className={`jump-pill ${activeChapterId === chapter.id ? "is-active" : ""}`}
             type="button"
             onClick={() => jumpToChapter(chapter.id)}
+            aria-pressed={activeChapterId === chapter.id}
+            aria-controls={`${chapter.id}-panel`}
           >
             {chapter.title.replace("Chapter ", "Ch ")}
           </button>
@@ -266,67 +278,84 @@ export default function StepMemory({
       </section>
 
       <div className="chapter-list">
-        {content.chapters.map((chapter) => (
-          <article
-            key={chapter.id}
-            id={chapter.id}
-            className="chapter"
-            ref={(node) => {
-              chapterRefs.current[chapter.id] = node;
-            }}
-          >
-            <header className="chapter-head">
-              <h3>{chapter.title}</h3>
-              <p>{chapter.memories.length} memories</p>
-            </header>
-            {chapter.reflection ? <p className="chapter-reflection">{chapter.reflection}</p> : null}
-            <div className="memory-grid">
-              {chapter.memories.map((memory, index) => {
-                const cardKey = `${chapter.id}-${index}`;
-                const isActive = activeCardKey === cardKey;
-                const isPressed = pressedCardKey === cardKey;
-                const isOpened = openedMemoryKeys.includes(cardKey);
-                const showSecret = secretCardKey === cardKey && Boolean(memory.secret);
-                return (
-                  <button
-                    key={cardKey}
-                    type="button"
-                    className={`memory-card ${isActive ? "is-active" : ""} ${isPressed ? "is-pressed" : ""} ${
-                      isOpened ? "is-opened" : ""
-                    }`}
-                    onClick={(event) =>
-                      openMemory(chapter.id, index, memory, event.currentTarget)
-                    }
-                    onPointerDown={() => {
-                      setPressedCardKey(cardKey);
-                      startLongPress(cardKey, Boolean(memory.secret));
-                    }}
-                    onPointerUp={() => {
-                      setPressedCardKey(null);
-                      cancelLongPress();
-                    }}
-                    onPointerLeave={() => {
-                      setPressedCardKey(null);
-                      cancelLongPress();
-                    }}
-                    onPointerCancel={() => {
-                      setPressedCardKey(null);
-                      cancelLongPress();
-                    }}
-                  >
-                    <div className="memory-face memory-front">
-                      <time>{memory.date}</time>
-                      <h4>{memory.title}</h4>
-                      <p>{memory.caption}</p>
-                      {memory.secret ? <span className="memory-longpress-note">Hold to unlock tiny secret</span> : null}
-                      {showSecret ? <p className="memory-secret">{memory.secret}</p> : null}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </article>
-        ))}
+        {content.chapters.map((chapter) => {
+          const isCollapsed = collapsedChapterIds.includes(chapter.id);
+          return (
+            <article
+              key={chapter.id}
+              id={chapter.id}
+              className="chapter"
+              ref={(node) => {
+                chapterRefs.current[chapter.id] = node;
+              }}
+            >
+              <header className="chapter-head">
+                <button
+                  className="chapter-toggle"
+                  type="button"
+                  onClick={() => toggleChapter(chapter.id)}
+                  aria-expanded={!isCollapsed}
+                  aria-controls={`${chapter.id}-panel`}
+                >
+                  <span className="chapter-toggle-copy">
+                    <h3 className="chapter-title">{chapter.title}</h3>
+                    <span className="chapter-count">{chapter.memories.length} memories</span>
+                  </span>
+                  <span className={`chapter-chevron ${isCollapsed ? "" : "is-open"}`} aria-hidden>
+                    v
+                  </span>
+                </button>
+              </header>
+              <div id={`${chapter.id}-panel`} hidden={isCollapsed}>
+                {chapter.reflection ? <p className="chapter-reflection">{chapter.reflection}</p> : null}
+                <div className="memory-grid">
+                  {chapter.memories.map((memory, index) => {
+                    const cardKey = `${chapter.id}-${index}`;
+                    const isActive = activeCardKey === cardKey;
+                    const isPressed = pressedCardKey === cardKey;
+                    const isOpened = openedMemoryKeys.includes(cardKey);
+                    const showSecret = secretCardKey === cardKey && Boolean(memory.secret);
+                    return (
+                      <button
+                        key={cardKey}
+                        type="button"
+                        className={`memory-card ${isActive ? "is-active" : ""} ${isPressed ? "is-pressed" : ""} ${
+                          isOpened ? "is-opened" : ""
+                        }`}
+                        aria-label={`Open memory: ${memory.title} (${memory.date})`}
+                        onClick={(event) => openMemory(chapter.id, index, memory, event.currentTarget)}
+                        onPointerDown={() => {
+                          setPressedCardKey(cardKey);
+                          startLongPress(cardKey, Boolean(memory.secret));
+                        }}
+                        onPointerUp={() => {
+                          setPressedCardKey(null);
+                          cancelLongPress();
+                        }}
+                        onPointerLeave={() => {
+                          setPressedCardKey(null);
+                          cancelLongPress();
+                        }}
+                        onPointerCancel={() => {
+                          setPressedCardKey(null);
+                          cancelLongPress();
+                        }}
+                      >
+                        <div className="memory-face memory-front">
+                          <time>{memory.date}</time>
+                          <h4>{memory.title}</h4>
+                          <p>{memory.caption}</p>
+                          {memory.secret ? <span className="memory-longpress-note">Hold to unlock tiny secret</span> : null}
+                          {showSecret ? <p className="memory-secret">{memory.secret}</p> : null}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       {CSSTransition ? (

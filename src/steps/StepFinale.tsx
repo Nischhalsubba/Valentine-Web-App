@@ -246,6 +246,7 @@ export default function StepFinale({
               key={coupon}
               type="button"
               aria-pressed={collected}
+              aria-label={`Coupon ${index + 1}: ${coupon}. ${collected ? "Redeemed" : "Not redeemed"}`}
               onClick={() => toggleCoupon(index)}
             >
               <p className="coupon-kicker">Coupon {index + 1}</p>

@@ -5,18 +5,68 @@ import StepShell from "../components/StepShell";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import type { StepComponentProps } from "../types/content";
 
+const QUIZ_STORAGE_KEY = "valentine:quiz-state";
+const QUIZ_BONUS_MAX = 5;
+
+interface StoredQuizState {
+  questionIndex: number;
+  score: number;
+  completed: boolean;
+  bonusTaps: number;
+}
+
+function readStoredQuizState(totalQuestions: number): StoredQuizState {
+  const fallback: StoredQuizState = {
+    questionIndex: 0,
+    score: 0,
+    completed: false,
+    bonusTaps: 0
+  };
+
+  if (typeof window === "undefined") {
+    return fallback;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY);
+    if (!raw) {
+      return fallback;
+    }
+
+    const parsed = JSON.parse(raw) as Partial<StoredQuizState>;
+    const maxQuestionIndex = Math.max(0, totalQuestions - 1);
+    const questionIndex = Math.min(
+      maxQuestionIndex,
+      Math.max(0, Number(parsed.questionIndex ?? fallback.questionIndex))
+    );
+    const score = Math.min(totalQuestions, Math.max(0, Number(parsed.score ?? fallback.score)));
+    const completed = Boolean(parsed.completed);
+    const bonusTaps = Math.min(QUIZ_BONUS_MAX, Math.max(0, Number(parsed.bonusTaps ?? fallback.bonusTaps)));
+
+    return {
+      questionIndex: completed ? maxQuestionIndex : questionIndex,
+      score,
+      completed,
+      bonusTaps
+    };
+  } catch {
+    return fallback;
+  }
+}
+
 export default function StepQuiz({
   content,
   onBack,
   onNext
 }: StepComponentProps) {
   const reducedMotion = usePrefersReducedMotion();
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const initialState = useMemo(() => readStoredQuizState(content.quiz.length), [content.quiz.length]);
+  const [questionIndex, setQuestionIndex] = useState(initialState.questionIndex);
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const [score, setScore] = useState(0);
-  const [completed, setCompleted] = useState(false);
+  const [score, setScore] = useState(initialState.score);
+  const [completed, setCompleted] = useState(initialState.completed);
   const [feedbackNote, setFeedbackNote] = useState("");
-  const [bonusTaps, setBonusTaps] = useState(0);
+  const [bonusTaps, setBonusTaps] = useState(initialState.bonusTaps);
   const questionRef = useRef<HTMLDivElement>(null);
 
   const currentQuestion = content.quiz[questionIndex];
@@ -28,6 +78,21 @@ export default function StepQuiz({
     }
     void animateQuestionSwap(questionRef.current, reducedMotion);
   }, [questionIndex, reducedMotion, completed]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    window.localStorage.setItem(
+      QUIZ_STORAGE_KEY,
+      JSON.stringify({
+        questionIndex,
+        score,
+        completed,
+        bonusTaps
+      })
+    );
+  }, [bonusTaps, completed, questionIndex, score]);
 
   const message = useMemo(() => {
     if (score >= 8) {
@@ -68,7 +133,7 @@ export default function StepQuiz({
     setFeedbackNote("");
   };
 
-  const bonusUnlocked = bonusTaps >= 5;
+  const bonusUnlocked = bonusTaps >= QUIZ_BONUS_MAX;
 
   return (
     <StepShell
@@ -95,6 +160,8 @@ export default function StepQuiz({
                 key={option}
                 className={`quiz-option ${selectedOption === option ? "is-selected" : ""}`}
                 type="button"
+                aria-pressed={selectedOption === option}
+                aria-label={`Answer option: ${option}`}
                 onClick={(event) => handleOption(option, event.currentTarget)}
               >
                 {option}
@@ -122,20 +189,21 @@ export default function StepQuiz({
           <p>No matter the score, you are still my person.</p>
           <div className="quiz-bonus">
             <p className="quiz-bonus-label">Mini surprise: tap the heart 5 times.</p>
-            <button
-              type="button"
-              className={`quiz-bonus-heart ${bonusUnlocked ? "is-unlocked" : ""}`}
-              onClick={() => setBonusTaps((prev) => Math.min(prev + 1, 5))}
-            >
-              {"<3"}
-            </button>
-            <p className="quiz-bonus-note">
-              {bonusUnlocked
-                ? "Unlocked: You are my safest place, always."
-                : `${bonusTaps}/5 taps`}
-            </p>
+              <button
+                type="button"
+                className={`quiz-bonus-heart ${bonusUnlocked ? "is-unlocked" : ""}`}
+                aria-label="Tap heart to unlock surprise"
+                onClick={() => setBonusTaps((prev) => Math.min(prev + 1, QUIZ_BONUS_MAX))}
+              >
+                {"<3"}
+              </button>
+              <p className="quiz-bonus-note">
+                {bonusUnlocked
+                  ? "Unlocked: You are my safest place, always."
+                  : `${bonusTaps}/${QUIZ_BONUS_MAX} taps`}
+              </p>
+            </div>
           </div>
-        </div>
       )}
 
       <StepActions

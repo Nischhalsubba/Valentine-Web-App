@@ -183,6 +183,12 @@ p {
   background: #e7f6f6;
 }
 
+.rest-note {
+  margin-top: var(--s1);
+  color: #5f7070;
+  font-size: 12px;
+}
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -782,22 +788,64 @@ p {
 }
 
 .chapter-head {
+  margin-bottom: var(--s2);
+}
+
+.chapter-toggle {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #e9dbd2;
+  border-radius: var(--radius-btn);
+  background: #fffdfb;
+  padding: var(--s2) var(--s3);
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: baseline;
   gap: var(--s3);
-  margin-bottom: var(--s3);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
 
-.chapter-head h3 {
+.chapter-toggle:hover {
+  border-color: #dbc6cf;
+  transform: translateY(-1px);
+}
+
+.chapter-toggle:focus-visible {
+  outline: 3px solid rgba(232, 93, 117, 0.28);
+  outline-offset: 2px;
+}
+
+.chapter-toggle-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.chapter-title {
+  display: block;
+  font-family: "Playfair Display", serif;
   font-size: 24px;
+  line-height: 1.2;
 }
 
-.chapter-head p {
+.chapter-count {
+  display: block;
+  margin-bottom: 0;
   font-size: 12px;
   color: var(--muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.chapter-chevron {
+  font-size: 12px;
+  color: #8a6673;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.chapter-chevron.is-open {
+  transform: rotate(180deg);
 }
 
 .chapter-reflection {
@@ -1143,6 +1191,7 @@ p {
 .coupon-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-auto-rows: 1fr;
   gap: var(--s3);
 }
 
@@ -1155,6 +1204,10 @@ p {
   position: relative;
   text-align: left;
   min-height: 170px;
+  height: 100%;
+  display: grid;
+  align-content: start;
+  gap: var(--s2);
   cursor: pointer;
   transition:
     transform var(--dur-micro) var(--ease-out),
@@ -1509,9 +1562,12 @@ p {
     display: block;
   }
 
-  .reason-head p,
-  .chapter-head p {
+  .reason-head p {
     margin-top: var(--s1);
+  }
+
+  .chapter-title {
+    font-size: 20px;
   }
 
   .memory-grid {

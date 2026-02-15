@@ -163,9 +163,11 @@ export default function App() {
             type="button"
             onClick={() => setRestMode((prev) => !prev)}
             aria-pressed={restMode}
+            aria-label={restMode ? "Rest mode on. Tap to turn off." : "Rest mode off. Tap to reduce motion."}
           >
             {restMode ? "Rest mode on" : "Rest mode"}
           </button>
+          <p className="rest-note">Rest mode reduces visual motion for a calmer reading experience.</p>
         </div>
 
         <div className="stepper-frame">
