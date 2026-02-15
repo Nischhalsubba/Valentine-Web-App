@@ -1,216 +1,203 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { animateAnswerFeedback, animateQuestionSwap } from "../animations/quizAnimations";
+import { useMemo, useState } from "react";
 import StepActions from "../components/StepActions";
 import StepShell from "../components/StepShell";
-import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
-import type { StepComponentProps } from "../types/content";
+import type { StepComponentProps } from "../types/app";
+import { localize } from "../utils/i18n";
+import { getJSON, setJSON } from "../utils/storage";
 
-const QUIZ_STORAGE_KEY = "valentine:quiz-state";
-const QUIZ_BONUS_MAX = 5;
+const QUIZ_BEST_SCORE_KEY = "mutu.quiz.bestScore";
 
-interface StoredQuizState {
-  questionIndex: number;
-  score: number;
-  completed: boolean;
-  bonusTaps: number;
+interface MatchCard {
+  id: string;
+  pairId: string;
+  label: string;
+  kind: "date" | "moment";
 }
 
-function readStoredQuizState(totalQuestions: number): StoredQuizState {
-  const fallback: StoredQuizState = {
-    questionIndex: 0,
-    score: 0,
-    completed: false,
-    bonusTaps: 0
-  };
-
-  if (typeof window === "undefined") {
-    return fallback;
+function shuffle<T>(items: T[]): T[] {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
   }
-
-  try {
-    const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY);
-    if (!raw) {
-      return fallback;
-    }
-
-    const parsed = JSON.parse(raw) as Partial<StoredQuizState>;
-    const maxQuestionIndex = Math.max(0, totalQuestions - 1);
-    const questionIndex = Math.min(
-      maxQuestionIndex,
-      Math.max(0, Number(parsed.questionIndex ?? fallback.questionIndex))
-    );
-    const score = Math.min(totalQuestions, Math.max(0, Number(parsed.score ?? fallback.score)));
-    const completed = Boolean(parsed.completed);
-    const bonusTaps = Math.min(QUIZ_BONUS_MAX, Math.max(0, Number(parsed.bonusTaps ?? fallback.bonusTaps)));
-
-    return {
-      questionIndex: completed ? maxQuestionIndex : questionIndex,
-      score,
-      completed,
-      bonusTaps
-    };
-  } catch {
-    return fallback;
-  }
+  return result;
 }
 
-export default function StepQuiz({
-  content,
-  onBack,
-  onNext
-}: StepComponentProps) {
-  const reducedMotion = usePrefersReducedMotion();
-  const initialState = useMemo(() => readStoredQuizState(content.quiz.length), [content.quiz.length]);
-  const [questionIndex, setQuestionIndex] = useState(initialState.questionIndex);
-  const [selectedOption, setSelectedOption] = useState<string>("");
-  const [score, setScore] = useState(initialState.score);
-  const [completed, setCompleted] = useState(initialState.completed);
-  const [feedbackNote, setFeedbackNote] = useState("");
-  const [bonusTaps, setBonusTaps] = useState(initialState.bonusTaps);
-  const questionRef = useRef<HTMLDivElement>(null);
+export default function StepQuiz({ content, languageMode, onBack, onNext }: StepComponentProps) {
+  const quiz = content.play.quiz;
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const [quizComplete, setQuizComplete] = useState(false);
+  const [bestScore, setBestScore] = useState<number>(() => getJSON<number>(QUIZ_BEST_SCORE_KEY, 0));
 
-  const currentQuestion = content.quiz[questionIndex];
-  const questionProgress = ((questionIndex + 1) / content.quiz.length) * 100;
+  const currentQuestion = quiz.questions[questionIndex];
 
-  useEffect(() => {
-    if (completed) {
+  const pairs = useMemo(() => {
+    return content.timeline.items.slice(0, content.play.memoryMatch.pairCount).map((item) => ({
+      id: item.id,
+      date: item.displayDate,
+      moment: localize(item.title, languageMode).primary
+    }));
+  }, [content.play.memoryMatch.pairCount, content.timeline.items, languageMode]);
+
+  const cards = useMemo(() => {
+    const collection: MatchCard[] = [];
+    pairs.forEach((pair) => {
+      collection.push(
+        { id: `${pair.id}-date`, pairId: pair.id, label: pair.date, kind: "date" },
+        { id: `${pair.id}-moment`, pairId: pair.id, label: pair.moment, kind: "moment" }
+      );
+    });
+    return shuffle(collection);
+  }, [pairs]);
+
+  const [openIds, setOpenIds] = useState<string[]>([]);
+  const [matchedPairIds, setMatchedPairIds] = useState<string[]>([]);
+  const [attempts, setAttempts] = useState(0);
+
+  const submitAnswer = (index: number) => {
+    if (selectedIndex !== null) {
       return;
     }
-    void animateQuestionSwap(questionRef.current, reducedMotion);
-  }, [questionIndex, reducedMotion, completed]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
+    setSelectedIndex(index);
+    const correct = index === currentQuestion.answerIndex;
+    const note = correct ? currentQuestion.feedbackCorrect : currentQuestion.feedbackWrong;
+    setFeedback(localize(note, languageMode).primary);
+    if (correct) {
+      setScore((prev) => prev + 1);
     }
-    window.localStorage.setItem(
-      QUIZ_STORAGE_KEY,
-      JSON.stringify({
-        questionIndex,
-        score,
-        completed,
-        bonusTaps
-      })
-    );
-  }, [bonusTaps, completed, questionIndex, score]);
-
-  const message = useMemo(() => {
-    if (score >= 8) {
-      return content.quizMessages.high;
-    }
-    if (score >= 5) {
-      return content.quizMessages.mid;
-    }
-    return content.quizMessages.low;
-  }, [content.quizMessages.high, content.quizMessages.low, content.quizMessages.mid, score]);
-
-  const handleOption = (option: string, target: HTMLButtonElement) => {
-    const isCorrect = option === currentQuestion.answer;
-    setSelectedOption(option);
-    setFeedbackNote(isCorrect ? "Yes. Sacred memory." : "Nice try, mutu.");
-    target.parentElement
-      ?.querySelectorAll<HTMLButtonElement>(".quiz-option")
-      .forEach((node) => node.classList.remove("is-correct", "is-wrong"));
-    void animateAnswerFeedback(target, isCorrect, reducedMotion);
   };
 
   const nextQuestion = () => {
-    if (!selectedOption) {
+    if (selectedIndex === null) {
       return;
     }
-
-    if (selectedOption === currentQuestion.answer) {
-      setScore((prev) => prev + 1);
-    }
-
-    if (questionIndex >= content.quiz.length - 1) {
-      setCompleted(true);
+    if (questionIndex >= quiz.questions.length - 1) {
+      const finalScore = score;
+      const best = Math.max(bestScore, finalScore);
+      setBestScore(best);
+      setJSON(QUIZ_BEST_SCORE_KEY, best);
+      setQuizComplete(true);
       return;
     }
-
     setQuestionIndex((prev) => prev + 1);
-    setSelectedOption("");
-    setFeedbackNote("");
+    setSelectedIndex(null);
+    setFeedback("");
   };
 
-  const bonusUnlocked = bonusTaps >= QUIZ_BONUS_MAX;
+  const selectMatchCard = (card: MatchCard) => {
+    const locked = matchedPairIds.includes(card.pairId) || openIds.includes(card.id) || openIds.length >= 2;
+    if (locked) {
+      return;
+    }
+
+    const nextOpen = [...openIds, card.id];
+    setOpenIds(nextOpen);
+    if (nextOpen.length < 2) {
+      return;
+    }
+
+    setAttempts((prev) => prev + 1);
+    const [firstId, secondId] = nextOpen;
+    const first = cards.find((item) => item.id === firstId);
+    const second = cards.find((item) => item.id === secondId);
+    if (first && second && first.pairId === second.pairId) {
+      window.setTimeout(() => {
+        setMatchedPairIds((prev) => [...prev, first.pairId]);
+        setOpenIds([]);
+      }, 260);
+      return;
+    }
+
+    window.setTimeout(() => {
+      setOpenIds([]);
+    }, 700);
+  };
+
+  const allMatched = matchedPairIds.length === pairs.length;
 
   return (
     <StepShell
-      eyebrow="Step 4/5 - Play"
-      title="Relationship quiz"
-      subtitle="One personal question at a time."
+      eyebrow="Step 6"
+      title={localize(quiz.title, languageMode).primary}
+      subtitle={localize(quiz.subtitle, languageMode).primary}
     >
-      {!completed ? (
-        <div className="quiz-card" ref={questionRef}>
+      {!quizComplete ? (
+        <div className="quiz-card">
           <p className="quiz-meta">
-            <span key={questionIndex} className="quiz-counter">
-              Question {questionIndex + 1} / {content.quiz.length}
+            <span>
+              {questionIndex + 1}/{quiz.questions.length}
             </span>
-            <span>Score: {score}</span>
+            <span>
+              Score: {score}/{quiz.questions.length}
+            </span>
           </p>
-          <div className="quiz-track" aria-hidden>
-            <div className="quiz-track-fill" style={{ width: `${questionProgress}%` }} />
-          </div>
-          <h3>{currentQuestion.question}</h3>
-          <p className="quiz-note">Choose one answer. You can trust your heart or your memory.</p>
+          <h3>{localize(currentQuestion.question, languageMode).primary}</h3>
           <div className="quiz-options">
-            {currentQuestion.options.map((option) => (
-              <button
-                key={option}
-                className={`quiz-option ${selectedOption === option ? "is-selected" : ""}`}
-                type="button"
-                aria-pressed={selectedOption === option}
-                aria-label={`Answer option: ${option}`}
-                onClick={(event) => handleOption(option, event.currentTarget)}
-              >
-                {option}
-              </button>
-            ))}
+            {currentQuestion.options.map((option, index) => {
+              const copy = localize(option, languageMode);
+              const selected = selectedIndex === index;
+              return (
+                <button
+                  key={`${currentQuestion.id}-${option.en}-${option.np}`}
+                  className={`quiz-option ${selected ? "is-selected" : ""}`}
+                  type="button"
+                  onClick={() => submitAnswer(index)}
+                >
+                  <span>{copy.primary}</span>
+                  {copy.secondary ? <span className="bilingual-secondary">{copy.secondary}</span> : null}
+                </button>
+              );
+            })}
           </div>
-          <p
-            className={`quiz-feedback ${
-              selectedOption === currentQuestion.answer ? "is-correct" : "is-wrong"
-            } ${feedbackNote ? "is-visible" : ""}`}
-            role="status"
-            aria-live="polite"
-          >
-            {feedbackNote}
-          </p>
-
-          <button className="btn btn-primary" type="button" onClick={nextQuestion} disabled={!selectedOption}>
-            {questionIndex >= content.quiz.length - 1 ? "Finish quiz" : "Next question"}
+          <p className={`quiz-feedback ${feedback ? "is-visible" : ""}`}>{feedback}</p>
+          <button className="btn btn-primary" type="button" disabled={selectedIndex === null} onClick={nextQuestion}>
+            {questionIndex >= quiz.questions.length - 1 ? "Finish quiz" : "Next question"}
           </button>
         </div>
       ) : (
         <div className="quiz-result">
-          <h3>Your score: {score} / {content.quiz.length}</h3>
-          <p>{message}</p>
-          <p>No matter the score, you are still my person.</p>
-          <div className="quiz-bonus">
-            <p className="quiz-bonus-label">Mini surprise: tap the heart 5 times.</p>
-              <button
-                type="button"
-                className={`quiz-bonus-heart ${bonusUnlocked ? "is-unlocked" : ""}`}
-                aria-label="Tap heart to unlock surprise"
-                onClick={() => setBonusTaps((prev) => Math.min(prev + 1, QUIZ_BONUS_MAX))}
-              >
-                {"<3"}
-              </button>
-              <p className="quiz-bonus-note">
-                {bonusUnlocked
-                  ? "Unlocked: You are my safest place, always."
-                  : `${bonusTaps}/${QUIZ_BONUS_MAX} taps`}
-              </p>
-            </div>
-          </div>
+          <h3>
+            Quiz done: {score}/{quiz.questions.length}
+          </h3>
+          <p>Best score on this device: {bestScore}</p>
+        </div>
       )}
 
-      <StepActions
-        onBack={onBack}
-        onNext={onNext}
-        nextLabel={completed ? "Continue to finale" : "Skip to finale"}
-      />
+      {quizComplete ? (
+        <section className="match-game">
+          <header>
+            <h3>{localize(content.play.memoryMatch.title, languageMode).primary}</h3>
+            <p>{localize(content.play.memoryMatch.subtitle, languageMode).primary}</p>
+            <p>Attempts: {attempts}</p>
+          </header>
+
+          <div className="match-grid">
+            {cards.map((card) => {
+              const open = openIds.includes(card.id) || matchedPairIds.includes(card.pairId);
+              return (
+                <button
+                  key={card.id}
+                  className={`match-card ${open ? "is-open" : ""}`}
+                  type="button"
+                  onClick={() => selectMatchCard(card)}
+                >
+                  <span>{open ? card.label : "?"}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {allMatched ? (
+            <p className="match-complete">{localize(content.play.memoryMatch.endMessage, languageMode).primary}</p>
+          ) : null}
+        </section>
+      ) : null}
+
+      <StepActions onBack={onBack} onNext={onNext} nextLabel={quizComplete ? "Continue to promises" : "Skip to promises"} />
     </StepShell>
   );
 }

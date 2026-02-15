@@ -1,160 +1,92 @@
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import { initLetterAnimations } from "../animations/letterAnimations";
-import { MOTION_EASING, MOTION_MS } from "../animations/motionTokens";
+import { useMemo, useState } from "react";
 import StepActions from "../components/StepActions";
 import StepShell from "../components/StepShell";
-import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
-import type { StepComponentProps } from "../types/content";
+import type { StepComponentProps } from "../types/app";
+import { localize } from "../utils/i18n";
 
-const SpringReasonList = lazy(() => import("../components/SpringReasonList"));
+function splitLines(value: string) {
+  return value.split("\n").map((line) => line.trimEnd());
+}
 
 export default function StepLetter({
   content,
+  mood,
+  languageMode,
   onBack,
   onNext
 }: StepComponentProps) {
-  const reducedMotion = usePrefersReducedMotion();
+  const variant = content.letter.variants[mood];
+  const body = localize(variant.body, languageMode);
   const [revealedCount, setRevealedCount] = useState(0);
-  const [latestReasonId, setLatestReasonId] = useState<string | null>(null);
-  const [letterRead, setLetterRead] = useState(false);
-  const reasons = content.reasons.slice(0, revealedCount).map((text, index) => ({
-    id: `reason-${index}`,
-    text,
-    order: index + 1
-  }));
-  const letterRef = useRef<HTMLElement>(null);
-  const reasonContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    let disposed = false;
-    let cleanup: () => void = () => {};
+  const revealReasons = useMemo(
+    () =>
+      content.timeline.items.slice(0, 7).map((item) => ({
+        id: item.id,
+        text: localize(item.short, languageMode).primary
+      })),
+    [content.timeline.items, languageMode]
+  );
 
-    void initLetterAnimations(reasonContainerRef.current, reducedMotion).then((dispose) => {
-      if (disposed) {
-        dispose();
-        return;
-      }
-      cleanup = dispose;
-    });
-
-    return () => {
-      disposed = true;
-      cleanup();
-    };
-  }, [reducedMotion]);
-
-  useEffect(() => {
-    const letter = letterRef.current;
-    if (!letter) {
-      return;
-    }
-
-    if (typeof letter.animate === "function") {
-      letter.animate(
-        reducedMotion
-          ? [{ opacity: 0 }, { opacity: 1 }]
-          : [
-              { opacity: 0, transform: "translateY(10px)" },
-              { opacity: 1, transform: "translateY(0px)" }
-            ],
-        {
-          duration: reducedMotion ? 240 : MOTION_MS.ui,
-          easing: MOTION_EASING.inOut,
-          fill: "both"
-        }
-      );
-    }
-
-    const checkRead = () => {
-      const hasReachedEnd = letter.scrollTop + letter.clientHeight >= letter.scrollHeight - 6;
-      if (hasReachedEnd) {
-        setLetterRead(true);
-      }
-    };
-
-    checkRead();
-    letter.addEventListener("scroll", checkRead, { passive: true });
-    return () => {
-      letter.removeEventListener("scroll", checkRead);
-    };
-  }, [reducedMotion]);
-
-  useEffect(() => {
-    if (!latestReasonId) {
-      return;
-    }
-    const timer = window.setTimeout(() => setLatestReasonId(null), 320);
-    return () => window.clearTimeout(timer);
-  }, [latestReasonId]);
+  const revealedItems = revealReasons.slice(0, revealedCount);
+  const revealAll = revealedCount >= revealReasons.length;
+  const cta = localize(variant.cta, languageMode);
 
   const revealNext = () => {
-    setRevealedCount((prev) => {
-      const next = Math.min(prev + 1, content.reasons.length);
-      if (next > prev) {
-        setLatestReasonId(`reason-${next - 1}`);
-      }
-      return next;
-    });
+    setRevealedCount((prev) => Math.min(prev + 1, revealReasons.length));
   };
 
-  const allRevealed = revealedCount >= content.reasons.length;
-
   return (
-    <StepShell eyebrow="Step 2/5 - Relive" title={content.letter.heading} subtitle={content.letter.eyebrow}>
-      <article ref={letterRef} className="letter-sheet">
-        <p className="letter-copy">{content.letter.body}</p>
+    <StepShell
+      eyebrow="Step 2"
+      title={localize(content.letter.title, languageMode).primary}
+      subtitle={localize(content.timeline.subtitle, languageMode).primary}
+    >
+      <article className="letter-sheet">
+        <p className="letter-copy">
+          {splitLines(body.primary).map((line, index) => (
+            <span key={`en-${index}`}>
+              {line || <>&nbsp;</>}
+              <br />
+            </span>
+          ))}
+        </p>
+        {body.secondary ? (
+          <p className="letter-copy letter-copy-secondary">
+            {splitLines(body.secondary).map((line, index) => (
+              <span key={`np-${index}`}>
+                {line || <>&nbsp;</>}
+                <br />
+              </span>
+            ))}
+          </p>
+        ) : null}
       </article>
-      {!letterRead ? <p className="letter-progress-note">Scroll to the end of the letter to continue.</p> : null}
 
-      <section className="reason-section">
+      <section className="reason-section" aria-live="polite">
         <div className="reason-head">
-          <h3>{content.letter.revealPrompt}</h3>
-          <p>{revealedCount} of {content.reasons.length} revealed</p>
+          <h3>Tap to reveal the next one</h3>
+          <p>
+            {revealedCount}/{revealReasons.length}
+          </p>
         </div>
         <div className="reason-control">
-          <button
-            className="btn btn-secondary"
-            type="button"
-            onClick={revealNext}
-            disabled={allRevealed}
-          >
-            {allRevealed ? "All reasons revealed" : "Reveal next reason"}
+          <button className="btn btn-secondary" type="button" onClick={revealNext} disabled={revealAll}>
+            {revealAll ? "All revealed" : "Reveal next reason"}
           </button>
-          <p className="reason-microcopy">
-            {allRevealed ? "All revealed." : "Tap to reveal the next one."}
-          </p>
-          {allRevealed ? (
-            <p className="reveal-complete" role="status">
-              All revealed <span aria-hidden>done</span>
-            </p>
-          ) : null}
+          {revealAll ? <p className="reveal-complete">All revealed, mutu ❤️</p> : null}
         </div>
-
-        <div ref={reasonContainerRef} className="reason-container">
-          <Suspense
-            fallback={
-              <ul className="reason-list">
-                {reasons.map((reason) => (
-                  <li key={reason.id}>
-                    <span>Reason {reason.order}</span>
-                    {reason.text}
-                  </li>
-                ))}
-              </ul>
-            }
-          >
-            <SpringReasonList reasons={reasons} latestId={latestReasonId} reducedMotion={reducedMotion} />
-          </Suspense>
-        </div>
+        <ul className="reason-list">
+          {revealedItems.map((item, index) => (
+            <li key={item.id} className="reason-row is-fresh">
+              <span>Reason {index + 1}</span>
+              {item.text}
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <StepActions
-        canNext={letterRead}
-        onBack={onBack}
-        onNext={onNext}
-        nextLabel={letterRead ? (allRevealed ? "Continue" : "Skip to memory lane") : "Scroll to continue"}
-      />
+      <StepActions onBack={onBack} onNext={onNext} nextLabel={cta.primary || "Continue"} />
     </StepShell>
   );
 }
-

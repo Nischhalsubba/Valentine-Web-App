@@ -1,50 +1,63 @@
 import {
   Suspense,
-  type FormEvent,
   lazy,
+  type ComponentType,
+  type FormEvent,
+  type LazyExoticComponent,
   useEffect,
   useMemo,
-  useState,
-  type ComponentType,
-  type CSSProperties,
-  type LazyExoticComponent
+  useState
 } from "react";
 import contentData from "./content/content.json";
-import StepActions from "./components/StepActions";
-import type { AppContent, StepComponentProps } from "./types/content";
+import type { AppUnlocks, StepComponentProps } from "./types/app";
+import type { LanguageMode, MoodMode, MutuContent } from "./types/mutu";
+import { localize } from "./utils/i18n";
+import { getJSON, setJSON } from "./utils/storage";
+import { useReducedMotion, type MotionPreference } from "./hooks/useReducedMotion";
 
-function FallbackStep(label: string): ComponentType<StepComponentProps> {
+type StepLoader = () => Promise<{ default: ComponentType<StepComponentProps> }>;
+
+const STEP_COMPONENTS: Record<string, StepLoader> = {
+  step_cover: () => import("./steps/StepCover"),
+  step_letter: () => import("./steps/StepLetter"),
+  step_timeline: () => import("./steps/StepMemory"),
+  step_gallery: () => import("./steps/StepGallery"),
+  step_nurse: () => import("./steps/StepNurse"),
+  step_play: () => import("./steps/StepQuiz"),
+  step_promises: () => import("./steps/StepPromises"),
+  step_finale: () => import("./steps/StepFinale")
+};
+
+const STORAGE_STEP = "mutu.progress.step";
+const STORAGE_UNLOCKS = "mutu.unlocks";
+const STORAGE_LANGUAGE = "mutu.settings.languageMode";
+const STORAGE_MOOD = "mutu.settings.mood";
+const STORAGE_MOTION = "mutu.settings.reducedMotion";
+
+function clampStep(index: number, max: number): number {
+  return Math.max(0, Math.min(index, max));
+}
+
+function fallbackStep(label: string): ComponentType<StepComponentProps> {
   return ({ onBack, onNext, onRestart }) => (
     <section className="panel">
-      <p className="eyebrow">Fallback Mode</p>
+      <p className="eyebrow">Fallback Step</p>
       <h2>{label}</h2>
-      <p className="subtitle">
-        This step chunk failed to load. You can continue with the next step or restart.
-      </p>
+      <p className="subtitle">This chapter failed to load. You can continue without losing progress.</p>
       <div className="step-actions">
+        <button className="btn btn-secondary" type="button" onClick={onBack}>
+          Back
+        </button>
+        <button className="btn btn-primary" type="button" onClick={onNext}>
+          Continue
+        </button>
         <button className="btn btn-secondary" type="button" onClick={onRestart}>
           Restart
         </button>
       </div>
-      <StepActions onBack={onBack} onNext={onNext} />
     </section>
   );
 }
-
-function StepLoading() {
-  return (
-    <section className="panel panel-loading" aria-live="polite">
-      <div className="soft-loader" aria-hidden>
-        <span />
-      </div>
-      <p className="eyebrow">Loading</p>
-      <h2>Opening the next chapter...</h2>
-      <p className="subtitle">One moment while we prepare your next memory.</p>
-    </section>
-  );
-}
-
-type StepLoader = () => Promise<{ default: ComponentType<StepComponentProps> }>;
 
 function safeLazyStep(
   loader: StepLoader,
@@ -54,193 +67,182 @@ function safeLazyStep(
     try {
       return await loader();
     } catch {
-      return { default: FallbackStep(fallbackLabel) };
+      return { default: fallbackStep(fallbackLabel) };
     }
   });
 }
 
-const coverLoader: StepLoader = () => import("./steps/StepCover");
-const letterLoader: StepLoader = () => import("./steps/StepLetter");
-const memoryLoader: StepLoader = () => import("./steps/StepMemory");
-const quizLoader: StepLoader = () => import("./steps/StepQuiz");
-const finaleLoader: StepLoader = () => import("./steps/StepFinale");
-
-type StepDefinition = {
-  id: string;
-  label: string;
-  Component: LazyExoticComponent<ComponentType<StepComponentProps>>;
-  loader: StepLoader;
-};
-
-const stepDefinitions: StepDefinition[] = [
-  { id: "cover", label: "Open", Component: safeLazyStep(coverLoader, "Step 1: Cover"), loader: coverLoader },
-  { id: "letter", label: "Relive", Component: safeLazyStep(letterLoader, "Step 2: Letter"), loader: letterLoader },
-  { id: "memory", label: "Memory", Component: safeLazyStep(memoryLoader, "Step 3: Memory"), loader: memoryLoader },
-  { id: "quiz", label: "Play", Component: safeLazyStep(quizLoader, "Step 4: Quiz"), loader: quizLoader },
-  { id: "finale", label: "Promise", Component: safeLazyStep(finaleLoader, "Step 5: Finale"), loader: finaleLoader }
-];
-
-const STEP_STORAGE_KEY = "valentine:active-step";
-const REST_MODE_STORAGE_KEY = "valentine:rest-mode";
-const ACCESS_UNLOCK_UNTIL_KEY = "valentine:access-unlocked-until";
-
-function clampStep(index: number, max: number): number {
-  return Math.min(Math.max(index, 0), max);
+function stepLoaderById(stepId: string): StepLoader {
+  return STEP_COMPONENTS[stepId] ?? (() => Promise.resolve({ default: fallbackStep(stepId) }));
 }
 
-function readStoredStep(max: number) {
+function readStoredMode<T extends string>(key: string, fallback: T): T {
   if (typeof window === "undefined") {
-    return 0;
+    return fallback;
   }
-
-  const raw = window.localStorage.getItem(STEP_STORAGE_KEY);
-  const parsed = Number.parseInt(raw ?? "", 10);
-  if (!Number.isFinite(parsed)) {
-    return 0;
-  }
-
-  return clampStep(parsed, max);
-}
-
-function readRestMode() {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  return window.localStorage.getItem(REST_MODE_STORAGE_KEY) === "true";
-}
-
-function readAccessUnlockState() {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  const raw = window.localStorage.getItem(ACCESS_UNLOCK_UNTIL_KEY);
-  const unlockUntil = Number(raw);
-  return Number.isFinite(unlockUntil) && unlockUntil > Date.now();
-}
-
-function resolveAccessPin(content: AppContent) {
-  const envPin = import.meta.env.VITE_APP_PRIVATE_PIN?.trim();
-  const fallbackPin = content.meta.lock?.fallbackPin?.trim();
-  return envPin || fallbackPin || "";
+  const value = window.localStorage.getItem(key);
+  return (value as T) || fallback;
 }
 
 export default function App() {
-  const content = contentData as AppContent;
-  const lockConfig = content.meta.lock;
-  const isLockEnabled = lockConfig?.enabled ?? false;
-  const accessPin = resolveAccessPin(content);
-  const accessSessionHours = Math.max(1, lockConfig?.sessionHours ?? 12);
-  const totalSteps = stepDefinitions.length;
-  const [stepIndex, setStepIndex] = useState(() => readStoredStep(totalSteps - 1));
-  const [restMode, setRestMode] = useState(readRestMode);
-  const [isUnlocked, setIsUnlocked] = useState(() => !isLockEnabled || readAccessUnlockState());
-  const [pinInput, setPinInput] = useState("");
-  const [pinError, setPinError] = useState("");
-  const stepProgress = (stepIndex / (totalSteps - 1)) * 100;
+  const content = contentData as MutuContent;
+  const steps = content.steps.filter((step) => Boolean(STEP_COMPONENTS[step.id]));
+  const maxStepIndex = Math.max(0, steps.length - 1);
 
-  const currentStep = useMemo(() => stepDefinitions[stepIndex], [stepIndex]);
+  const [languageMode, setLanguageMode] = useState<LanguageMode>(() =>
+    readStoredMode(STORAGE_LANGUAGE, content.settings.languageModeDefault)
+  );
+  const [mood, setMood] = useState<MoodMode>(() => readStoredMode(STORAGE_MOOD, content.settings.moodDefault));
+  const [motionPreference, setMotionPreference] = useState<MotionPreference>(() =>
+    readStoredMode(STORAGE_MOTION, content.settings.reducedMotionDefault)
+  );
+  const reducedMotion = useReducedMotion(motionPreference);
+
+  const [stepIndex, setStepIndex] = useState(() =>
+    clampStep(getJSON<number>(STORAGE_STEP, 0), maxStepIndex)
+  );
+  const [unlocks, setUnlocks] = useState<AppUnlocks>(() => {
+    const base = getJSON<AppUnlocks>(STORAGE_UNLOCKS, {
+      gate: !content.gate.enabled,
+      vault: false,
+      futurePasscodes: {}
+    });
+    if (!content.gate.enabled) {
+      return { ...base, gate: true };
+    }
+    return base;
+  });
+  const [gateInput, setGateInput] = useState("");
+  const [gateHintVisible, setGateHintVisible] = useState(false);
+  const [gateError, setGateError] = useState("");
+
+  const stepDefinitions = useMemo(
+    () =>
+      steps.map((step, index) => {
+        const copy = localize(step.label, languageMode);
+        return {
+          id: step.id,
+          label: copy.primary,
+          subtitle: copy.secondary,
+          Component: safeLazyStep(stepLoaderById(step.id), `Step ${index + 1}`)
+        };
+      }),
+    [languageMode, steps]
+  );
+
+  const currentStep = stepDefinitions[stepIndex] ?? stepDefinitions[0];
   const CurrentComponent = currentStep.Component;
+
+  useEffect(() => {
+    setJSON(STORAGE_STEP, stepIndex);
+  }, [stepIndex]);
+
+  useEffect(() => {
+    setJSON(STORAGE_UNLOCKS, unlocks);
+  }, [unlocks]);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_LANGUAGE, languageMode);
+  }, [languageMode]);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_MOOD, mood);
+  }, [mood]);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_MOTION, motionPreference);
+  }, [motionPreference]);
 
   useEffect(() => {
     const nextStep = stepDefinitions[stepIndex + 1];
     if (!nextStep) {
       return;
     }
-    void nextStep.loader().catch(() => {
-      // Allow lazy fallback to handle chunk errors.
-    });
-  }, [stepIndex]);
+    void stepLoaderById(nextStep.id)().catch(() => undefined);
+  }, [stepDefinitions, stepIndex]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    window.localStorage.setItem(STEP_STORAGE_KEY, String(stepIndex));
-  }, [stepIndex]);
+  const goTo = (index: number) => setStepIndex(clampStep(index, maxStepIndex));
+  const goNext = () => goTo(stepIndex + 1);
+  const goBack = () => goTo(stepIndex - 1);
+  const goStart = () => goTo(0);
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    window.localStorage.setItem(REST_MODE_STORAGE_KEY, String(restMode));
-  }, [restMode]);
+  const handleUnlockVault = () => {
+    setUnlocks((prev) => ({ ...prev, vault: true }));
+  };
 
-  const goNext = () => setStepIndex((prev) => clampStep(prev + 1, totalSteps - 1));
-  const goBack = () => setStepIndex((prev) => clampStep(prev - 1, totalSteps - 1));
-  const goTo = (index: number) => setStepIndex(clampStep(index, totalSteps - 1));
+  const handleUpdateUnlocks = (partial: Partial<AppUnlocks>) => {
+    setUnlocks((prev) => ({
+      ...prev,
+      ...partial,
+      futurePasscodes: partial.futurePasscodes ?? prev.futurePasscodes
+    }));
+  };
 
-  const unlockApp = (event: FormEvent) => {
+  const handleGateSubmit = (event: FormEvent) => {
     event.preventDefault();
-
-    if (!accessPin) {
-      setPinError("PIN is not configured. Set VITE_APP_PRIVATE_PIN or meta.lock.fallbackPin.");
+    const normalized = gateInput.trim().toLowerCase();
+    const accepted = content.gate.phraseOptions.map((value) => value.toLowerCase());
+    if (!accepted.includes(normalized)) {
+      setGateError(localize(content.gate.errorMessage, languageMode).primary);
       return;
     }
 
-    if (pinInput.trim() !== accessPin) {
-      setPinError("Wrong PIN. Try our private code.");
-      return;
-    }
-
-    if (typeof window !== "undefined") {
-      const unlockUntil = Date.now() + accessSessionHours * 60 * 60 * 1000;
-      window.localStorage.setItem(ACCESS_UNLOCK_UNTIL_KEY, String(unlockUntil));
-    }
-
-    setPinError("");
-    setPinInput("");
-    setIsUnlocked(true);
+    setGateError("");
+    setGateInput("");
+    setUnlocks((prev) => ({ ...prev, gate: true }));
   };
 
-  const relockApp = () => {
-    if (typeof window !== "undefined") {
-      window.localStorage.removeItem(ACCESS_UNLOCK_UNTIL_KEY);
-    }
-    setIsUnlocked(false);
-  };
+  const stepProgress = steps.length > 1 ? (stepIndex / (steps.length - 1)) * 100 : 100;
 
-  if (isLockEnabled && !isUnlocked) {
+  if (content.gate.enabled && !unlocks.gate) {
+    const title = localize(content.gate.title, languageMode);
+    const subtitle = localize(content.gate.subtitle, languageMode);
+    const hint = localize(content.gate.hint, languageMode);
     return (
       <div className="app-shell access-shell">
         <div className="ambient ambient-a" aria-hidden />
         <div className="ambient ambient-b" aria-hidden />
-        <section className="panel access-panel" aria-labelledby="private-title">
-          <p className="eyebrow">Private Access</p>
-          <h1 id="private-title">Mutu Memoir is locked</h1>
-          <p className="subtitle">{lockConfig?.hint ?? "Enter your private PIN to open this memory space."}</p>
-          <form className="access-form" onSubmit={unlockApp}>
-            <label className="access-label" htmlFor="access-pin">
-              Private PIN
+        <section className="panel access-panel">
+          <p className="eyebrow">Private Gate</p>
+          <h1>{title.primary}</h1>
+          {title.secondary ? <p className="bilingual-secondary">{title.secondary}</p> : null}
+          <p className="subtitle">{subtitle.primary}</p>
+          {subtitle.secondary ? <p className="bilingual-secondary">{subtitle.secondary}</p> : null}
+          <form className="access-form" onSubmit={handleGateSubmit}>
+            <label className="access-label" htmlFor="mutu-gate-input">
+              {content.gate.pinMode === "phrase" ? "Phrase" : "PIN"}
             </label>
             <input
-              id="access-pin"
+              id="mutu-gate-input"
               className="access-input"
               type="password"
               autoComplete="off"
-              value={pinInput}
+              value={gateInput}
               onChange={(event) => {
-                setPinInput(event.target.value);
-                if (pinError) {
-                  setPinError("");
+                setGateInput(event.target.value);
+                if (gateError) {
+                  setGateError("");
                 }
               }}
-              placeholder="Enter PIN"
-              aria-describedby="access-help"
-              aria-invalid={Boolean(pinError)}
+              placeholder={content.gate.pinMode === "phrase" ? "wana / mutu / 919" : "0000"}
               data-testid="access-pin-input"
             />
-            <p id="access-help" className="access-help">
-              Session stays unlocked for {accessSessionHours} hours on this device.
-            </p>
-            {pinError ? (
+            <button className="btn btn-secondary" type="button" onClick={() => setGateHintVisible((prev) => !prev)}>
+              {gateHintVisible ? "Hide hint" : "Show hint"}
+            </button>
+            {gateHintVisible ? (
+              <p className="access-help">
+                {hint.primary}
+                {hint.secondary ? <span className="bilingual-secondary">{hint.secondary}</span> : null}
+              </p>
+            ) : null}
+            {gateError ? (
               <p className="access-error" role="alert" data-testid="access-pin-error">
-                {pinError}
+                {gateError}
               </p>
             ) : null}
             <button className="btn btn-primary" type="submit" data-testid="access-unlock-button">
-              Unlock our story
+              {localize(content.gate.successMessage, languageMode).primary}
             </button>
           </form>
         </section>
@@ -249,7 +251,7 @@ export default function App() {
   }
 
   return (
-    <div className={`app-shell ${restMode ? "is-rest-mode" : ""}`}>
+    <div className={`app-shell mood-${mood} ${reducedMotion ? "is-rest-mode" : ""}`}>
       <div className="ambient ambient-a" aria-hidden />
       <div className="ambient ambient-b" aria-hidden />
       <div className="ambient ambient-c" aria-hidden />
@@ -257,33 +259,58 @@ export default function App() {
 
       <header className="app-header">
         <div className="hero-copy">
-          <p className="eyebrow">{content.meta.title}</p>
-          <h1>{content.meta.coverLine}</h1>
-          <p className="hero-note">Open, relive, play, and promise.</p>
-          <button
-            className={`rest-toggle ${restMode ? "is-on" : ""}`}
-            type="button"
-            onClick={() => setRestMode((prev) => !prev)}
-            aria-pressed={restMode}
-            aria-label={restMode ? "Rest mode on. Tap to turn off." : "Rest mode off. Tap to reduce motion."}
-          >
-            {restMode ? "Rest mode on" : "Rest mode"}
-          </button>
-          <p className="rest-note">Rest mode reduces visual motion for a calmer reading experience.</p>
-          {isLockEnabled ? (
-            <button className="lock-toggle" type="button" onClick={relockApp} aria-label="Lock this app">
-              Lock app
-            </button>
+          <p className="eyebrow">{localize(content.meta.appName, languageMode).primary}</p>
+          <h1>{localize(content.cover.title, languageMode).primary}</h1>
+          {languageMode === "mixed" ? (
+            <p className="bilingual-secondary">{localize(content.cover.title, languageMode).secondary}</p>
           ) : null}
+          <p className="hero-note">{localize(content.cover.subtitle, languageMode).primary}</p>
+        </div>
+
+        <div className="control-row">
+          <label>
+            Language
+            <select
+              className="select-control"
+              value={languageMode}
+              onChange={(event) => setLanguageMode(event.target.value as LanguageMode)}
+            >
+              <option value="mixed">Mixed</option>
+              <option value="en">English</option>
+              <option value="np">Nepali</option>
+            </select>
+          </label>
+
+          <label>
+            Mood
+            <select
+              className="select-control"
+              value={mood}
+              onChange={(event) => setMood(event.target.value as MoodMode)}
+            >
+              <option value="soft">Soft</option>
+              <option value="funny">Funny</option>
+              <option value="romantic">Romantic</option>
+            </select>
+          </label>
+
+          <label>
+            Motion
+            <select
+              className="select-control"
+              value={motionPreference}
+              onChange={(event) => setMotionPreference(event.target.value as MotionPreference)}
+            >
+              <option value="system">System</option>
+              <option value="on">Reduced</option>
+              <option value="off">Full</option>
+            </select>
+          </label>
         </div>
 
         <div className="stepper-frame">
           <div className="stepper-progress">
-            <div
-              className="stepper-progress-fill"
-              style={{ width: `${stepProgress}%` } as CSSProperties}
-              aria-hidden
-            />
+            <div className="stepper-progress-fill" style={{ width: `${stepProgress}%` }} />
           </div>
           <div className="stepper">
             {stepDefinitions.map((step, index) => (
@@ -300,20 +327,28 @@ export default function App() {
             ))}
           </div>
           <p className="step-meta">
-            Chapter {stepIndex + 1} of {totalSteps}
+            {stepIndex + 1} / {steps.length} steps
           </p>
         </div>
       </header>
 
       <main className="step-host">
-        <Suspense fallback={<StepLoading />}>
+        <Suspense fallback={<section className="panel">Loading chapter...</section>}>
           <CurrentComponent
             content={content}
             stepIndex={stepIndex}
-            totalSteps={totalSteps}
+            totalSteps={steps.length}
+            languageMode={languageMode}
+            mood={mood}
+            reducedMotion={reducedMotion}
+            unlocks={unlocks}
+            onSetLanguageMode={setLanguageMode}
+            onSetMood={setMood}
+            onUnlockVault={handleUnlockVault}
+            onUpdateUnlocks={handleUpdateUnlocks}
             onNext={goNext}
             onBack={goBack}
-            onRestart={() => goTo(0)}
+            onRestart={goStart}
           />
         </Suspense>
       </main>

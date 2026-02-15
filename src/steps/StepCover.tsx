@@ -1,116 +1,82 @@
-import { useEffect, useRef, useState } from "react";
-import { initCoverAnimations, playEnvelopeOpen } from "../animations/coverAnimations";
+import { useMemo, useState } from "react";
+import MilestoneWidget from "../components/MilestoneWidget";
 import StepActions from "../components/StepActions";
 import StepShell from "../components/StepShell";
-import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
-import type { StepComponentProps } from "../types/content";
+import type { StepComponentProps } from "../types/app";
+import { localize } from "../utils/i18n";
 
 export default function StepCover({
   content,
   stepIndex,
+  languageMode,
   onBack,
   onNext
 }: StepComponentProps) {
-  const reducedMotion = usePrefersReducedMotion();
-  const envelopeRef = useRef<HTMLDivElement>(null);
-  const letterRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLButtonElement>(null);
-  const openTimerRef = useRef<number | null>(null);
-  const [opened, setOpened] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
+  const [peek, setPeek] = useState(false);
 
-  useEffect(() => {
-    let disposed = false;
-    let cleanup: () => void = () => {};
+  const copy = useMemo(
+    () => ({
+      title: localize(content.cover.title, languageMode),
+      subtitle: localize(content.cover.subtitle, languageMode),
+      helper: localize(content.cover.helper, languageMode),
+      ctaPrimary: localize(content.cover.ctaPrimary, languageMode),
+      ctaSecondary: localize(content.cover.ctaSecondary, languageMode),
+      footer: localize(content.cover.footer, languageMode)
+    }),
+    [content.cover, languageMode]
+  );
 
-    void initCoverAnimations({
-      envelope: envelopeRef.current,
-      ctaButton: ctaRef.current,
-      reducedMotion
-    }).then((dispose) => {
-      if (disposed) {
-        dispose();
-        return;
-      }
-      cleanup = dispose;
-    });
-
-    return () => {
-      disposed = true;
-      cleanup();
-      if (openTimerRef.current !== null) {
-        window.clearTimeout(openTimerRef.current);
-      }
-    };
-  }, [reducedMotion]);
-
-  const handleOpen = () => {
-    if (opened || isOpening) {
+  const openEnvelope = () => {
+    if (isOpening) {
       return;
     }
-
-    setOpened(true);
     setIsOpening(true);
-    const openDuration = playEnvelopeOpen({
-      envelope: envelopeRef.current,
-      letter: letterRef.current,
-      reducedMotion
-    });
-
-    if (reducedMotion) {
+    window.setTimeout(() => {
       onNext();
-      return;
-    }
-
-    const transitionDelay = Math.min(Math.max(openDuration || 620, 560), 900);
-    openTimerRef.current = window.setTimeout(onNext, transitionDelay);
+    }, 560);
   };
 
   return (
-    <StepShell eyebrow="Step 1/5 - Open" title={content.meta.coverLine} subtitle={content.meta.tagline}>
+    <StepShell eyebrow="Step 1" title={copy.title.primary} subtitle={copy.subtitle.primary}>
+      {copy.title.secondary ? <p className="bilingual-secondary">{copy.title.secondary}</p> : null}
+      {copy.subtitle.secondary ? <p className="bilingual-secondary">{copy.subtitle.secondary}</p> : null}
+
       <div className="cover-stage">
-        <div ref={envelopeRef} className={`envelope ${opened ? "is-open" : ""}`} aria-hidden>
+        <div className={`envelope ${isOpening ? "is-open is-opening is-glowing" : ""}`} aria-hidden>
           <div className="envelope-wax" />
           <div className="envelope-flap" />
           <div className="envelope-pocket" />
-          <div ref={letterRef} className="envelope-letter">
-            <p>{content.meta.title}</p>
+          <div className="envelope-letter">
+            <p>{copy.title.primary}</p>
           </div>
         </div>
       </div>
 
       <div className="centered-block">
-        <button
-          ref={ctaRef}
-          className={`btn btn-primary cover-cta ${isOpening ? "is-loading" : ""}`}
-          type="button"
-          onClick={handleOpen}
-          disabled={isOpening}
-        >
-          <span className="cover-cta-label">{isOpening ? "Opening..." : content.meta.openButton}</span>
+        <button className={`btn btn-primary cover-cta ${isOpening ? "is-loading" : ""}`} type="button" onClick={openEnvelope}>
+          <span className="cover-cta-label">{isOpening ? "Opening..." : copy.ctaPrimary.primary}</span>
           <span className="btn-spinner" aria-hidden />
         </button>
-        <button
-          className="btn btn-secondary cover-preview-btn"
-          type="button"
-          onClick={() => setPreviewOpen((prev) => !prev)}
-        >
-          {previewOpen ? "Hide preview" : "Small preview"}
+        <button className="btn btn-secondary cover-preview-btn" type="button" onClick={() => setPeek((prev) => !prev)}>
+          {peek ? "Hide preview" : copy.ctaSecondary.primary}
         </button>
-        {previewOpen ? (
+        {peek ? (
           <p className="cover-preview-copy">
-            This is not a website. This is us. Open when you are ready, mutu.
+            {copy.helper.primary}
+            {copy.helper.secondary ? <span className="bilingual-secondary">{copy.helper.secondary}</span> : null}
           </p>
         ) : null}
-        <p className="cover-hint">Tap slowly, like opening a real letter.</p>
+        <p className="cover-hint">{copy.footer.primary}</p>
       </div>
+
+      <MilestoneWidget milestones={content.milestones} timezone={content.meta.timezone} languageMode={languageMode} compact />
 
       <StepActions
         canBack={stepIndex > 0}
         canNext
         backLabel="Back"
-        nextLabel="Skip intro"
+        nextLabel="Skip Intro"
         onBack={onBack}
         onNext={onNext}
       />

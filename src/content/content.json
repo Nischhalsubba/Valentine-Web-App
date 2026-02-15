@@ -1,364 +1,1731 @@
 {
   "meta": {
-    "title": "For Reeja, my mutu.",
-    "coverLine": "A small place where our memories live.",
-    "tagline": "This is not a website. This is us.",
-    "openButton": "Open it <3",
-    "lock": {
-      "enabled": true,
-      "hint": "Enter our private PIN to open this love letter.",
-      "sessionHours": 12,
-      "fallbackPin": "mutu2026"
+    "appId": "mutu-memoir",
+    "appName": {
+      "en": "Mutu Memoir",
+      "np": "Mutu Memoir (मुटु सम्झना)"
+    },
+    "version": "1.0.0",
+    "timezone": "Asia/Kathmandu",
+    "localeDefault": "mixed",
+    "notes": {
+      "en": "Bilingual app content.",
+      "np": "bilingual app content."
     }
   },
+  "settings": {
+    "languageModeDefault": "mixed",
+    "moodDefault": "soft",
+    "reducedMotionDefault": "system",
+    "privacy": {
+      "noIndex": true,
+      "showAppTitlePublic": false
+    }
+  },
+  "gate": {
+    "enabled": true,
+    "title": {
+      "en": "Enter our code",
+      "np": "hamro code hala na 😄"
+    },
+    "subtitle": {
+      "en": "This is private. Only for you, Reeja.",
+      "np": "yo private ho mutu, timrai lagi ❤️"
+    },
+    "hint": {
+      "en": "Hint: our tiny signature word.",
+      "np": "hint: hamro cute signature word."
+    },
+    "pinMode": "phrase",
+    "phraseOptions": [
+      "wana",
+      "mutu",
+      "919"
+    ],
+    "errorMessage": {
+      "en": "Almost, try again my mutu 😄",
+      "np": "close, feri try gara mutu 😄"
+    },
+    "successMessage": {
+      "en": "Unlocked ❤️",
+      "np": "khulyo ❤️"
+    }
+  },
+  "cover": {
+    "title": {
+      "en": "For Reeja, my mutu.",
+      "np": "Reeja ko lagi, mero mutu ❤️"
+    },
+    "subtitle": {
+      "en": "A small place where our memories live.",
+      "np": "hamro samjhana haru basne sano thau."
+    },
+    "helper": {
+      "en": "Open this when you miss me.",
+      "np": "timro yaad aayo bhane, yaha aau ❤️"
+    },
+    "ctaPrimary": {
+      "en": "Open it ❤️",
+      "np": "khola na ❤️"
+    },
+    "ctaSecondary": {
+      "en": "Peek first",
+      "np": "sano preview 😄"
+    },
+    "footer": {
+      "en": "Made by your person.",
+      "np": "timro manchhe le banayeko."
+    }
+  },
+  "milestones": [
+    {
+      "id": "ms_added",
+      "label": {
+        "en": "We added each other",
+        "np": "hami add bhayau"
+      },
+      "dateISO": "2024-12-14T21:19:00+05:45"
+    },
+    {
+      "id": "ms_godawari",
+      "label": {
+        "en": "Godawari, just us",
+        "np": "Godawari, sirf hami"
+      },
+      "dateISO": "2024-12-25T13:00:00+05:45"
+    },
+    {
+      "id": "ms_first_date",
+      "label": {
+        "en": "First date",
+        "np": "pahilo date"
+      },
+      "dateISO": "2025-01-22T00:00:00+05:45"
+    },
+    {
+      "id": "ms_ily",
+      "label": {
+        "en": "First I love you voice",
+        "np": "pahilo I love you awaaz"
+      },
+      "dateISO": "2025-02-14T00:00:00+05:45"
+    }
+  ],
+  "steps": [
+    {
+      "id": "step_cover",
+      "label": {
+        "en": "Open",
+        "np": "khola"
+      }
+    },
+    {
+      "id": "step_letter",
+      "label": {
+        "en": "Letter",
+        "np": "chitthi"
+      }
+    },
+    {
+      "id": "step_timeline",
+      "label": {
+        "en": "Relive",
+        "np": "samjha"
+      }
+    },
+    {
+      "id": "step_gallery",
+      "label": {
+        "en": "Gallery",
+        "np": "photo corner"
+      }
+    },
+    {
+      "id": "step_nurse",
+      "label": {
+        "en": "For my nurse",
+        "np": "mero nurse ko lagi"
+      }
+    },
+    {
+      "id": "step_play",
+      "label": {
+        "en": "Play",
+        "np": "khela"
+      }
+    },
+    {
+      "id": "step_promises",
+      "label": {
+        "en": "Promises",
+        "np": "bachan"
+      }
+    },
+    {
+      "id": "step_finale",
+      "label": {
+        "en": "Finale",
+        "np": "last"
+      }
+    }
+  ],
   "letter": {
-    "eyebrow": "Love Letter",
-    "heading": "To my mutu",
-    "body": "Reeja...\n\nYou know what I love about us?\nHow we did not rush.\nHow we kept becoming more us, one small moment at a time.\n\nYou are a nurse, so you spend your days taking care of people.\nBut I want you to remember this:\nSomeone is always taking care of you too.\nMe. Always.\n\nFrom the first day we added each other... to the first time we met alone...\nto the nights we fell asleep on call...\nto the days you showed me the most real version of you...\n\nI do not just love the big moments.\nI love the quiet ones.\nThe kitchen call. The bathroom call. The random parking-lot destiny.\nThe way we made distance feel useless.\n\nSo today, I made you something small.\nNot expensive. Not loud.\nJust beautiful and true.\n\nWhen you are ready...\nLet us walk through our story again, mutu.",
-    "revealPrompt": "Tap to reveal the next one"
-  },
-  "reasons": [
-    "You make simple days feel safe.",
-    "You turn distance into closeness.",
-    "You are brave in every life chapter.",
-    "You love quietly, and it stays forever.",
-    "You are my favorite person in every mood.",
-    "You made my heart creative again.",
-    "With you, I feel home."
-  ],
-  "chapters": [
-    {
-      "id": "chapter-beginning",
-      "title": "Chapter 1: The Beginning",
-      "reflection": "One tiny tap became one huge beginning.",
-      "memories": [
-        {
-          "date": "December 14, 2024 - 9:19 PM",
-          "title": "The first moment",
-          "caption": "We added each other and something started.",
-          "expandedCaption": "9:19 PM. One small tap, one big beginning. I did not know it then, but my life had already changed."
-        },
-        {
-          "date": "December 22, 2024",
-          "title": "First time I saw you",
-          "caption": "The first real oh... it is you.",
-          "expandedCaption": "Some people look normal in real life. You looked like the start of a story.",
-          "media": {
-            "type": "image",
-            "src": "/memories/first-look.svg",
-            "alt": "Memory placeholder for first time seeing Reeja"
-          }
-        },
-        {
-          "date": "December 25, 2024 - around 1 PM",
-          "title": "Just us, Godawari",
-          "caption": "Our first real moment alone.",
-          "expandedCaption": "Godawari. Around 1 PM. No crowd, no noise, just two hearts learning each other."
-        }
-      ]
+    "title": {
+      "en": "A letter for you",
+      "np": "timro lagi ek chitthi"
     },
-    {
-      "id": "chapter-growing",
-      "title": "Chapter 2: Growing Feelings",
-      "reflection": "Maybe became real, and real became us.",
-      "memories": [
-        {
-          "date": "January 4, 2025",
-          "title": "First song",
-          "caption": "I wrote for my mutu.",
-          "expandedCaption": "That is when I knew: I do not just like you. I want to create things for you."
+    "variants": {
+      "soft": {
+        "body": {
+          "en": "Reeja, my mutu.\nWe became us in small moments.\nYou care for everyone, and I will always care for you.\nFrom 9:19 PM to Godawari to late calls, every quiet moment matters.\nHappy Valentine’s Day ❤️",
+          "np": "Reeja, mero mutu.\nHami sano sano moment bata us bhayau.\nTimi sablai care garchau, ma timilai always care garchu.\n9:19 PM dekhi Godawari samma, sab quiet moment special chha.\nHappy Valentine’s Day ❤️"
         },
-        {
-          "date": "January 12, 2025",
-          "title": "Destiny parking lot",
-          "caption": "We met again by accident.",
-          "expandedCaption": "Out of all places, the universe really said: no, you two are not done yet."
-        },
-        {
-          "date": "January 22, 2025",
-          "title": "First date",
-          "caption": "Officially, us.",
-          "expandedCaption": "I still remember the feeling: nervous, happy, and oddly safe at the same time."
-        },
-        {
-          "date": "January 25, 2025",
-          "title": "Family dinner",
-          "caption": "My heart was full.",
-          "expandedCaption": "You sat with my family like you belonged there. Honestly, you did."
-        },
-        {
-          "date": "January 26, 2025",
-          "title": "Personal became personal-er",
-          "caption": "You told me your birth year.",
-          "expandedCaption": "It sounds small, but it was trust. It was you letting me closer."
+        "cta": {
+          "en": "Continue",
+          "np": "agadi jaau"
         }
-      ]
-    },
-    {
-      "id": "chapter-language",
-      "title": "Chapter 3: Love Language",
-      "reflection": "Words became feelings, and feelings became home.",
-      "memories": [
-        {
-          "date": "February 1, 2025",
-          "title": "A poem",
-          "caption": "Because I could not keep it inside.",
-          "expandedCaption": "Some feelings do not fit in normal sentences. So I borrowed poetry."
+      },
+      "funny": {
+        "body": {
+          "en": "Welcome to the most serious app ever for the cutest person ever 😄\nRule 1: smile.\nRule 2: if no smile, I try harder.\nRule 3: never forget 9:19 PM.",
+          "np": "swagat chha serious app ma cutest person ko lagi 😄\nRule 1: smile.\nRule 2: smile chaina bhane ma feri try.\nRule 3: 9:19 PM birsina hudaina."
         },
-        {
-          "date": "February 14, 2025",
-          "title": "First I love you (voice)",
-          "caption": "The day my heart learned a new sound.",
-          "expandedCaption": "Hearing it in your voice hit different. Soft. Real. Permanent."
-        },
-        {
-          "date": "February 22, 2025",
-          "title": "Your love letter",
-          "caption": "I reread it in my head.",
-          "expandedCaption": "You wrote love like you meant it. Like you were building a home with words."
+        "cta": {
+          "en": "Let's go",
+          "np": "jaam"
         }
-      ]
-    },
-    {
-      "id": "chapter-rituals",
-      "title": "Chapter 4: Our Rituals",
-      "reflection": "Distance stopped mattering because presence stayed.",
-      "memories": [
-        {
-          "date": "March 2, 2025",
-          "title": "First video call",
-          "caption": "Distance lost a little that day.",
-          "expandedCaption": "Seeing you live, talking like it is normal. That is when us started feeling real daily.",
-          "media": {
-            "type": "image",
-            "src": "/memories/video-call.svg",
-            "alt": "Memory placeholder for first video call"
-          }
+      },
+      "romantic": {
+        "body": {
+          "en": "My Reeja,\nI do not want perfect love, I want safe love.\nWith you, love feels calm and real.\nCome, let us relive us ❤️",
+          "np": "Mero Reeja,\nmalai perfect maya hoina, safe maya chahinchha.\nTimro saathma maya calm ra real lagchha.\nAau, hami feri hamilai samjhaun ❤️"
         },
-        {
-          "date": "March 11, 2025",
-          "title": "First tika (video call)",
-          "caption": "A blessing across distance.",
-          "expandedCaption": "Even through a screen, you found a way to put tika on me. That is love with intention."
-        },
-        {
-          "date": "March 28, 2025",
-          "title": "The famous threatening moment",
-          "caption": "Only we know.",
-          "expandedCaption": "This stays coded forever. If someone asks, we smile and change topic.",
-          "secret": "Inside joke unlocked: threatening mode activated, cute edition."
-        },
-        {
-          "date": "April 15, 2025",
-          "title": "First sleep on call",
-          "caption": "We fell asleep together.",
-          "expandedCaption": "No talking. No trying. Just presence. That kind of comfort is rare, Reeja."
+        "cta": {
+          "en": "Relive us",
+          "np": "hamilai samjha"
         }
-      ]
-    },
-    {
-      "id": "chapter-era",
-      "title": "Chapter 5: Her Era",
-      "reflection": "You trusted me with your real life, and I loved every version.",
-      "memories": [
-        {
-          "date": "April 2, 2025",
-          "title": "That selfie",
-          "caption": "One of the most beautiful things I have seen.",
-          "expandedCaption": "Not just your face. The feeling behind it. Like you trusted me with your softness.",
-          "media": {
-            "type": "image",
-            "src": "/memories/selfie.svg",
-            "alt": "Memory placeholder for that selfie moment"
-          }
-        },
-        {
-          "date": "April 7, 2025",
-          "title": "Childhood photo unlock",
-          "caption": "Pure side revealed.",
-          "expandedCaption": "That was you saying: here, this is my real history. And I loved you more."
-        },
-        {
-          "date": "April 25, 2025",
-          "title": "First gift",
-          "caption": "You gave me something, and I kept it in my heart.",
-          "expandedCaption": "The gift was sweet, but the message was sweeter: I thought of you."
-        },
-        {
-          "date": "April 27, 2025",
-          "title": "Makeup photo (saved forever)",
-          "caption": "I saved it. Obviously.",
-          "expandedCaption": "Because some moments are too pretty to risk forgetting."
-        },
-        {
-          "date": "July 14, 2025",
-          "title": "The yellow dress",
-          "caption": "Still in my mind.",
-          "expandedCaption": "That yellow dress moment is burned into my memory like a favorite song chorus.",
-          "media": {
-            "type": "image",
-            "src": "/memories/yellow-dress.svg",
-            "alt": "Memory placeholder for the yellow dress moment"
-          }
-        },
-        {
-          "date": "August 2025",
-          "title": "First kiss voice note (wana)",
-          "caption": "A kiss in sound.",
-          "expandedCaption": "It was cute, bold, and so you. I replayed it like a secret."
-        },
-        {
-          "date": "August 23, 2025 - 10:29 PM",
-          "title": "First kiss video + hand gesture",
-          "caption": "I watched it too many times.",
-          "expandedCaption": "10:29 PM. That little gesture felt like you pulled me closer through the screen."
-        },
-        {
-          "date": "September 14, 2025",
-          "title": "First virtual chess match",
-          "caption": "I won. Proof: I wrote it here.",
-          "expandedCaption": "You can rematch anytime. But history is history."
-        },
-        {
-          "date": "October 7, 2025",
-          "title": "No-filter snap",
-          "caption": "Real face. Real you.",
-          "expandedCaption": "That is intimacy. Not the perfect version, the honest one. And I loved it."
-        },
-        {
-          "date": "October 22, 2025",
-          "title": "Sari on video (first time)",
-          "caption": "I was speechless.",
-          "expandedCaption": "You looked like tradition and beauty decided to collaborate."
-        },
-        {
-          "date": "October 25, 2025",
-          "title": "Kitchen call and bathroom call",
-          "caption": "No distance. No shyness.",
-          "expandedCaption": "You called me from real life, not prepared life. That is when love becomes daily."
-        },
-        {
-          "date": "October 28, 2025",
-          "title": "New chapter",
-          "caption": "You resigned from the Teaching Hospital.",
-          "expandedCaption": "I was proud. Change is scary, but you are braver than you think. I am with you in every version of life."
-        },
-        {
-          "date": "November 21, 2025",
-          "title": "6 hours 58 minutes",
-          "caption": "Whole night. Whole heart.",
-          "expandedCaption": "Talking until sleep. That is not time passing, that is love building."
-        }
-      ]
-    },
-    {
-      "id": "chapter-now",
-      "title": "Chapter 6: Here And Now",
-      "reflection": "Still unfolding, still choosing each other.",
-      "memories": [
-        {
-          "date": "January 14, 2026",
-          "title": "Flower on Bhaisipati colony road",
-          "caption": "You gave me a flower.",
-          "expandedCaption": "Simple moment. Big meaning. I felt chosen.",
-          "media": {
-            "type": "image",
-            "src": "/memories/flower-road.svg",
-            "alt": "Memory placeholder for flower on Bhaisipati colony road"
-          }
-        },
-        {
-          "date": "January 15, 2026",
-          "title": "First skirt moment",
-          "caption": "A new kind of shy.",
-          "expandedCaption": "You looked confident and cute at the same time. I remember everything."
-        },
-        {
-          "date": "After we met",
-          "title": "Kantara",
-          "caption": "Your first after-us movie.",
-          "expandedCaption": "You watched Kantara with Teaching Hospital friends, and somehow even that detail feels special to me."
-        }
-      ]
+      }
     }
-  ],
-  "quiz": [
-    {
-      "id": "q1",
-      "question": "What time did we add each other for the first time?",
-      "options": ["8:19 PM", "9:19 PM", "10:19 PM"],
-      "answer": "9:19 PM"
-    },
-    {
-      "id": "q2",
-      "question": "Where did we meet alone for the first real moment?",
-      "options": ["Godawari", "Patan", "Bhaisipati"],
-      "answer": "Godawari"
-    },
-    {
-      "id": "q3",
-      "question": "Where did destiny make us meet again by accident?",
-      "options": ["Cafe", "Parking lot", "Hospital gate"],
-      "answer": "Parking lot"
-    },
-    {
-      "id": "q4",
-      "question": "Which movie did you watch first after we met?",
-      "options": ["Kantara", "Jatra", "Pashupati Prasad"],
-      "answer": "Kantara"
-    },
-    {
-      "id": "q5",
-      "question": "How long was our whole-night call?",
-      "options": ["5h 48m", "6h 58m", "7h 12m"],
-      "answer": "6h 58m"
-    },
-    {
-      "id": "q6",
-      "question": "What color dress is still burned in my memory?",
-      "options": ["Yellow", "Blue", "Red"],
-      "answer": "Yellow"
-    },
-    {
-      "id": "q7",
-      "question": "When was our first date?",
-      "options": ["January 12, 2025", "January 22, 2025", "February 1, 2025"],
-      "answer": "January 22, 2025"
-    },
-    {
-      "id": "q8",
-      "question": "Which day did we first say I love you by voice?",
-      "options": ["February 1, 2025", "February 14, 2025", "February 22, 2025"],
-      "answer": "February 14, 2025"
-    }
-  ],
-  "quizMessages": {
-    "high": "Soulmate-level memory unlocked.",
-    "mid": "Strong mutu memory energy.",
-    "low": "Even if memory slips, my heart still picks you."
   },
-  "coupons": [
-    "One no questions asked hug.",
-    "One I will listen first pass.",
-    "One date planned fully by me.",
-    "One comfort meal plus calm movie night.",
-    "One nurse fatigue rescue day.",
-    "One shopping companion mission.",
-    "One write-you-a-poem-again voucher.",
-    "One I will do the boring task for you card.",
-    "One phone-free walk together.",
-    "One we talk until sleep night."
-  ],
+  "timeline": {
+    "title": {
+      "en": "Our Timeline",
+      "np": "hamro timeline (सम्झना)"
+    },
+    "subtitle": {
+      "en": "Tap a memory to open it.",
+      "np": "memory tap gara, khulchha ❤️"
+    },
+    "chapterOrder": [
+      "ch_beginning",
+      "ch_growing",
+      "ch_love_language",
+      "ch_rituals",
+      "ch_her_era",
+      "ch_here_now",
+      "ch_extra"
+    ],
+    "chapters": [
+      {
+        "id": "ch_beginning",
+        "title": {
+          "en": "The Beginning",
+          "np": "suruko din haru"
+        },
+        "hint": {
+          "en": "Where everything started.",
+          "np": "jaha sabai suru bhayo."
+        }
+      },
+      {
+        "id": "ch_growing",
+        "title": {
+          "en": "Growing Feelings",
+          "np": "maya badhdai gayo"
+        },
+        "hint": {
+          "en": "Small moments became big.",
+          "np": "sano moment thulo bhayo."
+        }
+      },
+      {
+        "id": "ch_love_language",
+        "title": {
+          "en": "Love Language",
+          "np": "maya ko bhasa"
+        },
+        "hint": {
+          "en": "Poems and voice.",
+          "np": "poem ra awaaz."
+        }
+      },
+      {
+        "id": "ch_rituals",
+        "title": {
+          "en": "Our Rituals",
+          "np": "hamro ritual"
+        },
+        "hint": {
+          "en": "Calls and comfort.",
+          "np": "call ra comfort."
+        }
+      },
+      {
+        "id": "ch_her_era",
+        "title": {
+          "en": "Her Era",
+          "np": "timro era"
+        },
+        "hint": {
+          "en": "You being you.",
+          "np": "timi, timi nai."
+        }
+      },
+      {
+        "id": "ch_here_now",
+        "title": {
+          "en": "Here & Now",
+          "np": "aile ko hamro"
+        },
+        "hint": {
+          "en": "Recent moments.",
+          "np": "naya moment haru."
+        }
+      },
+      {
+        "id": "ch_extra",
+        "title": {
+          "en": "Extra Memory",
+          "np": "extra samjhana"
+        },
+        "hint": {
+          "en": "Small detail.",
+          "np": "sano detail."
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "m_20241214_added",
+        "chapterId": "ch_beginning",
+        "dateISO": "2024-12-14T21:19:00+05:45",
+        "displayDate": "December 14, 2024 — 9:19 PM",
+        "title": {
+          "en": "The first moment",
+          "np": "suruko moment"
+        },
+        "short": {
+          "en": "We added each other.",
+          "np": "hami add bhayau."
+        },
+        "long": {
+          "en": "One small tap, one big beginning.",
+          "np": "sano click, thulo suru."
+        },
+        "tags": [
+          "Firsts",
+          "Destiny"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20241222_first_seen",
+        "chapterId": "ch_beginning",
+        "dateISO": "2024-12-22T00:00:00+05:45",
+        "displayDate": "December 22, 2024",
+        "title": {
+          "en": "First time we saw each other",
+          "np": "pahilo choti dekheko din"
+        },
+        "short": {
+          "en": "The first real oh, it's you.",
+          "np": "pahilo real oh, timi."
+        },
+        "long": {
+          "en": "It felt like the start of a story.",
+          "np": "story ko suru jasto lagyo."
+        },
+        "tags": [
+          "Firsts"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20241225_godawari",
+        "chapterId": "ch_beginning",
+        "dateISO": "2024-12-25T13:00:00+05:45",
+        "displayDate": "December 25, 2024 — around 1 PM",
+        "title": {
+          "en": "Godawari, just us",
+          "np": "Godawari, sirf hami"
+        },
+        "short": {
+          "en": "Our first real alone moment.",
+          "np": "hamro pahilo real alone moment."
+        },
+        "long": {
+          "en": "No crowd, no noise, just us.",
+          "np": "na crowd, na noise, sirf hami."
+        },
+        "tags": [
+          "Firsts",
+          "Dates"
+        ],
+        "image": null,
+        "audio": "/audio/godawari-note.mp3"
+      },
+      {
+        "id": "m_20250104_song",
+        "chapterId": "ch_growing",
+        "dateISO": "2025-01-04T00:00:00+05:45",
+        "displayDate": "January 4, 2025",
+        "title": {
+          "en": "My first song for my mutu",
+          "np": "mutu ko lagi pahilo geet"
+        },
+        "short": {
+          "en": "I wrote a song for you.",
+          "np": "maile geet lekhe."
+        },
+        "long": {
+          "en": "I wanted to create for you.",
+          "np": "timro lagi create garna man lagyo."
+        },
+        "tags": [
+          "Creative",
+          "Love Language"
+        ],
+        "image": null,
+        "audio": "/audio/first-song-snippet.mp3"
+      },
+      {
+        "id": "m_20250112_parking_destiny",
+        "chapterId": "ch_growing",
+        "dateISO": "2025-01-12T00:00:00+05:45",
+        "displayDate": "January 12, 2025",
+        "title": {
+          "en": "Destiny parking lot",
+          "np": "parking lot destiny"
+        },
+        "short": {
+          "en": "We met again by accident.",
+          "np": "accidentally bhetiyau."
+        },
+        "long": {
+          "en": "Universe was being extra.",
+          "np": "universe extra thiyo."
+        },
+        "tags": [
+          "Destiny",
+          "Funny",
+          "Firsts"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250122_first_date",
+        "chapterId": "ch_growing",
+        "dateISO": "2025-01-22T00:00:00+05:45",
+        "displayDate": "January 22, 2025",
+        "title": {
+          "en": "Our first date",
+          "np": "hamro pahilo date"
+        },
+        "short": {
+          "en": "Officially, us.",
+          "np": "officially, hami."
+        },
+        "long": {
+          "en": "Nervous, happy, safe.",
+          "np": "nervous, happy, safe."
+        },
+        "tags": [
+          "Dates",
+          "Firsts"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250125_family_dinner",
+        "chapterId": "ch_growing",
+        "dateISO": "2025-01-25T00:00:00+05:45",
+        "displayDate": "January 25, 2025",
+        "title": {
+          "en": "Dinner with my family",
+          "np": "mero family sanga dinner"
+        },
+        "short": {
+          "en": "My heart was full.",
+          "np": "mero mutu full bhayo."
+        },
+        "long": {
+          "en": "You belonged there.",
+          "np": "timi tei belong garyau."
+        },
+        "tags": [
+          "Family",
+          "Milestone"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250126_birth_year",
+        "chapterId": "ch_growing",
+        "dateISO": "2025-01-26T00:00:00+05:45",
+        "displayDate": "January 26, 2025",
+        "title": {
+          "en": "Personal became personal-er",
+          "np": "personal level up"
+        },
+        "short": {
+          "en": "You shared your birth year.",
+          "np": "timi le birth year bhanyau."
+        },
+        "long": {
+          "en": "Small detail, big trust.",
+          "np": "sano detail, thulo trust."
+        },
+        "tags": [
+          "Trust",
+          "Milestone"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250201_poem",
+        "chapterId": "ch_love_language",
+        "dateISO": "2025-02-01T00:00:00+05:45",
+        "displayDate": "February 1, 2025",
+        "title": {
+          "en": "A small poem for my mutu",
+          "np": "mutu ko lagi poem"
+        },
+        "short": {
+          "en": "I could not keep it inside.",
+          "np": "bhitra rakhnai sakina."
+        },
+        "long": {
+          "en": "Poetry said what I felt.",
+          "np": "poem le feeling bhanidiyo."
+        },
+        "tags": [
+          "Creative",
+          "Love Language"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250214_iloveyou_voice",
+        "chapterId": "ch_love_language",
+        "dateISO": "2025-02-14T00:00:00+05:45",
+        "displayDate": "February 14, 2025",
+        "title": {
+          "en": "First I love you (voice)",
+          "np": "pahilo I love you awaaz"
+        },
+        "short": {
+          "en": "My heart learned a new sound.",
+          "np": "mero mutu le naya awaaz sikyo."
+        },
+        "long": {
+          "en": "Soft, real, permanent.",
+          "np": "soft, real, permanent."
+        },
+        "tags": [
+          "Firsts",
+          "Love Language"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250222_love_letter",
+        "chapterId": "ch_love_language",
+        "dateISO": "2025-02-22T00:00:00+05:45",
+        "displayDate": "February 22, 2025",
+        "title": {
+          "en": "Your love letter",
+          "np": "timro love letter"
+        },
+        "short": {
+          "en": "I reread it in my head.",
+          "np": "feri feri padhchu."
+        },
+        "long": {
+          "en": "You built home with words.",
+          "np": "words le ghar banayau."
+        },
+        "tags": [
+          "Love Language",
+          "Milestone"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250302_first_video_call",
+        "chapterId": "ch_rituals",
+        "dateISO": "2025-03-02T00:00:00+05:45",
+        "displayDate": "March 2, 2025",
+        "title": {
+          "en": "Our first video call",
+          "np": "pahilo video call"
+        },
+        "short": {
+          "en": "Distance lost a little.",
+          "np": "distance alikati haryo."
+        },
+        "long": {
+          "en": "Us became daily.",
+          "np": "us daily bhayo."
+        },
+        "tags": [
+          "Calls",
+          "Firsts"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250311_tika_video",
+        "chapterId": "ch_rituals",
+        "dateISO": "2025-03-11T00:00:00+05:45",
+        "displayDate": "March 11, 2025",
+        "title": {
+          "en": "First tika (video call)",
+          "np": "video call ma tika"
+        },
+        "short": {
+          "en": "A blessing across distance.",
+          "np": "distance bhari blessing."
+        },
+        "long": {
+          "en": "Love with intention.",
+          "np": "intention wala maya."
+        },
+        "tags": [
+          "Ritual",
+          "Calls"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250328_threatening_moment",
+        "chapterId": "ch_rituals",
+        "dateISO": "2025-03-28T00:00:00+05:45",
+        "displayDate": "March 28, 2025",
+        "title": {
+          "en": "The famous moment 😄",
+          "np": "famous moment 😄"
+        },
+        "short": {
+          "en": "Only we know.",
+          "np": "sirf hami lai thaha."
+        },
+        "long": {
+          "en": "Forever coded.",
+          "np": "forever coded."
+        },
+        "tags": [
+          "Funny",
+          "Inside Joke"
+        ],
+        "image": null,
+        "audio": null,
+        "locked": true,
+        "unlock": {
+          "type": "vault",
+          "requires": "unlocks.vault=true"
+        }
+      },
+      {
+        "id": "m_20250415_sleep_on_call",
+        "chapterId": "ch_rituals",
+        "dateISO": "2025-04-15T00:00:00+05:45",
+        "displayDate": "April 15, 2025",
+        "title": {
+          "en": "Fell asleep on call",
+          "np": "call ma suteko raat"
+        },
+        "short": {
+          "en": "Comfort, no words needed.",
+          "np": "comfort, words bina."
+        },
+        "long": {
+          "en": "Presence felt like home.",
+          "np": "presence le ghar jasto feel diyo."
+        },
+        "tags": [
+          "Calls",
+          "Comfort"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250402_selfie",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-04-02T00:00:00+05:45",
+        "displayDate": "April 2, 2025",
+        "title": {
+          "en": "That beautiful selfie",
+          "np": "tyo beautiful selfie"
+        },
+        "short": {
+          "en": "One of my favorite photos.",
+          "np": "mero favorite photo haru madhye ek."
+        },
+        "long": {
+          "en": "You trusted me with softness.",
+          "np": "timi le softness dekhayau."
+        },
+        "tags": [
+          "Photos",
+          "Milestone"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250407_childhood_photo",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-04-07T00:00:00+05:45",
+        "displayDate": "April 7, 2025",
+        "title": {
+          "en": "Childhood photo unlock",
+          "np": "bachpan photo unlock"
+        },
+        "short": {
+          "en": "Pure side revealed.",
+          "np": "pure side unlock."
+        },
+        "long": {
+          "en": "You shared your history.",
+          "np": "timi le history dekhayau."
+        },
+        "tags": [
+          "Trust",
+          "Photos"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250425_first_gift",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-04-25T00:00:00+05:45",
+        "displayDate": "April 25, 2025",
+        "title": {
+          "en": "Your first gift to me",
+          "np": "timro pahilo gift"
+        },
+        "short": {
+          "en": "My first gift from you.",
+          "np": "timro pahilo gift malai."
+        },
+        "long": {
+          "en": "The message was sweetest.",
+          "np": "message sab bhanda sweet."
+        },
+        "tags": [
+          "Gifts",
+          "Milestone"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250427_makeup_photo",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-04-27T00:00:00+05:45",
+        "displayDate": "April 27, 2025",
+        "title": {
+          "en": "Makeup photo (saved forever)",
+          "np": "makeup photo (saved)"
+        },
+        "short": {
+          "en": "I saved it, obviously.",
+          "np": "save ta garnai paryo."
+        },
+        "long": {
+          "en": "Too pretty to forget.",
+          "np": "birsina mildaina."
+        },
+        "tags": [
+          "Photos",
+          "Funny"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250714_yellow_dress",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-07-14T00:00:00+05:45",
+        "displayDate": "July 14, 2025",
+        "title": {
+          "en": "The yellow dress day",
+          "np": "yellow dress din 💛"
+        },
+        "short": {
+          "en": "Still in my memory.",
+          "np": "ajhai mind ma chha."
+        },
+        "long": {
+          "en": "Like a favorite chorus.",
+          "np": "favorite chorus jasto."
+        },
+        "tags": [
+          "Photos",
+          "Iconic"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20250801_kiss_voice_wana",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-08-01T00:00:00+05:45",
+        "displayDate": "August 2025",
+        "title": {
+          "en": "First kiss voice note, Wana",
+          "np": "pahilo kiss voice, wana"
+        },
+        "short": {
+          "en": "A kiss in sound.",
+          "np": "awaaz ma kiss."
+        },
+        "long": {
+          "en": "Cute and bold.",
+          "np": "cute ra bold."
+        },
+        "tags": [
+          "Inside Joke",
+          "Love Language"
+        ],
+        "image": null,
+        "audio": "/audio/wana-kiss.mp3",
+        "locked": true,
+        "unlock": {
+          "type": "vault",
+          "requires": "unlocks.vault=true"
+        }
+      },
+      {
+        "id": "m_20250823_kiss_video_gesture",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-08-23T22:29:00+05:45",
+        "displayDate": "August 23, 2025 — 10:29 PM",
+        "title": {
+          "en": "First kiss video + gesture",
+          "np": "kiss video + gesture"
+        },
+        "short": {
+          "en": "I watched it many times.",
+          "np": "dherai choti here."
+        },
+        "long": {
+          "en": "Felt closer through the screen.",
+          "np": "screen bata ni najik feel."
+        },
+        "tags": [
+          "Inside Joke",
+          "Calls",
+          "Iconic"
+        ],
+        "image": null,
+        "audio": null,
+        "locked": true,
+        "unlock": {
+          "type": "vault",
+          "requires": "unlocks.vault=true"
+        }
+      },
+      {
+        "id": "m_20250914_chess",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-09-14T00:00:00+05:45",
+        "displayDate": "September 14, 2025",
+        "title": {
+          "en": "Our first virtual chess match",
+          "np": "pahilo virtual chess match"
+        },
+        "short": {
+          "en": "I won. Proof is here 😄",
+          "np": "ma jite 😄"
+        },
+        "long": {
+          "en": "History is history.",
+          "np": "history ta history."
+        },
+        "tags": [
+          "Funny",
+          "Games"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20251007_no_filter_snap",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-10-07T00:00:00+05:45",
+        "displayDate": "October 7, 2025",
+        "title": {
+          "en": "First no-filter snap",
+          "np": "no-filter snap"
+        },
+        "short": {
+          "en": "Real face. Real you.",
+          "np": "real face. real timi."
+        },
+        "long": {
+          "en": "Honest intimacy.",
+          "np": "honest intimacy."
+        },
+        "tags": [
+          "Trust",
+          "Photos"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20251022_sari_video",
+        "chapterId": "ch_her_era",
+        "dateISO": "2025-10-22T00:00:00+05:45",
+        "displayDate": "October 22, 2025",
+        "title": {
+          "en": "Sari on video call",
+          "np": "video call ma sari"
+        },
+        "short": {
+          "en": "I was speechless.",
+          "np": "ma speechless bhaye."
+        },
+        "long": {
+          "en": "Tradition and beauty in one frame.",
+          "np": "tradition ra beauty ekai frame."
+        },
+        "tags": [
+          "Photos",
+          "Iconic"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20251025_kitchen_bathroom_calls",
+        "chapterId": "ch_rituals",
+        "dateISO": "2025-10-25T00:00:00+05:45",
+        "displayDate": "October 25, 2025",
+        "title": {
+          "en": "Kitchen call and bathroom call",
+          "np": "kitchen + bathroom call"
+        },
+        "short": {
+          "en": "No distance. No shyness.",
+          "np": "distance zero. shyness zero."
+        },
+        "long": {
+          "en": "Real life calls made love daily.",
+          "np": "real life call le maya daily banayo."
+        },
+        "tags": [
+          "Calls",
+          "Comfort",
+          "Funny"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20251028_resigned_tuth",
+        "chapterId": "ch_here_now",
+        "dateISO": "2025-10-28T00:00:00+05:45",
+        "displayDate": "October 28, 2025",
+        "title": {
+          "en": "New chapter begins",
+          "np": "naya chapter suru"
+        },
+        "short": {
+          "en": "You resigned from Teaching Hospital.",
+          "np": "Teaching Hospital bata resign."
+        },
+        "long": {
+          "en": "You are brave, and I am proud.",
+          "np": "timi brave chhau, ma proud chu."
+        },
+        "tags": [
+          "Milestone",
+          "Nurse Era"
+        ],
+        "image": null,
+        "audio": "/audio/proud-of-you.mp3"
+      },
+      {
+        "id": "m_20251121_long_call",
+        "chapterId": "ch_rituals",
+        "dateISO": "2025-11-21T00:00:00+05:45",
+        "displayDate": "November 21, 2025",
+        "title": {
+          "en": "6 hours 58 minutes",
+          "np": "6 ghanta 58 minute"
+        },
+        "short": {
+          "en": "Whole night. Whole heart.",
+          "np": "raat bhari. mutu bhari."
+        },
+        "long": {
+          "en": "Not time passing, love building.",
+          "np": "time passing hoina, maya building."
+        },
+        "tags": [
+          "Calls",
+          "Iconic"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20260114_flower_bhaisipati",
+        "chapterId": "ch_here_now",
+        "dateISO": "2026-01-14T00:00:00+05:45",
+        "displayDate": "January 14, 2026",
+        "title": {
+          "en": "A flower on the road",
+          "np": "road ma ful"
+        },
+        "short": {
+          "en": "You gave me a flower.",
+          "np": "timi le malai ful diyau."
+        },
+        "long": {
+          "en": "Simple moment, big meaning.",
+          "np": "simple moment, thulo meaning."
+        },
+        "tags": [
+          "Gifts",
+          "HereNow"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_20260115_skirt_first_time",
+        "chapterId": "ch_here_now",
+        "dateISO": "2026-01-15T00:00:00+05:45",
+        "displayDate": "January 15, 2026",
+        "title": {
+          "en": "That skirt moment",
+          "np": "skirt moment"
+        },
+        "short": {
+          "en": "First time in front of me.",
+          "np": "pahilo choti malai dekhauna."
+        },
+        "long": {
+          "en": "Confident and cute together.",
+          "np": "confident ra cute ekai choti."
+        },
+        "tags": [
+          "Iconic",
+          "HereNow"
+        ],
+        "image": null,
+        "audio": null
+      },
+      {
+        "id": "m_extra_kantara",
+        "chapterId": "ch_extra",
+        "dateISO": "2025-01-01T00:00:00+05:45",
+        "displayDate": "Extra memory",
+        "title": {
+          "en": "The first movie after we met",
+          "np": "pahilo movie after hami"
+        },
+        "short": {
+          "en": "Kantara with Teaching Hospital friends.",
+          "np": "Kantara, Teaching Hospital sathi sanga."
+        },
+        "long": {
+          "en": "Small detail, big feeling.",
+          "np": "sano detail, thulo feeling."
+        },
+        "tags": [
+          "Extra",
+          "Nurse Era"
+        ],
+        "image": null,
+        "audio": null
+      }
+    ]
+  },
+  "gallery": {
+    "title": {
+      "en": "Polaroid Gallery",
+      "np": "polaroid gallery (photo corner)"
+    },
+    "subtitle": {
+      "en": "Snapshots I still replay in my head.",
+      "np": "photo haru, mind ma rent-free."
+    },
+    "items": [
+      {
+        "id": "g_yellow_dress",
+        "image": "/img/gallery/yellow-dress.jpg",
+        "dateISO": "2025-07-14T00:00:00+05:45",
+        "caption": {
+          "en": "Yellow dress day 💛",
+          "np": "yellow dress din 💛"
+        }
+      },
+      {
+        "id": "g_best_selfie",
+        "image": "/img/gallery/selfie-2025-04-02.jpg",
+        "dateISO": "2025-04-02T00:00:00+05:45",
+        "caption": {
+          "en": "That selfie I cannot forget",
+          "np": "birsina nasakne selfie"
+        }
+      },
+      {
+        "id": "g_sari_call",
+        "image": "/img/gallery/sari-call.jpg",
+        "dateISO": "2025-10-22T00:00:00+05:45",
+        "caption": {
+          "en": "Sari on video call ✨",
+          "np": "video call ma sari ✨"
+        }
+      },
+      {
+        "id": "g_flower_day",
+        "image": "/img/gallery/flower-2026-01-14.jpg",
+        "dateISO": "2026-01-14T00:00:00+05:45",
+        "caption": {
+          "en": "You gave me a flower",
+          "np": "timi le malai ful diyau"
+        }
+      }
+    ]
+  },
+  "nurseAppreciation": {
+    "title": {
+      "en": "For my nurse",
+      "np": "mero nurse mutu ko lagi ❤️"
+    },
+    "sections": [
+      {
+        "id": "n1",
+        "heading": {
+          "en": "What I admire about you",
+          "np": "timi ma malai man parne kura"
+        },
+        "body": {
+          "en": "You care all day and still make space for love.",
+          "np": "timi din bhari care garchau ani maya ko space ni banauchau."
+        }
+      },
+      {
+        "id": "n2",
+        "heading": {
+          "en": "Rest mode (official)",
+          "np": "rest mode (official)"
+        },
+        "body": {
+          "en": "You are allowed to rest right now, not later.",
+          "np": "timi ahile nai rest garna paauchau, pachi hoina."
+        }
+      },
+      {
+        "id": "n3",
+        "heading": {
+          "en": "I am proud of you",
+          "np": "ma timro proud chu"
+        },
+        "body": {
+          "en": "Your new chapter is brave and beautiful.",
+          "np": "timro naya chapter brave ra beautiful chha."
+        }
+      }
+    ],
+    "audio": "/audio/nurse-appreciation.mp3"
+  },
+  "play": {
+    "quiz": {
+      "title": {
+        "en": "Mutu Quiz",
+        "np": "Mutu Quiz 😄"
+      },
+      "subtitle": {
+        "en": "No pressure. Just us.",
+        "np": "pressure chaina mutu, sirf hami."
+      },
+      "questions": [
+        {
+          "id": "q_919",
+          "type": "single",
+          "question": {
+            "en": "What time did we add each other for the first time?",
+            "np": "hami pahilo choti kati baje add bhayau?"
+          },
+          "options": [
+            {
+              "en": "8:19 PM",
+              "np": "8:19"
+            },
+            {
+              "en": "9:19 PM",
+              "np": "9:19"
+            },
+            {
+              "en": "10:19 PM",
+              "np": "10:19"
+            }
+          ],
+          "answerIndex": 1,
+          "feedbackCorrect": {
+            "en": "Correct. Sacred time ❤️",
+            "np": "correct. sacred time ❤️"
+          },
+          "feedbackWrong": {
+            "en": "Close! I will remind you forever 😄",
+            "np": "close! ma yaad garaidinchhu 😄"
+          }
+        },
+        {
+          "id": "q_godawari",
+          "type": "single",
+          "question": {
+            "en": "Where was our first real alone moment?",
+            "np": "hamro pahilo real alone moment kaha thiyo?"
+          },
+          "options": [
+            {
+              "en": "Godawari",
+              "np": "Godawari"
+            },
+            {
+              "en": "Thamel",
+              "np": "Thamel"
+            },
+            {
+              "en": "Patan",
+              "np": "Patan"
+            }
+          ],
+          "answerIndex": 0,
+          "feedbackCorrect": {
+            "en": "Yes. Godawari forever.",
+            "np": "ho. Godawari forever."
+          },
+          "feedbackWrong": {
+            "en": "Aiyo! It was Godawari 😄",
+            "np": "aiyo! Godawari ho 😄"
+          }
+        },
+        {
+          "id": "q_parking",
+          "type": "single",
+          "question": {
+            "en": "Our destiny meet happened where?",
+            "np": "hamro destiny meet kaha bhayo?"
+          },
+          "options": [
+            {
+              "en": "Parking lot",
+              "np": "Parking lot"
+            },
+            {
+              "en": "Bus stop",
+              "np": "Bus stop"
+            },
+            {
+              "en": "Cafe",
+              "np": "Cafe"
+            }
+          ],
+          "answerIndex": 0,
+          "feedbackCorrect": {
+            "en": "Correct. Universe was extra 😄",
+            "np": "correct. universe extra 😄"
+          },
+          "feedbackWrong": {
+            "en": "Nope, parking lot 😄",
+            "np": "nope, parking lot 😄"
+          }
+        },
+        {
+          "id": "q_movie",
+          "type": "single",
+          "question": {
+            "en": "First movie after we met?",
+            "np": "hami bhete pachi pahilo movie?"
+          },
+          "options": [
+            {
+              "en": "Kantara",
+              "np": "Kantara"
+            },
+            {
+              "en": "KGF",
+              "np": "KGF"
+            },
+            {
+              "en": "RRR",
+              "np": "RRR"
+            }
+          ],
+          "answerIndex": 0,
+          "feedbackCorrect": {
+            "en": "Yes, Kantara.",
+            "np": "ho, Kantara."
+          },
+          "feedbackWrong": {
+            "en": "It was Kantara 😄",
+            "np": "Kantara ho 😄"
+          }
+        },
+        {
+          "id": "q_long_call",
+          "type": "single",
+          "question": {
+            "en": "How long was our whole-night call?",
+            "np": "hamro raat-bhari call kati time?"
+          },
+          "options": [
+            {
+              "en": "3h 20m",
+              "np": "3:20"
+            },
+            {
+              "en": "6h 58m",
+              "np": "6:58"
+            },
+            {
+              "en": "9h 10m",
+              "np": "9:10"
+            }
+          ],
+          "answerIndex": 1,
+          "feedbackCorrect": {
+            "en": "Correct. That is home.",
+            "np": "correct. yo ghar ho."
+          },
+          "feedbackWrong": {
+            "en": "Close! 6h 58m ❤️",
+            "np": "close! 6 ghanta 58 minute ❤️"
+          }
+        }
+      ]
+    },
+    "memoryMatch": {
+      "title": {
+        "en": "Memory Match",
+        "np": "Memory Match 😄"
+      },
+      "subtitle": {
+        "en": "Match date and moment.",
+        "np": "date ra moment match gara."
+      },
+      "pairSource": "timeline.items",
+      "pairCount": 8,
+      "endMessage": {
+        "en": "Perfect match ❤️",
+        "np": "perfect match ❤️"
+      }
+    }
+  },
+  "promises": {
+    "title": {
+      "en": "Promises & Coupons",
+      "np": "Promises & Coupons (बचन)"
+    },
+    "subtitle": {
+      "en": "Redeem anytime. Love has no expiry.",
+      "np": "jaba man lagchha use gara. maya ko expiry hudaina."
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": {
+          "en": "All",
+          "np": "sab"
+        }
+      },
+      {
+        "id": "unlocked",
+        "label": {
+          "en": "Unlocked",
+          "np": "khuleko"
+        }
+      },
+      {
+        "id": "redeemed",
+        "label": {
+          "en": "Redeemed",
+          "np": "use bhayeko"
+        }
+      }
+    ],
+    "ctaRedeem": {
+      "en": "Redeem",
+      "np": "use gara"
+    },
+    "ctaUndo": {
+      "en": "Undo",
+      "np": "farkau"
+    },
+    "items": [
+      {
+        "id": "c_nurse_rescue",
+        "rarity": "Legendary",
+        "icon": "🩺",
+        "title": {
+          "en": "Nurse fatigue rescue day",
+          "np": "nurse thakai remove day"
+        },
+        "desc": {
+          "en": "You rest. I handle everything.",
+          "np": "timi rest. ma sabai handle garxu."
+        }
+      },
+      {
+        "id": "c_listen_first",
+        "rarity": "Rare",
+        "icon": "👂",
+        "title": {
+          "en": "I will listen first pass",
+          "np": "pahila sunxu pass"
+        },
+        "desc": {
+          "en": "No fixing, just listening.",
+          "np": "fixing chaina, sirf sunne."
+        }
+      },
+      {
+        "id": "c_date_planned_by_me",
+        "rarity": "Rare",
+        "icon": "📅",
+        "title": {
+          "en": "Date planned fully by me",
+          "np": "date ma plan garxu"
+        },
+        "desc": {
+          "en": "You show up, I plan all.",
+          "np": "timi aau, plan ma garxu."
+        }
+      },
+      {
+        "id": "c_godawari_repeat",
+        "rarity": "Legendary",
+        "icon": "🌿",
+        "title": {
+          "en": "Godawari part-2",
+          "np": "Godawari part-2"
+        },
+        "desc": {
+          "en": "We make a new memory there.",
+          "np": "tei ma naya memory banauchau."
+        }
+      },
+      {
+        "id": "c_momo_movie",
+        "rarity": "Common",
+        "icon": "🥟",
+        "title": {
+          "en": "Momo + movie night",
+          "np": "momo + movie night"
+        },
+        "desc": {
+          "en": "Your movie choice, my momo duty.",
+          "np": "movie timro, momo mero."
+        }
+      },
+      {
+        "id": "c_phone_free_walk",
+        "rarity": "Common",
+        "icon": "🚶",
+        "title": {
+          "en": "Phone-free walk",
+          "np": "phone bina walk"
+        },
+        "desc": {
+          "en": "No scrolling, just us.",
+          "np": "scroll chaina, sirf hami."
+        }
+      },
+      {
+        "id": "c_boring_task",
+        "rarity": "Common",
+        "icon": "🧾",
+        "title": {
+          "en": "I do the boring task",
+          "np": "boring kaam ma garxu"
+        },
+        "desc": {
+          "en": "Paperwork and errands, mine.",
+          "np": "paperwork ra errands, mero."
+        }
+      },
+      {
+        "id": "c_poem_again",
+        "rarity": "Rare",
+        "icon": "📝",
+        "title": {
+          "en": "Write you a poem again",
+          "np": "feri poem lekhdinchhu"
+        },
+        "desc": {
+          "en": "Fresh poem for you.",
+          "np": "timrai lagi naya poem."
+        }
+      },
+      {
+        "id": "c_talk_till_sleep",
+        "rarity": "Legendary",
+        "icon": "🌙",
+        "title": {
+          "en": "Talk till sleep night",
+          "np": "sutunjel call night"
+        },
+        "desc": {
+          "en": "No rush, just us till sleep.",
+          "np": "rush chaina, sutunjel hami."
+        }
+      }
+    ]
+  },
   "finale": {
-    "eyebrow": "Finale",
-    "heading": "Happy Valentine's Day, Reeja.",
-    "holdPrompt": "Press and hold for 1.5 seconds to reveal your final line.",
-    "holdButton": "Hold to reveal",
-    "revealedLine": "Mutu... thank you for choosing me in small ways, again and again. I do not want perfect love. I want safe love. With you, it already is."
+    "title": {
+      "en": "Choose your ending",
+      "np": "ending choose gara mutu"
+    },
+    "choices": [
+      {
+        "id": "soft",
+        "label": {
+          "en": "Soft",
+          "np": "Soft"
+        }
+      },
+      {
+        "id": "funny",
+        "label": {
+          "en": "Funny",
+          "np": "Funny"
+        }
+      },
+      {
+        "id": "romantic",
+        "label": {
+          "en": "Emotional",
+          "np": "emotional"
+        }
+      }
+    ],
+    "variants": {
+      "soft": {
+        "headline": {
+          "en": "Happy Valentine’s Day, Reeja.",
+          "np": "Happy Valentine’s Day, mero mutu ❤️"
+        },
+        "body": {
+          "en": "Thank you for choosing me again and again.\nWith you, love feels safe.\nNow come here ❤️",
+          "np": "dhanyabad, malai feri feri choose gareko lagi.\nTimro saathma maya safe lagchha.\naba yeta aau ❤️"
+        },
+        "ctaPrimary": {
+          "en": "Replay our story",
+          "np": "feri heram"
+        },
+        "ctaSecondary": {
+          "en": "Open the secret",
+          "np": "secret khola"
+        }
+      },
+      "funny": {
+        "headline": {
+          "en": "Serious announcement 😄",
+          "np": "serious announcement 😄"
+        },
+        "body": {
+          "en": "You are officially my favorite human.\nComplaints not accepted 😄\nI love you, a lot.",
+          "np": "timi officially mero favorite human.\ncomplaints accept hudaina 😄\nma timilai dherai maya garchu."
+        },
+        "ctaPrimary": {
+          "en": "Replay",
+          "np": "feri"
+        },
+        "ctaSecondary": {
+          "en": "Unlock vault",
+          "np": "vault khola"
+        }
+      },
+      "romantic": {
+        "headline": {
+          "en": "My Reeja, my home.",
+          "np": "Mero Reeja, mero ghar."
+        },
+        "body": {
+          "en": "If I had one word for you, it is home.\nNot place, feeling.\nStay with me, always ❤️",
+          "np": "timi lai describe garna ek word, home.\nplace hoina, feeling.\nma sanga basa, always ❤️"
+        },
+        "ctaPrimary": {
+          "en": "Replay our story",
+          "np": "feri heram"
+        },
+        "ctaSecondary": {
+          "en": "Write back to me",
+          "np": "malai lekha"
+        }
+      }
+    }
   },
-  "easterEgg": {
-    "title": "Inside joke unlocked",
-    "hint": "Tap the heart 7 times to unlock our private coded memory.",
-    "message": "The famous threatening moment stays between us forever. If someone asks, we smile and change topic."
+  "vault": {
+    "title": {
+      "en": "Inside Joke Vault",
+      "np": "inside joke vault 😄"
+    },
+    "subtitle": {
+      "en": "Only for us. Coded forever.",
+      "np": "sirf hami lai. forever coded."
+    },
+    "unlock": {
+      "type": "tapSequence",
+      "target": "heart",
+      "count": 7,
+      "successMessage": {
+        "en": "Unlocked 😄",
+        "np": "khulyo 😄"
+      }
+    },
+    "items": [
+      {
+        "id": "v_threatening",
+        "title": {
+          "en": "The famous moment",
+          "np": "famous threatening moment 😄"
+        },
+        "body": {
+          "en": "Only we know. Smile and change topic.",
+          "np": "sirf hami lai thaha. smile gara, topic change."
+        }
+      },
+      {
+        "id": "v_wana",
+        "title": {
+          "en": "Wana",
+          "np": "Wana"
+        },
+        "body": {
+          "en": "Tiny word, huge feeling.",
+          "np": "sano word, thulo feeling."
+        }
+      },
+      {
+        "id": "v_bathroom_call",
+        "title": {
+          "en": "Bathroom call day",
+          "np": "bathroom call din 😄"
+        },
+        "body": {
+          "en": "Real life, no filter, pure love.",
+          "np": "real life, no filter, pure maya."
+        }
+      }
+    ]
+  },
+  "futureTimeline": {
+    "title": {
+      "en": "Future Us",
+      "np": "future hami"
+    },
+    "subtitle": {
+      "en": "Locked memories waiting to happen.",
+      "np": "huna baki memory haru (locked)."
+    },
+    "items": [
+      {
+        "id": "f_first_trip",
+        "locked": true,
+        "unlock": {
+          "type": "date",
+          "dateISO": "2026-12-14T00:00:00+05:45"
+        },
+        "title": {
+          "en": "Our next big trip",
+          "np": "hamro next big trip"
+        },
+        "short": {
+          "en": "To be written by us.",
+          "np": "hami le lekhnai baki."
+        }
+      },
+      {
+        "id": "f_anniversary",
+        "locked": true,
+        "unlock": {
+          "type": "date",
+          "dateISO": "2026-12-14T00:00:00+05:45"
+        },
+        "title": {
+          "en": "First anniversary",
+          "np": "pahilo anniversary"
+        },
+        "short": {
+          "en": "One year since 9:19 PM.",
+          "np": "9:19 PM dekhi ek barsa."
+        }
+      },
+      {
+        "id": "f_new_home",
+        "locked": true,
+        "unlock": {
+          "type": "passcode",
+          "codeHint": "A word we say when we miss each other."
+        },
+        "title": {
+          "en": "Our home chapter",
+          "np": "hamro ghar chapter"
+        },
+        "short": {
+          "en": "Coming soon ❤️",
+          "np": "coming soon ❤️"
+        }
+      }
+    ]
+  },
+  "writeBack": {
+    "title": {
+      "en": "Write back to me",
+      "np": "malai lekha mutu"
+    },
+    "subtitle": {
+      "en": "Private note. Saved only on this device.",
+      "np": "private note. yo device ma matrai save huncha."
+    },
+    "placeholders": {
+      "en": "Write anything you want me to remember...",
+      "np": "malai yaad garauna chahane kehi ni lekha..."
+    },
+    "ctaSave": {
+      "en": "Save",
+      "np": "save gara"
+    },
+    "ctaClear": {
+      "en": "Clear",
+      "np": "clear"
+    },
+    "savedToast": {
+      "en": "Saved ❤️",
+      "np": "save bhayo ❤️"
+    }
   }
 }
