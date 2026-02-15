@@ -1,3 +1,5 @@
+import { MOTION_EASING, MOTION_MS } from "./motionTokens";
+
 export async function animateMemoryCard(card: HTMLElement, reducedMotion: boolean) {
   if (reducedMotion) {
     return;
@@ -8,18 +10,19 @@ export async function animateMemoryCard(card: HTMLElement, reducedMotion: boolea
     const anime = animeModule.default ?? animeModule;
     anime({
       targets: card,
-      scale: [1, 1.03, 1],
-      duration: 320,
-      easing: "easeOutQuad"
+      scale: [1, 0.99, 1],
+      translateY: [0, -4, 0],
+      duration: MOTION_MS.standard,
+      easing: "easeOutCubic"
     });
   } catch {
     card.animate(
       [
-        { transform: "scale(1)" },
-        { transform: "scale(1.02)" },
-        { transform: "scale(1)" }
+        { transform: "translateY(0) scale(1)" },
+        { transform: "translateY(-4px) scale(0.99)" },
+        { transform: "translateY(0) scale(1)" }
       ],
-      { duration: 260, easing: "ease-out" }
+      { duration: MOTION_MS.standard, easing: MOTION_EASING.out }
     );
   }
 }
@@ -34,7 +37,7 @@ export async function smoothScrollToChapter(target: HTMLElement, reducedMotion: 
     const velocityModule: any = await import("velocity-animate");
     const velocity = velocityModule.default ?? velocityModule;
     velocity(target, "scroll", {
-      duration: 520,
+      duration: 420,
       offset: -72,
       easing: "easeInOutQuad"
     });

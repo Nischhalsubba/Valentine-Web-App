@@ -12,7 +12,10 @@ export default function StepMemory({
 }: StepComponentProps) {
   const reducedMotion = usePrefersReducedMotion();
   const [activeMemory, setActiveMemory] = useState<MemoryCard | null>(null);
+  const [activeCardKey, setActiveCardKey] = useState<string | null>(null);
   const [flippedKey, setFlippedKey] = useState<string | null>(null);
+  const [activeChapterId, setActiveChapterId] = useState(content.chapters[0]?.id ?? "");
+  const [laneProgress, setLaneProgress] = useState(0);
   const [transitionModule, setTransitionModule] = useState<any>(null);
   const chapterRefs = useRef<Record<string, HTMLElement | null>>({});
 
@@ -33,11 +36,81 @@ export default function StepMemory({
     };
   }, []);
 
+  useEffect(() => {
+    const chapters = content.chapters
+      .map((chapter) => chapterRefs.current[chapter.id])
+      .filter(Boolean) as HTMLElement[];
+
+    if (chapters.length === 0) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]?.target?.id) {
+          setActiveChapterId(visible[0].target.id);
+        }
+      },
+      {
+        threshold: [0.35, 0.6],
+        rootMargin: "-15% 0px -45% 0px"
+      }
+    );
+
+    chapters.forEach((chapter) => observer.observe(chapter));
+    return () => observer.disconnect();
+  }, [content.chapters]);
+
+  useEffect(() => {
+    const updateLaneProgress = () => {
+      const first = chapterRefs.current[content.chapters[0]?.id ?? ""];
+      const last = chapterRefs.current[content.chapters[content.chapters.length - 1]?.id ?? ""];
+      if (!first || !last) {
+        setLaneProgress(0);
+        return;
+      }
+
+      const firstTop = first.getBoundingClientRect().top + window.scrollY;
+      const lastBottom = last.getBoundingClientRect().bottom + window.scrollY;
+      const start = firstTop - window.innerHeight * 0.4;
+      const end = lastBottom - window.innerHeight * 0.55;
+      const range = Math.max(1, end - start);
+      const progress = ((window.scrollY - start) / range) * 100;
+      setLaneProgress(Math.min(100, Math.max(0, progress)));
+    };
+
+    updateLaneProgress();
+    window.addEventListener("scroll", updateLaneProgress, { passive: true });
+    window.addEventListener("resize", updateLaneProgress);
+    return () => {
+      window.removeEventListener("scroll", updateLaneProgress);
+      window.removeEventListener("resize", updateLaneProgress);
+    };
+  }, [content.chapters]);
+
+  useEffect(() => {
+    if (!activeMemory) {
+      return;
+    }
+    const onEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveMemory(null);
+        setActiveCardKey(null);
+      }
+    };
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, [activeMemory]);
+
   const jumpToChapter = (chapterId: string) => {
     const target = chapterRefs.current[chapterId];
     if (!target) {
       return;
     }
+    setActiveChapterId(chapterId);
     void smoothScrollToChapter(target, reducedMotion);
   };
 
@@ -49,13 +122,19 @@ export default function StepMemory({
   ) => {
     const key = `${chapterId}-${memoryIndex}`;
     setFlippedKey((prev) => (prev === key ? null : key));
+    setActiveCardKey(key);
     setActiveMemory(memory);
     void animateMemoryCard(target, reducedMotion);
   };
 
+  const closeMemory = () => {
+    setActiveMemory(null);
+    setActiveCardKey(null);
+  };
+
   const CSSTransition = transitionModule?.CSSTransition;
   const sheetBody = (
-    <div className="sheet-backdrop" role="presentation" onClick={() => setActiveMemory(null)}>
+    <div className="sheet-backdrop" role="presentation" onClick={closeMemory}>
       <div
         className="sheet-card"
         role="dialog"
@@ -66,7 +145,7 @@ export default function StepMemory({
         <p className="eyebrow">{activeMemory?.date}</p>
         <h3>{activeMemory?.title}</h3>
         <p>{activeMemory?.caption}</p>
-        <button className="btn btn-secondary" type="button" onClick={() => setActiveMemory(null)}>
+        <button className="btn btn-secondary" type="button" onClick={closeMemory}>
           Close
         </button>
       </div>
@@ -83,13 +162,17 @@ export default function StepMemory({
         {content.chapters.map((chapter) => (
           <button
             key={chapter.id}
-            className="jump-pill"
+            className={`jump-pill ${activeChapterId === chapter.id ? "is-active" : ""}`}
             type="button"
             onClick={() => jumpToChapter(chapter.id)}
           >
             {chapter.title.replace("Chapter ", "Ch ")}
           </button>
         ))}
+      </div>
+
+      <div className="memory-progress" aria-hidden>
+        <span style={{ width: `${laneProgress}%` }} />
       </div>
 
       <div className="chapter-list">
@@ -110,11 +193,12 @@ export default function StepMemory({
               {chapter.memories.map((memory, index) => {
                 const cardKey = `${chapter.id}-${index}`;
                 const isFlipped = flippedKey === cardKey;
+                const isActive = activeCardKey === cardKey;
                 return (
                   <button
                     key={cardKey}
                     type="button"
-                    className={`memory-card ${isFlipped ? "is-flipped" : ""}`}
+                    className={`memory-card ${isFlipped ? "is-flipped" : ""} ${isActive ? "is-active" : ""}`}
                     onClick={(event) =>
                       openMemory(chapter.id, index, memory, event.currentTarget)
                     }

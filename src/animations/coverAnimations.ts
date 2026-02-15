@@ -1,3 +1,5 @@
+import { MOTION_DURATION, MOTION_EASING, MOTION_MS } from "./motionTokens";
+
 type Cleanup = () => void;
 
 interface CoverAnimationOptions {
@@ -12,6 +14,8 @@ interface OpenAnimationOptions {
   reducedMotion: boolean;
 }
 
+let runCoverBurst: ((envelope: HTMLElement) => void) | null = null;
+
 export async function initCoverAnimations({
   envelope,
   ctaButton,
@@ -23,16 +27,16 @@ export async function initCoverAnimations({
     try {
       const motion = await import("motion");
       const hoverIn = () => {
-        motion.animate(ctaButton, { scale: [1, 1.03] }, { duration: 0.2 });
+        motion.animate(ctaButton, { scale: [1, 1.02] }, { duration: MOTION_DURATION.fast });
       };
       const hoverOut = () => {
-        motion.animate(ctaButton, { scale: [1.03, 1] }, { duration: 0.2 });
+        motion.animate(ctaButton, { scale: [1.02, 1] }, { duration: MOTION_DURATION.fast });
       };
       const pressIn = () => {
-        motion.animate(ctaButton, { scale: [1, 0.97] }, { duration: 0.12 });
+        motion.animate(ctaButton, { scale: [1, 0.98] }, { duration: 0.12 });
       };
       const pressOut = () => {
-        motion.animate(ctaButton, { scale: [0.97, 1.01] }, { duration: 0.15 });
+        motion.animate(ctaButton, { scale: [0.98, 1] }, { duration: MOTION_DURATION.fast });
       };
 
       ctaButton.addEventListener("mouseenter", hoverIn);
@@ -53,26 +57,35 @@ export async function initCoverAnimations({
     try {
       const mojsModule: any = await import("@mojs/core");
       const mojs = mojsModule.default ?? mojsModule;
-      const pulseTimer = window.setInterval(() => {
-        const rect = envelope.getBoundingClientRect();
-        const x = rect.left + rect.width * (0.35 + Math.random() * 0.3);
-        const y = rect.top + rect.height * (0.3 + Math.random() * 0.4);
 
-        new mojs.Shape({
-          left: x,
-          top: y,
-          parent: document.body,
-          shape: "heart",
-          fill: "none",
-          stroke: "#cc7e5b",
-          strokeWidth: { 12: 0 },
-          radius: { 10: 26 },
-          duration: 1200,
-          easing: "quad.out"
-        }).play();
-      }, 1800);
+      runCoverBurst = (targetEnvelope: HTMLElement) => {
+        const rect = targetEnvelope.getBoundingClientRect();
+        const centerX = rect.left + rect.width * 0.5;
+        const centerY = rect.top + rect.height * 0.45;
 
-      cleanups.push(() => window.clearInterval(pulseTimer));
+        const burst = new mojs.Burst({
+          left: centerX,
+          top: centerY,
+          count: 8,
+          radius: { 0: 56 },
+          degree: 130,
+          angle: -25,
+          children: {
+            shape: "heart",
+            radius: { 8: 0 },
+            fill: ["#E85D75", "#FFD3DA", "#F8A7B7"],
+            duration: 760,
+            easing: "quad.out",
+            opacity: { 0.8: 0 }
+          }
+        });
+
+        burst.play();
+      };
+
+      cleanups.push(() => {
+        runCoverBurst = null;
+      });
     } catch {
       // Fallback remains static.
     }
@@ -92,6 +105,12 @@ export function playEnvelopeOpen({ envelope, letter, reducedMotion }: OpenAnimat
   envelope.classList.add("is-open");
   letter.classList.add("is-open");
 
+  if (!reducedMotion) {
+    envelope.classList.add("is-opening");
+    runCoverBurst?.(envelope);
+    window.setTimeout(() => envelope.classList.remove("is-opening"), 420);
+  }
+
   if (reducedMotion) {
     return;
   }
@@ -102,8 +121,8 @@ export function playEnvelopeOpen({ envelope, letter, reducedMotion }: OpenAnimat
       { transform: "rotateX(-130deg)" }
     ],
     {
-      duration: 540,
-      easing: "cubic-bezier(0.2, 0.84, 0.3, 1)",
+      duration: 620,
+      easing: MOTION_EASING.decelerate,
       fill: "forwards"
     }
   );
@@ -114,8 +133,8 @@ export function playEnvelopeOpen({ envelope, letter, reducedMotion }: OpenAnimat
       { transform: "translateY(-56px)", opacity: 1 }
     ],
     {
-      duration: 700,
-      easing: "cubic-bezier(0.19, 1, 0.22, 1)",
+      duration: MOTION_MS.emotional,
+      easing: MOTION_EASING.decelerate,
       fill: "forwards"
     }
   );

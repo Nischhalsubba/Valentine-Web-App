@@ -1,3 +1,5 @@
+import { MOTION_DURATION, MOTION_EASING, MOTION_MS } from "./motionTokens";
+
 export async function animateQuestionSwap(node: HTMLElement | null, reducedMotion: boolean) {
   if (!node) {
     return;
@@ -12,20 +14,21 @@ export async function animateQuestionSwap(node: HTMLElement | null, reducedMotio
     motion.animate(
       node,
       {
-        opacity: [0.2, 1],
-        x: [16, 0]
+        opacity: [0.24, 1],
+        x: [12, 0]
       },
       {
-        duration: 0.3
+        duration: MOTION_DURATION.standard,
+        easing: MOTION_EASING.inOut
       }
     );
   } catch {
     node.animate(
       [
-        { opacity: 0.2, transform: "translateX(16px)" },
+        { opacity: 0.24, transform: "translateX(12px)" },
         { opacity: 1, transform: "translateX(0px)" }
       ],
-      { duration: 260, easing: "ease-out" }
+      { duration: MOTION_MS.standard, easing: MOTION_EASING.inOut }
     );
   }
 }
@@ -47,8 +50,8 @@ export async function animateAnswerFeedback(
     if (isCorrect) {
       popmotion.animate({
         from: 1,
-        to: 1.08,
-        duration: 160,
+        to: 1.02,
+        duration: MOTION_MS.fast,
         repeat: 1,
         repeatType: "mirror",
         onUpdate: (latest: number) => {
@@ -62,10 +65,10 @@ export async function animateAnswerFeedback(
     }
 
     popmotion.animate({
-      from: -9,
-      to: 9,
-      duration: 70,
-      repeat: 4,
+      from: -5,
+      to: 5,
+      duration: 54,
+      repeat: 3,
       repeatType: "mirror",
       onUpdate: (latest: number) => {
         node.style.transform = `translateX(${latest}px)`;
@@ -76,18 +79,18 @@ export async function animateAnswerFeedback(
     });
   } catch {
     node.animate(
-      isCorrect
-        ? [
-            { transform: "scale(1)" },
-            { transform: "scale(1.08)" },
-            { transform: "scale(1)" }
-          ]
-        : [
-            { transform: "translateX(-8px)" },
-            { transform: "translateX(8px)" },
-            { transform: "translateX(0px)" }
-          ],
-      { duration: 260, easing: "ease-out" }
+        isCorrect
+          ? [
+              { transform: "scale(1)" },
+              { transform: "scale(1.02)" },
+              { transform: "scale(1)" }
+            ]
+          : [
+              { transform: "translateX(-5px)" },
+              { transform: "translateX(5px)" },
+              { transform: "translateX(0px)" }
+            ],
+      { duration: 220, easing: MOTION_EASING.out }
     );
   }
 }

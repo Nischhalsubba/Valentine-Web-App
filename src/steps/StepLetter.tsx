@@ -61,6 +61,9 @@ export default function StepLetter({
           >
             {allRevealed ? "All reasons revealed" : "Reveal next reason"}
           </button>
+          <p className="reason-microcopy">
+            {allRevealed ? "All revealed." : "Tap to reveal the next one."}
+          </p>
         </div>
 
         <div ref={reasonContainerRef} className="reason-container">
@@ -81,7 +84,11 @@ export default function StepLetter({
         </div>
       </section>
 
-      <StepActions onBack={onBack} onNext={onNext} />
+      <StepActions
+        onBack={onBack}
+        onNext={onNext}
+        nextLabel={allRevealed ? "Continue" : "Skip to memory lane"}
+      />
     </StepShell>
   );
 }

@@ -72,7 +72,9 @@ export default function StepQuiz({
       {!completed ? (
         <div className="quiz-card" ref={questionRef}>
           <p className="quiz-meta">
-            Question {questionIndex + 1} / {content.quiz.length}
+            <span key={questionIndex} className="quiz-counter">
+              Question {questionIndex + 1} / {content.quiz.length}
+            </span>
             <span>Score: {score}</span>
           </p>
           <div className="quiz-track" aria-hidden>
