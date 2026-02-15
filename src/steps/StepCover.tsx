@@ -17,6 +17,7 @@ export default function StepCover({
   const ctaRef = useRef<HTMLButtonElement>(null);
   const openTimerRef = useRef<number | null>(null);
   const [opened, setOpened] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
 
   useEffect(() => {
     let disposed = false;
@@ -37,20 +38,20 @@ export default function StepCover({
     return () => {
       disposed = true;
       cleanup();
-      if (openTimerRef.current) {
+      if (openTimerRef.current !== null) {
         window.clearTimeout(openTimerRef.current);
       }
     };
   }, [reducedMotion]);
 
   const handleOpen = () => {
-    if (opened) {
-      onNext();
+    if (opened || isOpening) {
       return;
     }
 
     setOpened(true);
-    playEnvelopeOpen({
+    setIsOpening(true);
+    const openDuration = playEnvelopeOpen({
       envelope: envelopeRef.current,
       letter: letterRef.current,
       reducedMotion
@@ -61,7 +62,8 @@ export default function StepCover({
       return;
     }
 
-    openTimerRef.current = window.setTimeout(onNext, 820);
+    const transitionDelay = Math.min(Math.max(openDuration || 620, 560), 900);
+    openTimerRef.current = window.setTimeout(onNext, transitionDelay);
   };
 
   return (
@@ -78,8 +80,15 @@ export default function StepCover({
       </div>
 
       <div className="centered-block">
-        <button ref={ctaRef} className="btn btn-primary" type="button" onClick={handleOpen}>
-          {opened ? "Continue" : content.meta.openButton}
+        <button
+          ref={ctaRef}
+          className={`btn btn-primary cover-cta ${isOpening ? "is-loading" : ""}`}
+          type="button"
+          onClick={handleOpen}
+          disabled={isOpening}
+        >
+          <span className="cover-cta-label">{isOpening ? "Opening..." : content.meta.openButton}</span>
+          <span className="btn-spinner" aria-hidden />
         </button>
         <p className="cover-hint">Tap slowly, like opening a real letter.</p>
       </div>

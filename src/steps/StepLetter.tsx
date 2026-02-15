@@ -1,5 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { initLetterAnimations } from "../animations/letterAnimations";
+import { MOTION_EASING, MOTION_MS } from "../animations/motionTokens";
 import StepActions from "../components/StepActions";
 import StepShell from "../components/StepShell";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
@@ -14,7 +15,13 @@ export default function StepLetter({
 }: StepComponentProps) {
   const reducedMotion = usePrefersReducedMotion();
   const [revealedCount, setRevealedCount] = useState(0);
-  const reasons = content.reasons.slice(0, revealedCount);
+  const [latestReasonId, setLatestReasonId] = useState<string | null>(null);
+  const reasons = content.reasons.slice(0, revealedCount).map((text, index) => ({
+    id: `reason-${index}`,
+    text,
+    order: index + 1
+  }));
+  const letterRef = useRef<HTMLElement>(null);
   const reasonContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,15 +42,50 @@ export default function StepLetter({
     };
   }, [reducedMotion]);
 
+  useEffect(() => {
+    const letter = letterRef.current;
+    if (!letter || typeof letter.animate !== "function") {
+      return;
+    }
+
+    letter.animate(
+      reducedMotion
+        ? [{ opacity: 0 }, { opacity: 1 }]
+        : [
+            { opacity: 0, transform: "translateY(10px)" },
+            { opacity: 1, transform: "translateY(0px)" }
+          ],
+      {
+        duration: reducedMotion ? 240 : MOTION_MS.ui,
+        easing: MOTION_EASING.inOut,
+        fill: "both"
+      }
+    );
+  }, [reducedMotion]);
+
+  useEffect(() => {
+    if (!latestReasonId) {
+      return;
+    }
+    const timer = window.setTimeout(() => setLatestReasonId(null), 320);
+    return () => window.clearTimeout(timer);
+  }, [latestReasonId]);
+
   const revealNext = () => {
-    setRevealedCount((prev) => Math.min(prev + 1, content.reasons.length));
+    setRevealedCount((prev) => {
+      const next = Math.min(prev + 1, content.reasons.length);
+      if (next > prev) {
+        setLatestReasonId(`reason-${next - 1}`);
+      }
+      return next;
+    });
   };
 
   const allRevealed = revealedCount >= content.reasons.length;
 
   return (
     <StepShell eyebrow="Step 2/5 - Relive" title={content.letter.heading} subtitle={content.letter.eyebrow}>
-      <article className="letter-sheet">
+      <article ref={letterRef} className="letter-sheet">
         <p className="letter-copy">{content.letter.body}</p>
       </article>
 
@@ -64,22 +106,27 @@ export default function StepLetter({
           <p className="reason-microcopy">
             {allRevealed ? "All revealed." : "Tap to reveal the next one."}
           </p>
+          {allRevealed ? (
+            <p className="reveal-complete" role="status">
+              All revealed <span aria-hidden>done</span>
+            </p>
+          ) : null}
         </div>
 
         <div ref={reasonContainerRef} className="reason-container">
           <Suspense
             fallback={
               <ul className="reason-list">
-                {reasons.map((reason, index) => (
-                  <li key={`${reason}-${index}`}>
-                    <span>Reason {index + 1}</span>
-                    {reason}
+                {reasons.map((reason) => (
+                  <li key={reason.id}>
+                    <span>Reason {reason.order}</span>
+                    {reason.text}
                   </li>
                 ))}
               </ul>
             }
           >
-            <SpringReasonList reasons={reasons} />
+            <SpringReasonList reasons={reasons} latestId={latestReasonId} reducedMotion={reducedMotion} />
           </Suspense>
         </div>
       </section>
@@ -92,3 +139,4 @@ export default function StepLetter({
     </StepShell>
   );
 }
+

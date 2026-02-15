@@ -15,6 +15,7 @@ export default function StepQuiz({
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [feedbackNote, setFeedbackNote] = useState("");
   const questionRef = useRef<HTMLDivElement>(null);
 
   const currentQuestion = content.quiz[questionIndex];
@@ -38,11 +39,13 @@ export default function StepQuiz({
   }, [content.quizMessages.high, content.quizMessages.low, content.quizMessages.mid, score]);
 
   const handleOption = (option: string, target: HTMLButtonElement) => {
+    const isCorrect = option === currentQuestion.answer;
     setSelectedOption(option);
+    setFeedbackNote(isCorrect ? "Nice :)" : "Close :)");
     target.parentElement
       ?.querySelectorAll<HTMLButtonElement>(".quiz-option")
       .forEach((node) => node.classList.remove("is-correct", "is-wrong"));
-    void animateAnswerFeedback(target, option === currentQuestion.answer, reducedMotion);
+    void animateAnswerFeedback(target, isCorrect, reducedMotion);
   };
 
   const nextQuestion = () => {
@@ -61,6 +64,7 @@ export default function StepQuiz({
 
     setQuestionIndex((prev) => prev + 1);
     setSelectedOption("");
+    setFeedbackNote("");
   };
 
   return (
@@ -94,6 +98,15 @@ export default function StepQuiz({
               </button>
             ))}
           </div>
+          <p
+            className={`quiz-feedback ${
+              selectedOption === currentQuestion.answer ? "is-correct" : "is-wrong"
+            } ${feedbackNote ? "is-visible" : ""}`}
+            role="status"
+            aria-live="polite"
+          >
+            {feedbackNote}
+          </p>
 
           <button className="btn btn-primary" type="button" onClick={nextQuestion} disabled={!selectedOption}>
             {questionIndex >= content.quiz.length - 1 ? "Finish quiz" : "Next question"}

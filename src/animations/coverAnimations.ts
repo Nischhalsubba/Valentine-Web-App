@@ -16,6 +16,16 @@ interface OpenAnimationOptions {
 
 let runCoverBurst: ((envelope: HTMLElement) => void) | null = null;
 
+function isLowPowerDevice() {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  const cores = navigator.hardwareConcurrency ?? 4;
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
+  return cores <= 2 || memory <= 2;
+}
+
 export async function initCoverAnimations({
   envelope,
   ctaButton,
@@ -27,27 +37,31 @@ export async function initCoverAnimations({
     try {
       const motion = await import("motion");
       const hoverIn = () => {
-        motion.animate(ctaButton, { scale: [1, 1.02] }, { duration: MOTION_DURATION.fast });
+        motion.animate(ctaButton, { scale: [1, 1.01] }, { duration: MOTION_DURATION.micro });
       };
       const hoverOut = () => {
-        motion.animate(ctaButton, { scale: [1.02, 1] }, { duration: MOTION_DURATION.fast });
+        motion.animate(ctaButton, { scale: [1.01, 1] }, { duration: MOTION_DURATION.fast });
       };
       const pressIn = () => {
-        motion.animate(ctaButton, { scale: [1, 0.98] }, { duration: 0.12 });
+        motion.animate(ctaButton, { scale: [1, 0.985] }, { duration: MOTION_DURATION.micro });
       };
       const pressOut = () => {
-        motion.animate(ctaButton, { scale: [0.98, 1] }, { duration: MOTION_DURATION.fast });
+        motion.animate(ctaButton, { scale: [0.985, 1] }, { duration: MOTION_DURATION.fast });
       };
 
       ctaButton.addEventListener("mouseenter", hoverIn);
       ctaButton.addEventListener("mouseleave", hoverOut);
       ctaButton.addEventListener("pointerdown", pressIn);
       ctaButton.addEventListener("pointerup", pressOut);
+      ctaButton.addEventListener("pointercancel", pressOut);
+      ctaButton.addEventListener("pointerleave", pressOut);
 
       cleanups.push(() => ctaButton.removeEventListener("mouseenter", hoverIn));
       cleanups.push(() => ctaButton.removeEventListener("mouseleave", hoverOut));
       cleanups.push(() => ctaButton.removeEventListener("pointerdown", pressIn));
       cleanups.push(() => ctaButton.removeEventListener("pointerup", pressOut));
+      cleanups.push(() => ctaButton.removeEventListener("pointercancel", pressOut));
+      cleanups.push(() => ctaButton.removeEventListener("pointerleave", pressOut));
     } catch {
       ctaButton.classList.add("cta-fallback");
     }
@@ -66,17 +80,17 @@ export async function initCoverAnimations({
         const burst = new mojs.Burst({
           left: centerX,
           top: centerY,
-          count: 8,
-          radius: { 0: 56 },
-          degree: 130,
-          angle: -25,
+          count: 6,
+          radius: { 0: 52 },
+          degree: 110,
+          angle: -18,
           children: {
             shape: "heart",
-            radius: { 8: 0 },
+            radius: { 7: 0 },
             fill: ["#E85D75", "#FFD3DA", "#F8A7B7"],
-            duration: 760,
+            duration: 640,
             easing: "quad.out",
-            opacity: { 0.8: 0 }
+            opacity: { 0.7: 0 }
           }
         });
 
@@ -96,24 +110,75 @@ export async function initCoverAnimations({
   };
 }
 
-export function playEnvelopeOpen({ envelope, letter, reducedMotion }: OpenAnimationOptions) {
+export function playEnvelopeOpen({ envelope, letter, reducedMotion }: OpenAnimationOptions): number {
   if (!envelope || !letter) {
-    return;
+    return 0;
   }
 
   const flap = envelope.querySelector<HTMLElement>(".envelope-flap");
   envelope.classList.add("is-open");
   letter.classList.add("is-open");
 
-  if (!reducedMotion) {
-    envelope.classList.add("is-opening");
-    runCoverBurst?.(envelope);
-    window.setTimeout(() => envelope.classList.remove("is-opening"), 420);
+  if (reducedMotion) {
+    envelope.classList.remove("is-opening", "is-glowing");
+    letter.animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: MOTION_MS.ui,
+      easing: MOTION_EASING.inOut,
+      fill: "forwards"
+    });
+    return MOTION_MS.ui;
   }
 
-  if (reducedMotion) {
-    return;
+  const shouldUseSimpleOpen = isLowPowerDevice() || !flap || typeof flap.animate !== "function";
+  const addGlow = () => {
+    envelope.classList.add("is-glowing");
+    window.setTimeout(() => envelope.classList.remove("is-glowing"), 220);
+  };
+
+  envelope.classList.add("is-opening");
+
+  if (shouldUseSimpleOpen) {
+    envelope.animate(
+      [
+        { opacity: 1, transform: "translateY(0px)" },
+        { opacity: 0.45, transform: "translateY(-8px)" }
+      ],
+      {
+        duration: MOTION_MS.ui,
+        easing: MOTION_EASING.decelerate,
+        fill: "forwards"
+      }
+    );
+
+    letter.animate(
+      [
+        { opacity: 0, transform: "translateY(8px)" },
+        { opacity: 1, transform: "translateY(-42px)" }
+      ],
+      {
+        duration: 360,
+        easing: MOTION_EASING.decelerate,
+        fill: "forwards"
+      }
+    );
+
+    window.setTimeout(() => {
+      runCoverBurst?.(envelope);
+      addGlow();
+      envelope.classList.remove("is-opening");
+    }, 380);
+
+    return 620;
   }
+
+  envelope.animate(
+    [{ transform: "translateY(0px)" }, { transform: "translateY(-8px)" }],
+    {
+      duration: 320,
+      easing: MOTION_EASING.decelerate,
+      fill: "forwards"
+    }
+  );
 
   flap?.animate(
     [
@@ -121,7 +186,7 @@ export function playEnvelopeOpen({ envelope, letter, reducedMotion }: OpenAnimat
       { transform: "rotateX(-130deg)" }
     ],
     {
-      duration: 620,
+      duration: 340,
       easing: MOTION_EASING.decelerate,
       fill: "forwards"
     }
@@ -133,9 +198,18 @@ export function playEnvelopeOpen({ envelope, letter, reducedMotion }: OpenAnimat
       { transform: "translateY(-56px)", opacity: 1 }
     ],
     {
-      duration: MOTION_MS.emotional,
+      duration: 380,
+      delay: 100,
       easing: MOTION_EASING.decelerate,
       fill: "forwards"
     }
   );
+
+  window.setTimeout(() => {
+    runCoverBurst?.(envelope);
+    addGlow();
+  }, 540);
+  window.setTimeout(() => envelope.classList.remove("is-opening"), 760);
+
+  return 820;
 }

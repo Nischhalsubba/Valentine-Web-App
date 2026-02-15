@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { initFinaleAnimations } from "../animations/finaleAnimations";
-import { MOTION_EASING, MOTION_MS } from "../animations/motionTokens";
 import StepShell from "../components/StepShell";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import type { StepComponentProps } from "../types/content";
@@ -15,18 +14,21 @@ export default function StepFinale({
   onRestart
 }: StepComponentProps) {
   const reducedMotion = usePrefersReducedMotion();
-  const riveCanvasRef = useRef<HTMLCanvasElement>(null);
-  const lottieRef = useRef<HTMLDivElement>(null);
-  const threeCanvasRef = useRef<HTMLCanvasElement>(null);
   const holdFillRef = useRef<SVGCircleElement>(null);
-  const holdAnimationRef = useRef<Animation | null>(null);
+  const holdRafRef = useRef<number | null>(null);
+  const drainRafRef = useRef<number | null>(null);
   const holdStartAtRef = useRef(0);
   const holdStartProgressRef = useRef(0);
   const holdProgressRef = useRef(0);
-  const holdTimerRef = useRef<number | null>(null);
   const revealFxRef = useRef<() => void>(() => {});
+  const pulseHeartRef = useRef<() => void>(() => {});
+  const heartButtonRef = useRef<HTMLButtonElement>(null);
+  const sparkleLayerRef = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
   const [holdText, setHoldText] = useState("");
+  const [collectedCoupons, setCollectedCoupons] = useState<boolean[]>(() =>
+    content.coupons.map(() => false)
+  );
 
   const clampProgress = (value: number) => Math.min(1, Math.max(0, value));
 
@@ -41,19 +43,18 @@ export default function StepFinale({
     }
   };
 
-  const readCurrentProgress = () => {
-    const circle = holdFillRef.current;
-    if (!circle) {
-      return holdProgressRef.current;
+  const stopHoldLoop = () => {
+    if (holdRafRef.current !== null) {
+      window.cancelAnimationFrame(holdRafRef.current);
+      holdRafRef.current = null;
     }
+  };
 
-    const computed = window.getComputedStyle(circle).strokeDashoffset;
-    const parsed = Number.parseFloat(computed);
-    if (Number.isNaN(parsed)) {
-      return holdProgressRef.current;
+  const stopDrainLoop = () => {
+    if (drainRafRef.current !== null) {
+      window.cancelAnimationFrame(drainRafRef.current);
+      drainRafRef.current = null;
     }
-
-    return clampProgress(1 - parsed / HOLD_RING_CIRCUMFERENCE);
   };
 
   const completeReveal = () => {
@@ -63,33 +64,56 @@ export default function StepFinale({
     revealFxRef.current();
   };
 
+  const drainProgress = (fromProgress: number) => {
+    stopDrainLoop();
+
+    const start = performance.now();
+    const duration = Math.max(220, Math.round(260 + fromProgress * 340));
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const raw = clampProgress(elapsed / duration);
+      const eased = 1 - Math.pow(1 - raw, 3);
+      const next = fromProgress * (1 - eased);
+      applyProgress(next);
+
+      if (raw < 1) {
+        drainRafRef.current = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      applyProgress(0);
+      drainRafRef.current = null;
+    };
+
+    drainRafRef.current = window.requestAnimationFrame(tick);
+  };
+
   useEffect(() => {
     let disposed = false;
     let cleanup: () => void = () => {};
     applyProgress(0);
 
     void initFinaleAnimations({
-      riveCanvas: riveCanvasRef.current,
-      lottieContainer: lottieRef.current,
-      threeCanvas: threeCanvasRef.current,
+      heartButton: heartButtonRef.current,
+      sparkleLayer: sparkleLayerRef.current,
       reducedMotion
     }).then((controller) => {
       if (disposed) {
         controller.cleanup();
         return;
       }
+
       revealFxRef.current = controller.playReveal;
+      pulseHeartRef.current = controller.pulseHeart;
       cleanup = controller.cleanup;
     });
 
     return () => {
       disposed = true;
       cleanup();
-      if (holdTimerRef.current) {
-        window.clearTimeout(holdTimerRef.current);
-      }
-      holdAnimationRef.current?.cancel();
-      holdAnimationRef.current = null;
+      stopHoldLoop();
+      stopDrainLoop();
     };
   }, [reducedMotion]);
 
@@ -98,54 +122,28 @@ export default function StepFinale({
       return;
     }
 
-    if (holdTimerRef.current) {
-      window.clearTimeout(holdTimerRef.current);
-      holdTimerRef.current = null;
-    }
-
+    stopDrainLoop();
+    stopHoldLoop();
     setHoldText("Holding...");
 
-    if (
-      reducedMotion ||
-      !holdFillRef.current ||
-      typeof holdFillRef.current.animate !== "function"
-    ) {
-      holdTimerRef.current = window.setTimeout(() => {
-        completeReveal();
-        holdTimerRef.current = null;
-      }, HOLD_DURATION_MS);
-      return;
-    }
-
-    const currentProgress = readCurrentProgress();
-    applyProgress(currentProgress);
-    holdAnimationRef.current?.cancel();
-
-    if (currentProgress >= 1) {
-      completeReveal();
-      return;
-    }
-
-    holdStartProgressRef.current = currentProgress;
+    holdStartProgressRef.current = holdProgressRef.current;
     holdStartAtRef.current = performance.now();
 
-    const holdAnimation = holdFillRef.current.animate(
-      [
-        { strokeDashoffset: progressToOffset(currentProgress) },
-        { strokeDashoffset: 0 }
-      ],
-      {
-        duration: HOLD_DURATION_MS * (1 - currentProgress),
-        easing: "linear",
-        fill: "forwards"
-      }
-    );
+    const tick = (now: number) => {
+      const elapsed = now - holdStartAtRef.current;
+      const next = clampProgress(holdStartProgressRef.current + elapsed / HOLD_DURATION_MS);
+      applyProgress(next);
 
-    holdAnimationRef.current = holdAnimation;
-    holdAnimation.onfinish = () => {
-      holdAnimationRef.current = null;
-      completeReveal();
+      if (next >= 1) {
+        stopHoldLoop();
+        completeReveal();
+        return;
+      }
+
+      holdRafRef.current = window.requestAnimationFrame(tick);
     };
+
+    holdRafRef.current = window.requestAnimationFrame(tick);
   };
 
   const cancelHold = () => {
@@ -153,49 +151,23 @@ export default function StepFinale({
       return;
     }
 
-    if (holdTimerRef.current) {
-      window.clearTimeout(holdTimerRef.current);
-      holdTimerRef.current = null;
-      setHoldText("Press and hold a little longer.");
-      return;
-    }
-
-    if (
-      reducedMotion ||
-      !holdFillRef.current ||
-      typeof holdFillRef.current.animate !== "function" ||
-      !holdAnimationRef.current
-    ) {
-      applyProgress(0);
-      setHoldText("Press and hold a little longer.");
-      return;
-    }
-
-    const elapsed = performance.now() - holdStartAtRef.current;
-    const currentProgress = clampProgress(holdStartProgressRef.current + elapsed / HOLD_DURATION_MS);
-    applyProgress(currentProgress);
-    holdAnimationRef.current.cancel();
-    holdAnimationRef.current = null;
-
-    const drainAnimation = holdFillRef.current.animate(
-      [
-        { strokeDashoffset: progressToOffset(currentProgress) },
-        { strokeDashoffset: progressToOffset(0) }
-      ],
-      {
-        duration: MOTION_MS.fast + 80,
-        easing: MOTION_EASING.out,
-        fill: "forwards"
-      }
-    );
-
-    holdAnimationRef.current = drainAnimation;
-    drainAnimation.onfinish = () => {
-      holdAnimationRef.current = null;
-      applyProgress(0);
-    };
-
+    stopHoldLoop();
+    const current = holdProgressRef.current;
     setHoldText("Press and hold a little longer.");
+
+    if (current <= 0) {
+      return;
+    }
+
+    drainProgress(current);
+  };
+
+  const toggleCoupon = (index: number) => {
+    setCollectedCoupons((prev) => prev.map((value, idx) => (idx === index ? !value : value)));
+  };
+
+  const handleHeartTap = () => {
+    pulseHeartRef.current();
   };
 
   return (
@@ -205,19 +177,41 @@ export default function StepFinale({
       subtitle={content.finale.eyebrow}
     >
       <div className="coupon-grid">
-        {content.coupons.map((coupon, index) => (
-          <article className="coupon-card" key={coupon}>
-            <p className="coupon-kicker">Coupon {index + 1}</p>
-            {coupon}
-          </article>
-        ))}
+        {content.coupons.map((coupon, index) => {
+          const collected = collectedCoupons[index];
+          return (
+            <button
+              className={`coupon-card ${collected ? "is-collected" : ""}`}
+              key={coupon}
+              type="button"
+              aria-pressed={collected}
+              onClick={() => toggleCoupon(index)}
+            >
+              <p className="coupon-kicker">Coupon {index + 1}</p>
+              <p>{coupon}</p>
+              <span className="coupon-state">{collected ? "Collected" : "Tap to collect"}</span>
+            </button>
+          );
+        })}
       </div>
 
       <section className="finale-stage">
         <div className="finale-visual">
-          <canvas ref={riveCanvasRef} className="rive-canvas" aria-label="Interactive heart visual" />
-          <div ref={lottieRef} className="lottie-slot" aria-hidden />
-          <canvas ref={threeCanvasRef} className="three-canvas" aria-hidden />
+          <div className="heart-stage">
+            <div ref={sparkleLayerRef} className="sparkle-layer" aria-hidden />
+            <button
+              ref={heartButtonRef}
+              className="heart-button"
+              type="button"
+              onClick={handleHeartTap}
+              aria-label="Interactive heart"
+            >
+              {"<3"}
+            </button>
+          </div>
+          <p className={`finale-reveal ${revealed ? "is-visible" : ""}`}>
+            {revealed ? content.finale.revealedLine : "Hold to reveal your final line."}
+          </p>
         </div>
 
         <div className="hold-area">
@@ -250,7 +244,7 @@ export default function StepFinale({
             </button>
           </div>
           <p className="hold-text">{holdText}</p>
-          <p className="finale-note">When you are ready, hold and keep it there.</p>
+          <p className="finale-note">Hold for 1.5s to reveal, and release to rewind smoothly.</p>
         </div>
       </section>
 

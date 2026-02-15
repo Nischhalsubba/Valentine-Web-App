@@ -1,118 +1,100 @@
 interface FinaleAnimationOptions {
-  riveCanvas: HTMLCanvasElement | null;
-  lottieContainer: HTMLDivElement | null;
-  threeCanvas: HTMLCanvasElement | null;
+  heartButton: HTMLButtonElement | null;
+  sparkleLayer: HTMLDivElement | null;
   reducedMotion: boolean;
 }
 
 interface FinaleAnimationController {
   playReveal: () => void;
+  pulseHeart: () => void;
   cleanup: () => void;
 }
 
+function createSparkleNode(index: number) {
+  const sparkle = document.createElement("span");
+  const angle = Math.round((360 / 10) * index + (Math.random() * 18 - 9));
+  const distance = 42 + Math.round(Math.random() * 28);
+  const delay = Math.round(Math.random() * 160);
+  const size = 4 + Math.round(Math.random() * 4);
+
+  sparkle.className = "sparkle-dot";
+  sparkle.style.setProperty("--sparkle-angle", `${angle}deg`);
+  sparkle.style.setProperty("--sparkle-distance", `${distance}px`);
+  sparkle.style.setProperty("--sparkle-delay", `${delay}ms`);
+  sparkle.style.width = `${size}px`;
+  sparkle.style.height = `${size}px`;
+
+  return sparkle;
+}
+
 export async function initFinaleAnimations({
-  riveCanvas,
-  lottieContainer,
-  threeCanvas,
+  heartButton,
+  sparkleLayer,
   reducedMotion
 }: FinaleAnimationOptions): Promise<FinaleAnimationController> {
-  const cleanups: Array<() => void> = [];
-  let lottieInstance: any = null;
+  let pulseTimer = 0;
+  let sparkleTimer = 0;
 
-  if (!reducedMotion && riveCanvas) {
-    try {
-      const riveModule: any = await import("@rive-app/canvas");
-      const RiveCtor =
-        riveModule.Rive ?? riveModule.default?.Rive ?? riveModule.default;
-
-      const rive = new RiveCtor({
-        canvas: riveCanvas,
-        autoplay: true,
-        src: "https://cdn.rive.app/animations/vehicles.riv"
-      });
-
-      const onPress = () => rive.play?.();
-      riveCanvas.addEventListener("pointerdown", onPress);
-      cleanups.push(() => riveCanvas.removeEventListener("pointerdown", onPress));
-      cleanups.push(() => rive.cleanup?.());
-    } catch {
-      // Fallback is the static canvas styling.
+  const pulseHeart = () => {
+    if (!heartButton) {
+      return;
     }
-  }
 
-  if (!reducedMotion && lottieContainer) {
-    try {
-      const lottieModule: any = await import("lottie-web");
-      const lottie = lottieModule.default ?? lottieModule;
-      lottieInstance = lottie.loadAnimation({
-        container: lottieContainer,
-        renderer: "svg",
-        loop: false,
-        autoplay: false,
-        path: "https://assets8.lottiefiles.com/packages/lf20_jbrw3hcz.json"
-      });
+    heartButton.classList.remove("is-pulsing");
+    void heartButton.offsetWidth;
+    heartButton.classList.add("is-pulsing");
 
-      cleanups.push(() => lottieInstance?.destroy?.());
-    } catch {
-      // Fallback remains static.
+    if (pulseTimer) {
+      window.clearTimeout(pulseTimer);
     }
-  }
+    pulseTimer = window.setTimeout(() => {
+      heartButton.classList.remove("is-pulsing");
+    }, 460);
+  };
 
-  if (!reducedMotion && threeCanvas) {
-    try {
-      const three: any = await import("three");
-      const renderer = new three.WebGLRenderer({
-        canvas: threeCanvas,
-        alpha: true,
-        antialias: true
-      });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(240, 160, false);
+  const playReveal = () => {
+    pulseHeart();
 
-      const scene = new three.Scene();
-      const camera = new three.PerspectiveCamera(55, 240 / 160, 0.1, 100);
-      camera.position.z = 2.5;
-
-      const geometry = new three.TorusKnotGeometry(0.6, 0.2, 120, 12);
-      const material = new three.MeshStandardMaterial({
-        color: "#c26f4a",
-        metalness: 0.18,
-        roughness: 0.4
-      });
-      const knot = new three.Mesh(geometry, material);
-      scene.add(knot);
-
-      const keyLight = new three.DirectionalLight(0xffffff, 1.1);
-      keyLight.position.set(1.8, 2, 2);
-      scene.add(keyLight);
-      scene.add(new three.AmbientLight(0xffffff, 0.55));
-
-      let raf = 0;
-      const tick = () => {
-        knot.rotation.x += 0.008;
-        knot.rotation.y += 0.01;
-        renderer.render(scene, camera);
-        raf = window.requestAnimationFrame(tick);
-      };
-      tick();
-
-      cleanups.push(() => window.cancelAnimationFrame(raf));
-      cleanups.push(() => geometry.dispose());
-      cleanups.push(() => material.dispose());
-      cleanups.push(() => renderer.dispose());
-    } catch {
-      // Fallback remains static.
+    if (reducedMotion || !sparkleLayer) {
+      return;
     }
-  }
+
+    sparkleLayer.classList.remove("is-active");
+    sparkleLayer.replaceChildren();
+
+    const fragment = document.createDocumentFragment();
+    for (let index = 0; index < 10; index += 1) {
+      fragment.appendChild(createSparkleNode(index));
+    }
+    sparkleLayer.appendChild(fragment);
+    sparkleLayer.classList.add("is-active");
+
+    if (sparkleTimer) {
+      window.clearTimeout(sparkleTimer);
+    }
+    sparkleTimer = window.setTimeout(() => {
+      sparkleLayer.classList.remove("is-active");
+      sparkleLayer.replaceChildren();
+    }, 1500);
+  };
 
   return {
-    playReveal: () => {
-      if (lottieInstance && typeof lottieInstance.goToAndPlay === "function") {
-        lottieInstance.goToAndPlay(0, true);
-      }
-    },
+    playReveal,
+    pulseHeart,
     cleanup: () => {
-      cleanups.forEach((dispose) => dispose());
+      if (pulseTimer) {
+        window.clearTimeout(pulseTimer);
+      }
+      if (sparkleTimer) {
+        window.clearTimeout(sparkleTimer);
+      }
+      if (heartButton) {
+        heartButton.classList.remove("is-pulsing");
+      }
+      if (sparkleLayer) {
+        sparkleLayer.classList.remove("is-active");
+        sparkleLayer.replaceChildren();
+      }
     }
   };
 }

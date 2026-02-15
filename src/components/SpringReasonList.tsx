@@ -1,24 +1,46 @@
 import { animated, useTransition } from "@react-spring/web";
 
-interface SpringReasonListProps {
-  reasons: string[];
+interface ReasonLine {
+  id: string;
+  text: string;
+  order: number;
 }
 
-export default function SpringReasonList({ reasons }: SpringReasonListProps) {
+interface SpringReasonListProps {
+  reasons: ReasonLine[];
+  latestId: string | null;
+  reducedMotion: boolean;
+}
+
+export default function SpringReasonList({ reasons, latestId, reducedMotion }: SpringReasonListProps) {
   const transitions = useTransition(reasons, {
-    keys: (item: string) => item,
-    from: { opacity: 0, transform: "translateY(10px)" },
-    enter: { opacity: 1, transform: "translateY(0px)" },
-    leave: { opacity: 0, transform: "translateY(-6px)" },
-    trail: 70
+    keys: (item: ReasonLine) => item.id,
+    from: {
+      opacity: 0,
+      transform: reducedMotion ? "translateY(0px)" : "translateY(10px)"
+    },
+    enter: {
+      opacity: 1,
+      transform: "translateY(0px)"
+    },
+    config: {
+      tension: 240,
+      friction: 30,
+      clamp: true
+    },
+    trail: reducedMotion ? 0 : 56
   });
 
   return (
     <ul className="reason-list">
-      {transitions((style, item, _state, index) => (
-        <animated.li key={item} style={style}>
-          <span>Reason {index + 1}</span>
-          {item}
+      {transitions((style, item) => (
+        <animated.li
+          key={item.id}
+          style={style}
+          className={`reason-row ${item.id === latestId ? "is-fresh" : ""}`}
+        >
+          <span>Reason {item.order}</span>
+          {item.text}
         </animated.li>
       ))}
     </ul>

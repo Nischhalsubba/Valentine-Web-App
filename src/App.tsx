@@ -1,6 +1,7 @@
 import {
   Suspense,
   lazy,
+  useEffect,
   useMemo,
   useState,
   type ComponentType,
@@ -29,8 +30,23 @@ function FallbackStep(label: string): ComponentType<StepComponentProps> {
   );
 }
 
+function StepLoading() {
+  return (
+    <section className="panel panel-loading" aria-live="polite">
+      <div className="soft-loader" aria-hidden>
+        <span />
+      </div>
+      <p className="eyebrow">Loading</p>
+      <h2>Opening the next chapter...</h2>
+      <p className="subtitle">One moment while we prepare your next memory.</p>
+    </section>
+  );
+}
+
+type StepLoader = () => Promise<{ default: ComponentType<StepComponentProps> }>;
+
 function safeLazyStep(
-  loader: () => Promise<{ default: ComponentType<StepComponentProps> }>,
+  loader: StepLoader,
   fallbackLabel: string
 ): LazyExoticComponent<ComponentType<StepComponentProps>> {
   return lazy(async () => {
@@ -42,24 +58,25 @@ function safeLazyStep(
   });
 }
 
-const StepCover = safeLazyStep(() => import("./steps/StepCover"), "Step 1: Cover");
-const StepLetter = safeLazyStep(() => import("./steps/StepLetter"), "Step 2: Letter");
-const StepMemory = safeLazyStep(() => import("./steps/StepMemory"), "Step 3: Memory");
-const StepQuiz = safeLazyStep(() => import("./steps/StepQuiz"), "Step 4: Quiz");
-const StepFinale = safeLazyStep(() => import("./steps/StepFinale"), "Step 5: Finale");
+const coverLoader: StepLoader = () => import("./steps/StepCover");
+const letterLoader: StepLoader = () => import("./steps/StepLetter");
+const memoryLoader: StepLoader = () => import("./steps/StepMemory");
+const quizLoader: StepLoader = () => import("./steps/StepQuiz");
+const finaleLoader: StepLoader = () => import("./steps/StepFinale");
 
 type StepDefinition = {
   id: string;
   label: string;
   Component: LazyExoticComponent<ComponentType<StepComponentProps>>;
+  loader: StepLoader;
 };
 
 const stepDefinitions: StepDefinition[] = [
-  { id: "cover", label: "Open", Component: StepCover },
-  { id: "letter", label: "Relive", Component: StepLetter },
-  { id: "memory", label: "Memory", Component: StepMemory },
-  { id: "quiz", label: "Play", Component: StepQuiz },
-  { id: "finale", label: "Promise", Component: StepFinale }
+  { id: "cover", label: "Open", Component: safeLazyStep(coverLoader, "Step 1: Cover"), loader: coverLoader },
+  { id: "letter", label: "Relive", Component: safeLazyStep(letterLoader, "Step 2: Letter"), loader: letterLoader },
+  { id: "memory", label: "Memory", Component: safeLazyStep(memoryLoader, "Step 3: Memory"), loader: memoryLoader },
+  { id: "quiz", label: "Play", Component: safeLazyStep(quizLoader, "Step 4: Quiz"), loader: quizLoader },
+  { id: "finale", label: "Promise", Component: safeLazyStep(finaleLoader, "Step 5: Finale"), loader: finaleLoader }
 ];
 
 function clampStep(index: number, max: number): number {
@@ -74,6 +91,16 @@ export default function App() {
 
   const currentStep = useMemo(() => stepDefinitions[stepIndex], [stepIndex]);
   const CurrentComponent = currentStep.Component;
+
+  useEffect(() => {
+    const nextStep = stepDefinitions[stepIndex + 1];
+    if (!nextStep) {
+      return;
+    }
+    void nextStep.loader().catch(() => {
+      // Allow lazy fallback to handle chunk errors.
+    });
+  }, [stepIndex]);
 
   const goNext = () => setStepIndex((prev) => clampStep(prev + 1, totalSteps - 1));
   const goBack = () => setStepIndex((prev) => clampStep(prev - 1, totalSteps - 1));
@@ -122,7 +149,7 @@ export default function App() {
       </header>
 
       <main className="step-host">
-        <Suspense fallback={<section className="panel">Loading this chapter...</section>}>
+        <Suspense fallback={<StepLoading />}>
           <CurrentComponent
             content={content}
             stepIndex={stepIndex}

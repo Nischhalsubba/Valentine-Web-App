@@ -10,19 +10,18 @@ export async function animateMemoryCard(card: HTMLElement, reducedMotion: boolea
     const anime = animeModule.default ?? animeModule;
     anime({
       targets: card,
-      scale: [1, 0.99, 1],
-      translateY: [0, -4, 0],
-      duration: MOTION_MS.standard,
+      scale: [1, 0.992, 1],
+      duration: 260,
       easing: "easeOutCubic"
     });
   } catch {
     card.animate(
       [
-        { transform: "translateY(0) scale(1)" },
-        { transform: "translateY(-4px) scale(0.99)" },
-        { transform: "translateY(0) scale(1)" }
+        { transform: "scale(1)" },
+        { transform: "scale(0.992)" },
+        { transform: "scale(1)" }
       ],
-      { duration: MOTION_MS.standard, easing: MOTION_EASING.out }
+      { duration: 260, easing: MOTION_EASING.out }
     );
   }
 }
@@ -37,7 +36,7 @@ export async function smoothScrollToChapter(target: HTMLElement, reducedMotion: 
     const velocityModule: any = await import("velocity-animate");
     const velocity = velocityModule.default ?? velocityModule;
     velocity(target, "scroll", {
-      duration: 420,
+      duration: 380,
       offset: -72,
       easing: "easeInOutQuad"
     });
