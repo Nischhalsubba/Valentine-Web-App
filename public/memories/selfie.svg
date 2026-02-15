@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Selfie Memory Placeholder</title>
+  <desc id="desc">A warm placeholder image for the selfie memory.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe9ec"/>
+      <stop offset="100%" stop-color="#fff7ef"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect x="320" y="80" width="560" height="515" rx="34" fill="#fff" stroke="#edc3ce" stroke-width="8"/>
+  <circle cx="600" cy="290" r="115" fill="#ffd3da"/>
+  <rect x="470" y="440" width="260" height="38" rx="19" fill="#f5e8ec"/>
+  <text x="600" y="635" text-anchor="middle" font-family="Georgia, serif" font-size="38" fill="#7c3449">That Selfie</text>
+</svg>

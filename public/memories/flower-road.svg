@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Flower Road Memory Placeholder</title>
+  <desc id="desc">A warm placeholder image for the flower on road memory.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff7ef"/>
+      <stop offset="100%" stop-color="#ffe7ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <path d="M0 540h1200v135H0z" fill="#f6e7df"/>
+  <path d="M600 500c80 0 145 15 145 35s-65 35-145 35-145-15-145-35 65-35 145-35z" fill="#f0ddd6"/>
+  <rect x="592" y="300" width="16" height="220" rx="8" fill="#7ca668"/>
+  <circle cx="600" cy="250" r="56" fill="#ffd3da"/>
+  <circle cx="554" cy="250" r="42" fill="#ffc0cb"/>
+  <circle cx="646" cy="250" r="42" fill="#ffc0cb"/>
+  <circle cx="600" cy="208" r="42" fill="#ffc0cb"/>
+  <circle cx="600" cy="292" r="42" fill="#ffc0cb"/>
+  <circle cx="600" cy="250" r="26" fill="#f5b38c"/>
+  <text x="600" y="620" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" fill="#5b5b66">Flower on Bhaisipati road</text>
+</svg>

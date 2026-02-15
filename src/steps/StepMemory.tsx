@@ -229,6 +229,31 @@ export default function StepMemory({
           <p className="eyebrow">{activeMemory?.date}</p>
           <h3>{activeMemory?.title}</h3>
         </div>
+        {activeMemory?.media ? (
+          <div className="sheet-media">
+            {activeMemory.media.type === "video" ? (
+              <video
+                controls
+                preload="metadata"
+                poster={activeMemory.media.poster}
+                className="sheet-media-video"
+                aria-label={activeMemory.media.alt}
+              >
+                <source src={activeMemory.media.src} />
+              </video>
+            ) : (
+              <img
+                src={activeMemory.media.src}
+                alt={activeMemory.media.alt}
+                className="sheet-media-image"
+                loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
+              />
+            )}
+          </div>
+        ) : null}
         <p>{activeMemory?.expandedCaption ?? activeMemory?.caption}</p>
         <button className="btn btn-secondary" type="button" onClick={closeMemory}>
           Close
@@ -340,11 +365,22 @@ export default function StepMemory({
                           setPressedCardKey(null);
                           cancelLongPress();
                         }}
-                      >
-                        <div className="memory-face memory-front">
-                          <time>{memory.date}</time>
-                          <h4>{memory.title}</h4>
-                          <p>{memory.caption}</p>
+                        >
+                          <div className="memory-face memory-front">
+                            {memory.media && memory.media.type !== "video" ? (
+                              <img
+                                src={memory.media.src}
+                                alt={memory.media.alt}
+                                className="memory-thumb"
+                                loading="lazy"
+                                onError={(event) => {
+                                  event.currentTarget.style.display = "none";
+                                }}
+                              />
+                            ) : null}
+                            <time>{memory.date}</time>
+                            <h4>{memory.title}</h4>
+                            <p>{memory.caption}</p>
                           {memory.secret ? <span className="memory-longpress-note">Hold to unlock tiny secret</span> : null}
                           {showSecret ? <p className="memory-secret">{memory.secret}</p> : null}
                         </div>

@@ -3,7 +3,13 @@
     "title": "For Reeja, my mutu.",
     "coverLine": "A small place where our memories live.",
     "tagline": "This is not a website. This is us.",
-    "openButton": "Open it <3"
+    "openButton": "Open it <3",
+    "lock": {
+      "enabled": true,
+      "hint": "Enter our private PIN to open this love letter.",
+      "sessionHours": 12,
+      "fallbackPin": "mutu2026"
+    }
   },
   "letter": {
     "eyebrow": "Love Letter",
@@ -36,7 +42,12 @@
           "date": "December 22, 2024",
           "title": "First time I saw you",
           "caption": "The first real oh... it is you.",
-          "expandedCaption": "Some people look normal in real life. You looked like the start of a story."
+          "expandedCaption": "Some people look normal in real life. You looked like the start of a story.",
+          "media": {
+            "type": "image",
+            "src": "/memories/first-look.svg",
+            "alt": "Memory placeholder for first time seeing Reeja"
+          }
         },
         {
           "date": "December 25, 2024 - around 1 PM",
@@ -117,7 +128,12 @@
           "date": "March 2, 2025",
           "title": "First video call",
           "caption": "Distance lost a little that day.",
-          "expandedCaption": "Seeing you live, talking like it is normal. That is when us started feeling real daily."
+          "expandedCaption": "Seeing you live, talking like it is normal. That is when us started feeling real daily.",
+          "media": {
+            "type": "image",
+            "src": "/memories/video-call.svg",
+            "alt": "Memory placeholder for first video call"
+          }
         },
         {
           "date": "March 11, 2025",
@@ -149,7 +165,12 @@
           "date": "April 2, 2025",
           "title": "That selfie",
           "caption": "One of the most beautiful things I have seen.",
-          "expandedCaption": "Not just your face. The feeling behind it. Like you trusted me with your softness."
+          "expandedCaption": "Not just your face. The feeling behind it. Like you trusted me with your softness.",
+          "media": {
+            "type": "image",
+            "src": "/memories/selfie.svg",
+            "alt": "Memory placeholder for that selfie moment"
+          }
         },
         {
           "date": "April 7, 2025",
@@ -173,7 +194,12 @@
           "date": "July 14, 2025",
           "title": "The yellow dress",
           "caption": "Still in my mind.",
-          "expandedCaption": "That yellow dress moment is burned into my memory like a favorite song chorus."
+          "expandedCaption": "That yellow dress moment is burned into my memory like a favorite song chorus.",
+          "media": {
+            "type": "image",
+            "src": "/memories/yellow-dress.svg",
+            "alt": "Memory placeholder for the yellow dress moment"
+          }
         },
         {
           "date": "August 2025",
@@ -234,7 +260,12 @@
           "date": "January 14, 2026",
           "title": "Flower on Bhaisipati colony road",
           "caption": "You gave me a flower.",
-          "expandedCaption": "Simple moment. Big meaning. I felt chosen."
+          "expandedCaption": "Simple moment. Big meaning. I felt chosen.",
+          "media": {
+            "type": "image",
+            "src": "/memories/flower-road.svg",
+            "alt": "Memory placeholder for flower on Bhaisipati colony road"
+          }
         },
         {
           "date": "January 15, 2026",

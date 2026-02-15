@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Video Call Memory Placeholder</title>
+  <desc id="desc">A warm placeholder image for first video call memory.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff7ef"/>
+      <stop offset="100%" stop-color="#ffe3ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect x="370" y="140" width="460" height="390" rx="34" fill="#ffffff" stroke="#efc7d0" stroke-width="8"/>
+  <circle cx="600" cy="260" r="78" fill="#ffd3da"/>
+  <rect x="490" y="350" width="220" height="30" rx="15" fill="#f5e8ec"/>
+  <rect x="520" y="405" width="160" height="30" rx="15" fill="#f5e8ec"/>
+  <text x="600" y="590" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" fill="#5b5b66">First video call memory</text>
+</svg>

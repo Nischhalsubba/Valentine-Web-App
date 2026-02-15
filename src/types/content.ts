@@ -3,6 +3,12 @@ export interface AppMeta {
   coverLine: string;
   tagline: string;
   openButton: string;
+  lock?: {
+    enabled?: boolean;
+    hint?: string;
+    sessionHours?: number;
+    fallbackPin?: string;
+  };
 }
 
 export interface LetterContent {
@@ -18,6 +24,12 @@ export interface MemoryCard {
   caption: string;
   expandedCaption?: string;
   secret?: string;
+  media?: {
+    type?: "image" | "video";
+    src: string;
+    alt: string;
+    poster?: string;
+  };
 }
 
 export interface MemoryChapter {

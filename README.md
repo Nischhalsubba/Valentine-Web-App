@@ -62,9 +62,11 @@ The app is intentionally built around **soft, emotional motion**, **reduced-moti
 
 ## Features
 - 5-step romantic narrative experience with clear progress states
+- Private PIN lock gate with session unlock persistence
 - Envelope opening hero interaction with graceful fallback on low-power devices
 - Tap-to-reveal reason list with spring-based line reveals
-- Chapter navigation with memory cards and bottom-sheet detail view
+- Chapter navigation with collapsible memory groups and bottom-sheet detail view
+- Memory cards support optional image/video media per moment
 - Quiz feedback animations for correct/wrong answers
 - Finale hold-to-reveal interaction with a 1.5s progress ring
 - Interactive heart pulse and one-time sparkle flourish
@@ -246,6 +248,12 @@ npm run check
 npm run build
 ```
 
+### Run E2E Tests
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
 ### Preview Production Build
 ```bash
 npm run preview
@@ -275,6 +283,17 @@ Defined in `vercel.json`:
 ### Update Story Content
 Edit:
 - `src/content/content.json`
+- Add optional media per memory:
+  - `media.type`: `image` or `video`
+  - `media.src`: public URL/path (e.g., `/memories/selfie.jpg`)
+  - `media.alt`: accessible description
+  - `media.poster` (optional for videos)
+- Replace placeholders in `public/memories/` with your real photos.
+
+### Configure Private PIN
+- Recommended: set `VITE_APP_PRIVATE_PIN` in your Vercel project environment variables.
+- Local development: create `.env` from `.env.example`.
+- Fallback PIN can be set in `src/content/content.json` under `meta.lock.fallbackPin`.
 
 ### Update Visual Theme
 Edit:

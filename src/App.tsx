@@ -1,5 +1,6 @@
 import {
   Suspense,
+  type FormEvent,
   lazy,
   useEffect,
   useMemo,
@@ -81,6 +82,7 @@ const stepDefinitions: StepDefinition[] = [
 
 const STEP_STORAGE_KEY = "valentine:active-step";
 const REST_MODE_STORAGE_KEY = "valentine:rest-mode";
+const ACCESS_UNLOCK_UNTIL_KEY = "valentine:access-unlocked-until";
 
 function clampStep(index: number, max: number): number {
   return Math.min(Math.max(index, 0), max);
@@ -108,11 +110,34 @@ function readRestMode() {
   return window.localStorage.getItem(REST_MODE_STORAGE_KEY) === "true";
 }
 
+function readAccessUnlockState() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const raw = window.localStorage.getItem(ACCESS_UNLOCK_UNTIL_KEY);
+  const unlockUntil = Number(raw);
+  return Number.isFinite(unlockUntil) && unlockUntil > Date.now();
+}
+
+function resolveAccessPin(content: AppContent) {
+  const envPin = import.meta.env.VITE_APP_PRIVATE_PIN?.trim();
+  const fallbackPin = content.meta.lock?.fallbackPin?.trim();
+  return envPin || fallbackPin || "";
+}
+
 export default function App() {
   const content = contentData as AppContent;
+  const lockConfig = content.meta.lock;
+  const isLockEnabled = lockConfig?.enabled ?? false;
+  const accessPin = resolveAccessPin(content);
+  const accessSessionHours = Math.max(1, lockConfig?.sessionHours ?? 12);
   const totalSteps = stepDefinitions.length;
   const [stepIndex, setStepIndex] = useState(() => readStoredStep(totalSteps - 1));
   const [restMode, setRestMode] = useState(readRestMode);
+  const [isUnlocked, setIsUnlocked] = useState(() => !isLockEnabled || readAccessUnlockState());
+  const [pinInput, setPinInput] = useState("");
+  const [pinError, setPinError] = useState("");
   const stepProgress = (stepIndex / (totalSteps - 1)) * 100;
 
   const currentStep = useMemo(() => stepDefinitions[stepIndex], [stepIndex]);
@@ -146,6 +171,83 @@ export default function App() {
   const goBack = () => setStepIndex((prev) => clampStep(prev - 1, totalSteps - 1));
   const goTo = (index: number) => setStepIndex(clampStep(index, totalSteps - 1));
 
+  const unlockApp = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (!accessPin) {
+      setPinError("PIN is not configured. Set VITE_APP_PRIVATE_PIN or meta.lock.fallbackPin.");
+      return;
+    }
+
+    if (pinInput.trim() !== accessPin) {
+      setPinError("Wrong PIN. Try our private code.");
+      return;
+    }
+
+    if (typeof window !== "undefined") {
+      const unlockUntil = Date.now() + accessSessionHours * 60 * 60 * 1000;
+      window.localStorage.setItem(ACCESS_UNLOCK_UNTIL_KEY, String(unlockUntil));
+    }
+
+    setPinError("");
+    setPinInput("");
+    setIsUnlocked(true);
+  };
+
+  const relockApp = () => {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(ACCESS_UNLOCK_UNTIL_KEY);
+    }
+    setIsUnlocked(false);
+  };
+
+  if (isLockEnabled && !isUnlocked) {
+    return (
+      <div className="app-shell access-shell">
+        <div className="ambient ambient-a" aria-hidden />
+        <div className="ambient ambient-b" aria-hidden />
+        <section className="panel access-panel" aria-labelledby="private-title">
+          <p className="eyebrow">Private Access</p>
+          <h1 id="private-title">Mutu Memoir is locked</h1>
+          <p className="subtitle">{lockConfig?.hint ?? "Enter your private PIN to open this memory space."}</p>
+          <form className="access-form" onSubmit={unlockApp}>
+            <label className="access-label" htmlFor="access-pin">
+              Private PIN
+            </label>
+            <input
+              id="access-pin"
+              className="access-input"
+              type="password"
+              autoComplete="off"
+              value={pinInput}
+              onChange={(event) => {
+                setPinInput(event.target.value);
+                if (pinError) {
+                  setPinError("");
+                }
+              }}
+              placeholder="Enter PIN"
+              aria-describedby="access-help"
+              aria-invalid={Boolean(pinError)}
+              data-testid="access-pin-input"
+            />
+            <p id="access-help" className="access-help">
+              Session stays unlocked for {accessSessionHours} hours on this device.
+            </p>
+            {pinError ? (
+              <p className="access-error" role="alert" data-testid="access-pin-error">
+                {pinError}
+              </p>
+            ) : null}
+            <button className="btn btn-primary" type="submit" data-testid="access-unlock-button">
+              Unlock our story
+            </button>
+          </form>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className={`app-shell ${restMode ? "is-rest-mode" : ""}`}>
       <div className="ambient ambient-a" aria-hidden />
@@ -168,6 +270,11 @@ export default function App() {
             {restMode ? "Rest mode on" : "Rest mode"}
           </button>
           <p className="rest-note">Rest mode reduces visual motion for a calmer reading experience.</p>
+          {isLockEnabled ? (
+            <button className="lock-toggle" type="button" onClick={relockApp} aria-label="Lock this app">
+              Lock app
+            </button>
+          ) : null}
         </div>
 
         <div className="stepper-frame">
