@@ -16,10 +16,10 @@ export async function animateQuestionSwap(node: HTMLElement | null, reducedMotio
       {
         opacity: [0.24, 1],
         x: [12, 0]
-      } as any,
+      },
       {
         duration: MOTION_DURATION.standard,
-        easing: MOTION_EASING.inOut
+        ease: [0.4, 0, 0.2, 1] as const
       }
     );
   } catch {
