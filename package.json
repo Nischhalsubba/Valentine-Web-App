@@ -3,11 +3,20 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "description": "A private, bilingual, multi-step digital love-letter experience built with React, TypeScript, Vite, accessible motion, persistent progress, interactive memories, a relationship quiz, and a hold-to-reveal finale.",
+  "author": "Nischhal Raj Subba",
+  "license": "UNLICENSED",
+  "packageManager": "npm@11.6.2",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit --pretty false",
+    "check": "npm run typecheck && npm run build",
     "test:e2e": "playwright test"
   },
   "dependencies": {
