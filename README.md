@@ -1,472 +1,186 @@
 <div align="center">
 
-# Valentine Web App ♡
+<img src="./docs/assets/valentine-web-app-thumbnail.svg" width="100%" alt="Valentine Web App branded repository thumbnail" />
 
-### A cinematic, step-by-step digital love letter built with React + TypeScript
+# Valentine Web App
 
-**An interactive romantic storytelling experience with a private PIN gate, envelope reveal, memory timeline, relationship quiz, hold-to-reveal finale, collectible coupons, and carefully designed accessible motion.**
+### A private, bilingual digital love letter told in eight interactive chapters
 
-[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=111111)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Playwright](https://img.shields.io/badge/Tests-Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](#getting-started)
-[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/)
+A cinematic React experience combining a private gate, envelope reveal, letters, memories, gallery moments, playful questions, promises, and a hold-to-reveal finale.
 
-### Live Demo
+[Live demo](https://valentine-web-app-seven.vercel.app/) · [Engineering case study](./docs/PRODUCT_AND_ENGINEERING_CASE_STUDY.md) · [Repository instructions](./AGENTS.md)
 
-[**valentine-web-app-seven.vercel.app**](https://valentine-web-app-seven.vercel.app/)
+![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react&logoColor=111111)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Playwright](https://img.shields.io/badge/E2E-Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deploy-Vercel-111111?style=flat-square&logo=vercel)
+
+![Stars](https://img.shields.io/github/stars/Nischhalsubba/Valentine-Web-App?style=flat-square)
+![Forks](https://img.shields.io/github/forks/Nischhalsubba/Valentine-Web-App?style=flat-square)
+![Issues](https://img.shields.io/github/issues/Nischhalsubba/Valentine-Web-App?style=flat-square)
+![Last commit](https://img.shields.io/github/last-commit/Nischhalsubba/Valentine-Web-App?style=flat-square)
 
 </div>
 
----
+## Product concept
 
-## Developed And Designed By
+Valentine Web App is designed as a small emotional product rather than a single greeting page. The experience controls pacing across anticipation, reading, memory, play, promises, and reward.
 
-| Role | Details |
-|---|---|
-| Designer / Developer | **Nischhal Subba** |
-| GitHub | [@Nischhalsubba](https://github.com/Nischhalsubba) |
-| Email | `hinischalsubba@gmail.com` |
-| Contribution | Product concept, UX direction, visual design, frontend engineering, motion design |
+The app supports:
 
----
+- English, Nepali, and mixed-language modes
+- soft, funny, and romantic mood modes
+- system, reduced, and full-motion preferences
+- persistent progress and unlock state in local storage
+- a private phrase/PIN gate
+- lazy-loaded chapters with fallback rendering
+- next-step prefetching for smoother transitions
+- accessible reduced-motion behavior
+- Playwright end-to-end testing
 
-## Table Of Contents
+## Story flow
 
-- [Project Overview](#project-overview)
-- [Product Vision](#product-vision)
-- [Designer’s Perspective](#designers-perspective)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Design System](#design-system)
-- [Motion System](#motion-system)
-- [Accessibility](#accessibility)
-- [Performance And Reliability](#performance-and-reliability)
-- [SEO And Discoverability](#seo-and-discoverability)
-- [Getting Started](#getting-started)
-- [Deployment](#deployment)
-- [Customization Guide](#customization-guide)
-- [Quality Checklist](#quality-checklist)
-- [License](#license)
-
----
-
-## Project Overview
-
-**Valentine Web App** is an interactive storytelling website that feels like opening a real digital love letter.
-
-It guides users through five romantic chapters:
-
-1. Cover / envelope open
-2. Love letter reveal
-3. Memory lane timeline
-4. Relationship quiz
-5. Finale with hold-to-reveal and collectible coupons
-
-The app is intentionally built around **soft emotional motion**, **reduced-motion accessibility**, **private access**, and **high-polish microinteractions**.
-
----
-
-## Product Vision
-
-The goal is to create a personal, memorable, and emotionally paced experience instead of a generic Valentine greeting page.
-
-The product direction focuses on:
-
-- one clear action per chapter
-- calm romantic pacing
-- warm paper-inspired visual language
-- gentle animated reveals
-- memory-driven storytelling
-- replay value through quiz, coupons, surprises, and easter eggs
-- accessibility-friendly motion behavior
-
----
-
-## Designer’s Perspective
-
-This project is designed like a tiny emotional product.
-
-The design challenge is not just “make something cute.” The real challenge is sequencing emotion: anticipation, reveal, memory, play, and final reward.
-
-The app is built around a few UX decisions:
-
-- private PIN gate creates intimacy
-- envelope open interaction creates anticipation
-- letter reveal slows the user down
-- memory timeline gives emotional depth
-- quiz adds playful participation
-- finale hold interaction makes the ending feel earned
-- coupons create a keepsake feeling
-
-The result is a personal web experience that behaves more like a story than a static card.
-
----
-
-## Features
-
-| Feature | Description |
-|---|---|
-| 5-step story flow | Clear romantic progression from cover to finale |
-| Private PIN gate | Session unlock persistence for private viewing |
-| Envelope interaction | Hero opening moment with graceful fallback |
-| Love letter reveal | Slow, readable emotional content section |
-| Memory lane | Collapsible memory groups and bottom-sheet detail view |
-| Media support | Memory cards can include optional image/video media |
-| Relationship quiz | Correct/wrong answer feedback animations |
-| Hold-to-reveal finale | 1.5s progress-ring interaction for final reveal |
-| Coupon collection | Keepsake-style interactive coupon states |
-| Easter egg | Extra surprise layer for replay value |
-| Reduced motion | Major transitions respect motion preferences |
-| Lazy loading | Steps are split and prefetched for smoother flow |
-
----
-
-## Tech Stack
-
-| Layer | Technology | Purpose |
+| Step | Component | Experience |
 |---|---|---|
-| Framework | React 18 | Component-driven UI |
-| Language | TypeScript 5 | Type safety and maintainability |
-| Build Tool | Vite 5 | Fast dev/build pipeline |
-| Styling | CSS variables + handcrafted CSS | Design system tokens and custom theme |
-| Motion | `motion`, `@react-spring/web`, WAAPI | UI transitions and microinteractions |
-| Motion Helpers | `animejs`, `velocity-animate`, `@formkit/auto-animate`, `@mojs/core` | Specialized effects and fallbacks |
-| UI Transition | `react-transition-group` | Sheet open/close choreography |
-| Testing | Playwright | End-to-end testing |
-| Deployment | Vercel | Production hosting and CI deploy |
-
----
+| 1 | `StepCover` | Envelope reveal and introduction |
+| 2 | `StepLetter` | Main love-letter reading experience |
+| 3 | `StepMemory` | Timeline and memory exploration |
+| 4 | `StepGallery` | Visual memory collection |
+| 5 | `StepNurse` | Personalized themed chapter |
+| 6 | `StepQuiz` | Interactive relationship questions |
+| 7 | `StepPromises` | Promise and commitment sequence |
+| 8 | `StepFinale` | Hold-to-reveal ending and rewards |
 
 ## Architecture
 
 ```text
 src/
-  animations/        # Motion orchestration and animation helpers
-  components/        # Reusable UI components
-  content/           # Story/content source
-  hooks/             # Shared hooks such as reduced-motion detection
-  steps/             # 5 main chapters/screens
-  types/             # Type definitions
-  App.tsx            # Step flow, lazy loading, fallback, and prefetch
-  styles.css         # Visual + motion design system tokens and component styling
+├── animations/     motion orchestration and reusable tokens
+├── components/     shared controls, shells, dialogs, and widgets
+├── content/        editable story data
+├── hooks/          reduced-motion and shared behavior
+├── steps/          eight lazy-loaded chapters
+├── types/          app and content contracts
+├── utils/          localization and storage helpers
+├── App.tsx         gate, progress, settings, persistence, routing
+└── styles.css      visual system and component styling
 ```
 
-### Content Architecture
+`App.tsx` acts as the experience controller. It reads the story content, manages the gate, stores settings and progress, loads each chapter lazily, prefetches the next chapter, and supplies shared actions to each step.
 
-All story data is managed in one editable source:
+## Design system
 
-```text
-src/content/content.json
-```
+The visual system is defined primarily in `src/styles.css`:
 
-Root keys include:
+- warm paper background: `#fff7ef`
+- rose accent: `#e85d75`
+- soft blush accent: `#ffd3da`
+- dark text: `#1b1b1f`
+- Playfair Display for emotional headings
+- Inter for interface and body copy
+- reusable radius, spacing, shadow, duration, and easing tokens
 
-- `meta`
-- `letter`
-- `reasons`
-- `chapters`
-- `quiz`
-- `quizMessages`
-- `coupons`
-- `finale`
-- `easterEgg`
+The repository thumbnail uses the same system and is a designed presentation asset, not a browser screenshot.
 
-This keeps copy updates independent from component logic.
+## Privacy model
 
-### Step Routing Model
+The gate is a lightweight experience gate, not secure authentication.
 
-- App-level state tracks the active step.
-- Each step is lazy loaded.
-- The next step is prefetched to improve continuity.
-- If a chunk fails, a fallback step keeps the story unblocked.
+- accepted phrases are delivered to the browser
+- unlock state is stored in local storage
+- the gate should not protect sensitive information
+- personal content and media should be reviewed before public deployment
+- private media should not be hosted in publicly accessible folders when confidentiality matters
 
----
+## Current status
 
-## Design System
+| Area | Status |
+|---|---|
+| Eight-step story experience | Implemented |
+| English/Nepali/mixed copy | Implemented |
+| Mood controls | Implemented |
+| Reduced-motion controls | Implemented |
+| Persistent progress | Implemented |
+| Private gate | Implemented as client-side deterrent |
+| Lazy loading and fallback | Implemented |
+| Playwright configuration | Present |
+| Vercel deployment | Configured |
+| Strong authentication | Not implemented |
+| Browser screenshot in this documentation pass | Not captured |
 
-### Visual Tokens
+The listed Vercel deployment could not be reached from the current execution environment, so no fabricated runtime screenshot has been added. Humanity will survive one less misleading portfolio image.
 
-Defined in `src/styles.css` under `:root`:
+## Run locally
 
-- Color system: `--bg`, `--surface`, `--accent`, `--accent-soft`, `--text`, `--muted`
-- Radius scale: `--radius-btn`, `--radius-card`, `--radius-modal`
-- Spacing scale: `--s1` to `--s9`
-- Shadow: `--shadow-soft`
+Requirements:
 
-### Typography
-
-- **Inter** for UI and body text
-- **Playfair Display** for emotional display headings
-
-### Component Standards
-
-- Button/tap targets use 48px minimum height where possible.
-- Loading labels keep width stable to reduce layout shift.
-- Progress and chapter state are always visible.
-- Interaction states include default, hover, active, loading, and disabled.
-
----
-
-## Motion System
-
-### Motion Tokens
-
-Defined in:
-
-```text
-src/animations/motionTokens.ts
-```
-
-| Token | Duration |
-|---|---:|
-| Micro | 140ms |
-| Fast | 160ms |
-| Standard UI | 300ms |
-| Hero | 720ms |
-| Hold interaction | 1500ms |
-
-### Easing Rules
-
-- Micro feedback: `ease-out`
-- Standard transitions: `ease-in-out`
-- Hero moments: decelerated curve
-
-### Motion Direction
-
-The UX feel is calm and intimate, not noisy. One premium flourish is reserved for the finale, while motion near reading content stays restrained.
-
----
-
-## Accessibility
-
-- `prefers-reduced-motion` is supported globally and at interaction level.
-- Particles/flourishes are removed in reduced-motion mode.
-- Large movement is reduced to fades where needed.
-- Dialogs support `Escape` close.
-- Buttons are semantic and focusable.
-- UI feedback remains functional even when decorative motion is disabled.
-
----
-
-## Performance And Reliability
-
-- Step-level code splitting and lazy loading reduce initial bundle impact.
-- Next-step prefetch in `App.tsx` improves chapter transitions.
-- Animation helpers include WAAPI/CSS fallback paths to prevent hard failures.
-- Vercel install is deterministic via `npm ci` in `vercel.json`.
-- Build command validates TypeScript before production bundling.
-
----
-
-## SEO And Discoverability
-
-This README is structured for repository discoverability around terms such as:
-
-- `valentine web app`
-- `interactive love letter app`
-- `react romantic website`
-- `typescript animation web app`
-- `digital memory timeline app`
-
-### Implemented Technical SEO
-
-- `index.html` includes canonical, robots, Open Graph, Twitter, theme-color, and JSON-LD.
-- `public/robots.txt` and `public/sitemap.xml` are added for crawler support.
-- `public/site.webmanifest` and `public/favicon.svg` improve metadata completeness.
-- Semantic heading structure is used across the README.
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm 9+
-
-### Install
+- Node.js 22 or newer
+- npm 10 or newer
 
 ```bash
 npm ci
-```
-
-### Run Development Server
-
-```bash
 npm run dev
 ```
 
-### Type Check
+Verification:
 
 ```bash
 npm run check
-```
-
-### Production Build
-
-```bash
-npm run build
-```
-
-### Run E2E Tests
-
-```bash
 npx playwright install chromium
 npm run test:e2e
-```
-
-### Preview Production Build
-
-```bash
 npm run preview
 ```
 
----
+## Content customization
 
-## Deployment
-
-### Vercel Configuration
-
-Defined in `vercel.json`:
-
-- install command: `npm ci`
-- build command: `npm run build`
-- output directory: `build`
-
-### Deploy Flow
-
-1. Push to `main`.
-2. Vercel pulls repository.
-3. `npm ci` installs exact lockfile dependencies.
-4. `npm run build` runs type-safe production build.
-5. Static build is deployed from `build/`.
-
----
-
-## Customization Guide
-
-### Update Story Content
-
-Edit:
+Edit the main story source:
 
 ```text
 src/content/content.json
 ```
 
-Add optional media per memory:
+Key groups include:
 
-- `media.type`: `image` or `video`
-- `media.src`: public URL/path, such as `/memories/selfie.jpg`
-- `media.alt`: accessible description
-- `media.poster`: optional for videos
+- metadata and settings
+- access gate
+- cover and letter
+- memories and gallery
+- quiz and feedback
+- promises
+- finale and rewards
+- easter eggs
 
-### Configure Private PIN
+Keep personal copy out of component logic whenever possible.
 
-Recommended: set `VITE_APP_PRIVATE_PIN` in Vercel environment variables.
+## Deployment
 
-Local development:
+The project is configured for Vercel.
 
-```bash
-cp .env.example .env
-```
+Typical deployment flow:
 
-Fallback PIN can be set in:
+1. Push changes to `main`.
+2. Vercel installs with the lockfile.
+3. TypeScript and Vite build the app.
+4. The static output is deployed.
+5. Verify the gate, progress persistence, media, and all eight chapters on production.
 
-```text
-src/content/content.json → meta.lock.fallbackPin
-```
+## Important risks
 
-### Update Visual Theme
+- client-side gate values are discoverable
+- local-storage progress can be cleared or modified
+- emotional/personal content may be exposed by a public deployment
+- multiple animation libraries increase bundle and maintenance cost
+- chapter media can create privacy, performance, and copyright issues
+- motion-rich flows require reduced-motion and keyboard testing
+- a live romantic experience still deserves ordinary engineering discipline, despite what greeting-card companies have taught society
 
-Edit:
+## Documentation
 
-```text
-src/styles.css
-```
+- [Product and engineering case study](./docs/PRODUCT_AND_ENGINEERING_CASE_STUDY.md)
+- [Repository instructions](./AGENTS.md)
+- [Branded repository thumbnail](./docs/assets/valentine-web-app-thumbnail.svg)
 
-### Update Motion Behavior
+## Author
 
-Edit:
-
-```text
-src/animations/motionTokens.ts
-src/animations/
-```
-
-### Update Step Flow
-
-Edit:
-
-```text
-src/App.tsx
-src/steps/
-```
-
----
-
-## Quality Checklist
-
-### UX QA
-
-- [ ] PIN gate is clear and private.
-- [ ] Envelope reveal feels smooth.
-- [ ] Story progress is visible.
-- [ ] Memory timeline is easy to navigate.
-- [ ] Quiz feedback is understandable.
-- [ ] Hold-to-reveal finale works reliably.
-- [ ] Coupons are clear and collectible.
-
-### Accessibility QA
-
-- [ ] Reduced-motion mode works.
-- [ ] Keyboard focus is visible.
-- [ ] Dialogs close with Escape.
-- [ ] Buttons are semantic.
-- [ ] Media has useful alt text.
-- [ ] Motion does not block reading.
-
-### Technical QA
-
-- [ ] `npm ci` works.
-- [ ] `npm run dev` works.
-- [ ] `npm run check` passes.
-- [ ] `npm run build` succeeds.
-- [ ] `npm run test:e2e` works.
-- [ ] Vercel deployment succeeds.
-
----
-
-## Recommended GitHub About Description
-
-```text
-Interactive Valentine Web App built with React + TypeScript: love letter reveal, memory timeline, quiz, hold-to-reveal finale, and polished accessible microinteractions.
-```
-
-## Recommended GitHub Topics
-
-```text
-valentine, love-letter, react, typescript, vite, frontend, web-animation, microinteractions, interactive-storytelling, vercel
-```
-
----
-
-## Keywords
-
-`valentine app`, `react valentine website`, `digital love letter`, `interactive memory lane`, `romantic web experience`, `microinteractions`, `frontend animation`, `typescript vite app`, `vercel deployment`, `accessible motion design`
-
----
-
-## License
-
-This is a personal/private project (`"private": true` in `package.json`).  
-No open-source license is currently declared.
-
----
-
-<div align="center">
-
-Built as a small, cinematic love-letter product — with care, motion, and intention.
-
-</div>
+Designed and developed by [Nischhal Raj Subba](https://github.com/Nischhalsubba).
