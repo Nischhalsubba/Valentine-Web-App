@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Valentine Web App repository thumbnail</title>
+  <desc id="desc">A warm paper and rose-colored editorial thumbnail showing an envelope, progress steps, memory cards, and the Valentine Web App title.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffdf9"/>
+      <stop offset="0.54" stop-color="#fff7ef"/>
+      <stop offset="1" stop-color="#fff0ed"/>
+    </linearGradient>
+    <radialGradient id="blushA" cx="0" cy="0" r="1" gradientTransform="translate(1040 80) rotate(135) scale(420)">
+      <stop offset="0" stop-color="#ffd3da" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffd3da" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blushB" cx="0" cy="0" r="1" gradientTransform="translate(100 560) rotate(-30) scale(360)">
+      <stop offset="0" stop-color="#ffe8db" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffe8db" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#45222a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" rx="28" fill="url(#paper)"/>
+  <rect width="1200" height="630" rx="28" fill="url(#blushA)"/>
+  <rect width="1200" height="630" rx="28" fill="url(#blushB)"/>
+
+  <g transform="translate(76 74)">
+    <text x="0" y="0" fill="#a63f5a" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="5">INTERACTIVE DIGITAL LOVE LETTER</text>
+    <text x="0" y="92" fill="#1b1b1f" font-family="Georgia,'Times New Roman',serif" font-size="76" font-weight="700">Valentine</text>
+    <text x="0" y="171" fill="#e85d75" font-family="Georgia,'Times New Roman',serif" font-size="76" font-style="italic" font-weight="700">Web App</text>
+    <text x="2" y="218" fill="#5b5b66" font-family="Inter,Arial,sans-serif" font-size="22">A private, bilingual, step-by-step romantic story.</text>
+
+    <g transform="translate(0 276)">
+      <rect width="520" height="106" rx="20" fill="#ffffff" stroke="#f0e6de" filter="url(#shadow)"/>
+      <circle cx="52" cy="53" r="24" fill="#ffd3da"/>
+      <path d="M41 52c0-11 14-15 21-5 7-10 21-6 21 5 0 13-21 26-21 26S41 65 41 52z" fill="#e85d75"/>
+      <text x="98" y="43" fill="#1b1b1f" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700">8 lazy-loaded chapters</text>
+      <text x="98" y="70" fill="#5b5b66" font-family="Inter,Arial,sans-serif" font-size="15">Gate · Letter · Memories · Gallery · Quiz · Finale</text>
+    </g>
+
+    <g transform="translate(0 418)">
+      <rect width="178" height="48" rx="12" fill="#e85d75"/>
+      <text x="89" y="31" text-anchor="middle" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" letter-spacing="2">CASE STUDY</text>
+      <text x="206" y="31" fill="#5b5b66" font-family="Inter,Arial,sans-serif" font-size="15">React · TypeScript · Vite · Playwright</text>
+    </g>
+  </g>
+
+  <g transform="translate(704 82)">
+    <rect x="0" y="0" width="420" height="468" rx="30" fill="#ffffff" stroke="#f0e6de" filter="url(#shadow)"/>
+
+    <g transform="translate(42 36)">
+      <rect width="336" height="14" rx="7" fill="#f0e6de"/>
+      <rect width="204" height="14" rx="7" fill="#e85d75"/>
+      <g transform="translate(0 30)" fill="#ffd3da">
+        <circle cx="7" cy="7" r="7"/><circle cx="53" cy="7" r="7"/><circle cx="99" cy="7" r="7"/><circle cx="145" cy="7" r="7"/>
+        <circle cx="191" cy="7" r="7"/><circle cx="237" cy="7" r="7"/><circle cx="283" cy="7" r="7"/><circle cx="329" cy="7" r="7"/>
+      </g>
+      <g transform="translate(0 30)" fill="#e85d75">
+        <circle cx="7" cy="7" r="7"/><circle cx="53" cy="7" r="7"/><circle cx="99" cy="7" r="7"/><circle cx="145" cy="7" r="7"/>
+      </g>
+    </g>
+
+    <g transform="translate(70 118)">
+      <rect width="280" height="178" rx="18" fill="#fff7ef" stroke="#f0e6de"/>
+      <path d="M30 48h220v100H30z" fill="#ffffff" stroke="#e8c8cf"/>
+      <path d="M30 48l110 73L250 48" fill="#ffd3da" stroke="#e85d75" stroke-width="3"/>
+      <path d="M30 148l84-65M250 148l-84-65" fill="none" stroke="#e8c8cf" stroke-width="3"/>
+      <circle cx="140" cy="105" r="23" fill="#e85d75"/>
+      <path d="M129 102c0-8 10-11 15-4 5-7 15-4 15 4 0 9-15 18-15 18s-15-9-15-18z" fill="#ffffff"/>
+    </g>
+
+    <g transform="translate(48 326)">
+      <rect width="150" height="92" rx="16" fill="#fff7ef" stroke="#f0e6de"/>
+      <text x="18" y="28" fill="#a63f5a" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="2">MEMORY</text>
+      <rect x="18" y="42" width="114" height="8" rx="4" fill="#ffd3da"/>
+      <rect x="18" y="58" width="92" height="8" rx="4" fill="#f0e6de"/>
+    </g>
+    <g transform="translate(222 326)">
+      <rect width="150" height="92" rx="16" fill="#fff7ef" stroke="#f0e6de"/>
+      <text x="18" y="28" fill="#a63f5a" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="2">QUIZ</text>
+      <circle cx="28" cy="58" r="7" fill="#2f8f5b"/>
+      <rect x="44" y="54" width="86" height="8" rx="4" fill="#f0e6de"/>
+    </g>
+  </g>
+
+  <text x="1128" y="596" text-anchor="end" fill="#a63f5a" opacity="0.7" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="3">NISCHHALSUBBA / VALENTINE-WEB-APP</text>
+</svg>
