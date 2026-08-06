@@ -4,6 +4,97 @@
 
 # Valentine Web App
 
+<!-- interactive-readme-standard:start -->
+
+> [!NOTE]
+> **Branch-specific documentation:** this section is maintained for [`main`](https://github.com/Nischhalsubba/Valentine-Web-App/tree/main). It is generated from the files present on this branch and preserves the project-authored README below.
+
+<details open>
+<summary><strong>Interactive repository guide</strong></summary>
+
+## Branch overview
+
+| Item | Value |
+|---|---|
+| Repository | [`Nischhalsubba/Valentine-Web-App`](https://github.com/Nischhalsubba/Valentine-Web-App) |
+| Branch | [`main`](https://github.com/Nischhalsubba/Valentine-Web-App/tree/main) |
+| Detected stack | React, Vite, TypeScript, JavaScript, HTML, CSS |
+| Detected manifests | package.json |
+| Documentation policy | Every maintained branch must explain purpose, setup, structure, architecture, flows, testing, delivery, security, and ownership. |
+
+## Repository structure
+
+```mermaid
+flowchart TD
+    ROOT["Valentine-Web-App / main"]
+    ROOT --> P0[".github/"]
+    ROOT --> P1["docs/"]
+    ROOT --> P2["public/"]
+    ROOT --> P3["scripts/"]
+    ROOT --> P4["src/"]
+    ROOT --> P5["tests/"]
+    ROOT --> P6[".env.example"]
+    ROOT --> P7["AGENTS.md"]
+    ROOT --> P8["index.html"]
+    ROOT --> P9["package-lock.json"]
+    ROOT --> P10["package.json"]
+    ROOT --> P11["playwright.config.ts"]
+    ROOT --> P12["tsconfig.json"]
+    ROOT --> P13["tsconfig.node.json"]
+    ROOT --> P14["tsconfig.node.tsbuildinfo"]
+    ROOT --> P15["tsconfig.tsbuildinfo"]
+    ROOT --> P16["vercel.json"]
+    ROOT --> P17["vite.config.d.ts"]
+    ROOT --> MORE["+ 2 more top-level entries"]
+```
+
+The diagram is generated from the branch's actual top-level files and directories. Use the branch link above for complete source navigation.
+
+## Website or application structure
+
+```mermaid
+flowchart TD
+    APP["Valentine-Web-App"]
+    APP --> R0["public"]
+```
+
+## Application and responsibility flow
+
+```mermaid
+flowchart LR
+    ACTOR["User / contributor"]
+    ACTOR --> A0["Interface: public, src"]
+    A0 --> A1["Quality: tests"]
+    A1 --> A2["Documentation: docs"]
+    A2 --> A3["Delivery: .github, scripts"]
+    A3 --> DELIVERY["Delivery: vercel.json, GitHub Actions"]
+```
+
+## Change-to-delivery flow
+
+```mermaid
+flowchart LR
+    CHANGE["Change on main"]
+    CHECK["Validate: npm run dev, npm run build, npm run typecheck, npm run preview"]
+    REVIEW["Review documentation and architecture impact"]
+    RELEASE["Merge, release, or deploy according to this branch"]
+    CHANGE --> CHECK --> REVIEW --> RELEASE
+```
+
+## README requirements for this branch
+
+- Explain what this branch contains and how it differs from the default branch.
+- Keep installation, configuration, usage, testing, deployment, security, support, and license information accurate.
+- Document repository, website or application, API, data, authentication, background-job, and deployment flows when they exist.
+- Prefer Mermaid diagrams and expandable `<details>` sections for visual navigation.
+- Link diagrams and modules to real source paths; never invent missing components.
+- Preserve project-specific documentation and update diagrams whenever architecture or major paths change.
+- Treat secrets, private infrastructure, customer data, and credentials as prohibited README content.
+
+</details>
+
+<!-- interactive-readme-standard:end -->
+
 ### A private, bilingual digital love letter told in eight interactive chapters
 
 A cinematic React experience combining a private gate, envelope reveal, letters, memories, gallery moments, playful questions, promises, and a hold-to-reveal finale.
