@@ -23,7 +23,18 @@ export function getJSON<T>(key: string, fallback: T): T {
     if (!raw) {
       return fallback;
     }
-    return JSON.parse(raw) as T;
+    const parsed: unknown = JSON.parse(raw);
+    // A saved "null", array or primitive cannot be used as a structured
+    // preference object; restore the caller's default instead.
+    if (fallback !== null && typeof fallback === "object") {
+      if (Array.isArray(fallback)) {
+        return (Array.isArray(parsed) ? parsed : fallback) as T;
+      }
+      return (parsed !== null && typeof parsed === "object" && !Array.isArray(parsed)
+        ? parsed
+        : fallback) as T;
+    }
+    return typeof parsed === typeof fallback ? (parsed as T) : fallback;
   } catch {
     return fallback;
   }
@@ -64,7 +75,11 @@ export function resetAll(): void {
   }
 
   STORAGE_KEYS.forEach((key) => {
-    window.localStorage.removeItem(key);
+    try {
+      window.localStorage.removeItem(key);
+    } catch {
+      // Clearing preferences is best-effort when browser storage is denied.
+    }
   });
 }
 
