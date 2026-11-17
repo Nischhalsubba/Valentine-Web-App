@@ -12,7 +12,7 @@ import contentData from "./content/content.json";
 import type { AppUnlocks, StepComponentProps } from "./types/app";
 import type { LanguageMode, MoodMode, MutuContent } from "./types/mutu";
 import { localize } from "./utils/i18n";
-import { getJSON, setJSON } from "./utils/storage";
+import { getJSON, getString, setJSON, setString } from "./utils/storage";
 import { useReducedMotion, type MotionPreference } from "./hooks/useReducedMotion";
 
 type StepLoader = () => Promise<{ default: ComponentType<StepComponentProps> }>;
@@ -77,11 +77,7 @@ function stepLoaderById(stepId: string): StepLoader {
 }
 
 function readStoredMode<T extends string>(key: string, fallback: T): T {
-  if (typeof window === "undefined") {
-    return fallback;
-  }
-  const value = window.localStorage.getItem(key);
-  return (value as T) || fallback;
+  return (getString(key, fallback) as T) || fallback;
 }
 
 export default function App() {
@@ -142,15 +138,15 @@ export default function App() {
   }, [unlocks]);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_LANGUAGE, languageMode);
+    setString(STORAGE_LANGUAGE, languageMode);
   }, [languageMode]);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_MOOD, mood);
+    setString(STORAGE_MOOD, mood);
   }, [mood]);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_MOTION, motionPreference);
+    setString(STORAGE_MOTION, motionPreference);
   }, [motionPreference]);
 
   useEffect(() => {
