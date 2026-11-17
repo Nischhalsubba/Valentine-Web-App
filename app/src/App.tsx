@@ -84,7 +84,12 @@ function readStoredMode<T extends string>(key: string, fallback: T, allowed: rea
 
 export default function App() {
   const content = contentData as MutuContent;
-  const steps = content.steps.filter((step) => Boolean(STEP_COMPONENTS[step.id]));
+  // Preserve chapter component identity across state updates so local input
+  // and animations are not reset by a fresh lazy() wrapper on every render.
+  const steps = useMemo(
+    () => content.steps.filter((step) => Boolean(STEP_COMPONENTS[step.id])),
+    [content.steps]
+  );
   const maxStepIndex = Math.max(0, steps.length - 1);
 
   const [languageMode, setLanguageMode] = useState<LanguageMode>(() =>
