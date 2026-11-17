@@ -29,11 +29,26 @@ export function getJSON<T>(key: string, fallback: T): T {
   }
 }
 
-export function setJSON<T>(key: string, value: T): void {
-  if (typeof window === "undefined") {
-    return;
+export function getString(key: string, fallback: string): string {
+  if (typeof window === "undefined") return fallback;
+  try {
+    return window.localStorage.getItem(key) ?? fallback;
+  } catch {
+    return fallback;
   }
-  window.localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function setString(key: string, value: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // Private browsing or storage quotas must not block the current session.
+  }
+}
+
+export function setJSON<T>(key: string, value: T): void {
+  setString(key, JSON.stringify(value));
 }
 
 export function mergeJSON<T extends Record<string, unknown>>(key: string, partial: Partial<T>): T {
