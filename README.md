@@ -52,12 +52,16 @@ flowchart TD
 
 ## Getting started
 
+The maintained application is in `app/`, not the repository root. Use Node.js 22+ and npm 10+ (see `app/package.json`).
+
 ```bash
 git clone https://github.com/Nischhalsubba/Valentine-Web-App.git
-cd Valentine-Web-App
+cd Valentine-Web-App/app
+npm ci
+npm run dev
 ```
 
-Use the manifests and lockfiles committed in the repository to determine the current runtime and development commands.
+Run `npm run check` from `app/` to validate the app before submitting changes.
 
 ## Design & accessibility
 
