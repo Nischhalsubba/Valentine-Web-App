@@ -35,7 +35,8 @@ const STORAGE_MOOD = "mutu.settings.mood";
 const STORAGE_MOTION = "mutu.settings.reducedMotion";
 
 function clampStep(index: number, max: number): number {
-  return Math.max(0, Math.min(index, max));
+  const validIndex = Number.isFinite(index) ? Math.trunc(index) : 0;
+  return Math.max(0, Math.min(validIndex, max));
 }
 
 function fallbackStep(label: string): ComponentType<StepComponentProps> {
@@ -76,8 +77,9 @@ function stepLoaderById(stepId: string): StepLoader {
   return STEP_COMPONENTS[stepId] ?? (() => Promise.resolve({ default: fallbackStep(stepId) }));
 }
 
-function readStoredMode<T extends string>(key: string, fallback: T): T {
-  return (getString(key, fallback) as T) || fallback;
+function readStoredMode<T extends string>(key: string, fallback: T, allowed: readonly T[]): T {
+  const value = getString(key, fallback);
+  return allowed.includes(value as T) ? (value as T) : fallback;
 }
 
 export default function App() {
@@ -86,11 +88,11 @@ export default function App() {
   const maxStepIndex = Math.max(0, steps.length - 1);
 
   const [languageMode, setLanguageMode] = useState<LanguageMode>(() =>
-    readStoredMode(STORAGE_LANGUAGE, content.settings.languageModeDefault)
+    readStoredMode(STORAGE_LANGUAGE, content.settings.languageModeDefault, ["mixed", "en", "np"])
   );
-  const [mood, setMood] = useState<MoodMode>(() => readStoredMode(STORAGE_MOOD, content.settings.moodDefault));
+  const [mood, setMood] = useState<MoodMode>(() => readStoredMode(STORAGE_MOOD, content.settings.moodDefault, ["soft", "funny", "romantic"]));
   const [motionPreference, setMotionPreference] = useState<MotionPreference>(() =>
-    readStoredMode(STORAGE_MOTION, content.settings.reducedMotionDefault)
+    readStoredMode(STORAGE_MOTION, content.settings.reducedMotionDefault, ["system", "on", "off"])
   );
   const reducedMotion = useReducedMotion(motionPreference);
 
