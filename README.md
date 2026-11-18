@@ -81,3 +81,7 @@ flowchart LR
 ## Verification and acceptance
 
 For content or interaction changes, follow the [project-specific acceptance guide](app/docs/INTERACTION_AND_STORAGE_QA.md) and report which automated and manual checks were actually completed.
+
+## QA and maintainer evidence
+
+Review [define bilingual interaction, privacy and motion acceptance checks](./docs/INTERACTION_PRIVACY_AND_ACCESSIBILITY_QA.md) for interaction acceptance, accessibility, evidence collection and rollback.
