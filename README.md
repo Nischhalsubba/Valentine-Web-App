@@ -77,3 +77,7 @@ If publicly shared, use an accurate title and description with natural terms suc
 flowchart LR
     IDEA["Interaction / content change"] --> BUILD["Implement"] --> STATES["Test all states"] --> ACCESS["Keyboard / motion / responsive review"] --> SHARE["Metadata / sharing check"] --> PR["Pull request"]
 ```
+
+## Verification and acceptance
+
+For content or interaction changes, follow the [project-specific acceptance guide](app/docs/INTERACTION_AND_STORAGE_QA.md) and report which automated and manual checks were actually completed.
